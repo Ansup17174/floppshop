@@ -1,0 +1,18 @@
+Attaching to floppshopproject_backend_1, floppshopproject_db_1
+[33mdb_1       |[0m 2020-12-12T08:46:08.094583200Z 2020-12-12 08:46:08.094 UTC [1] LOG:  starting PostgreSQL 12.0 on x86_64-pc-linux-musl, compiled by gcc (Alpine 8.3.0) 8.3.0, 64-bit
+[33mdb_1       |[0m 2020-12-12T08:46:08.094616900Z 2020-12-12 08:46:08.094 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5555
+[33mdb_1       |[0m 2020-12-12T08:46:08.094734500Z 2020-12-12 08:46:08.094 UTC [1] LOG:  listening on IPv6 address "::", port 5555
+[33mdb_1       |[0m 2020-12-12T08:46:08.098790900Z 2020-12-12 08:46:08.098 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5555"
+[33mdb_1       |[0m 2020-12-12T08:46:08.111067000Z 2020-12-12 08:46:08.110 UTC [18] LOG:  database system was shut down at 2020-12-12 08:46:04 UTC
+[33mdb_1       |[0m 2020-12-12T08:46:08.114008700Z 2020-12-12 08:46:08.113 UTC [1] LOG:  database system is ready to accept connections
+[36mbackend_1  |[0m 2020-12-12T08:46:09.523125400Z Watching for file changes with StatReloader
+[36mbackend_1  |[0m 2020-12-12T08:46:09.523294400Z Performing system checks...
+[36mbackend_1  |[0m 2020-12-12T08:46:09.523304600Z 
+[36mbackend_1  |[0m 2020-12-12T08:46:09.589017600Z System check identified no issues (0 silenced).
+[36mbackend_1  |[0m 2020-12-12T08:46:09.652153800Z 
+[36mbackend_1  |[0m 2020-12-12T08:46:09.652174000Z You have 18 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+[36mbackend_1  |[0m 2020-12-12T08:46:09.652182300Z Run 'python manage.py migrate' to apply them.
+[36mbackend_1  |[0m 2020-12-12T08:46:09.652184700Z December 12, 2020 - 09:46:09
+[36mbackend_1  |[0m 2020-12-12T08:46:09.652186400Z Django version 3.1.4, using settings 'floppshopproject.settings'
+[36mbackend_1  |[0m 2020-12-12T08:46:09.652188200Z Starting development server at http://0.0.0.0:8000/
+[36mbackend_1  |[0m 2020-12-12T08:46:09.652190000Z Quit the server with CONTROL-C.
