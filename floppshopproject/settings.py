@@ -33,23 +33,26 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', "").split()
 # Application definition
 
 INSTALLED_APPS = [
-    'security'
+    'security',
     'django.contrib.auth',
     'django.contrib.admin',
-    'django.contrib.sites'
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'allauth',
-    'allauth.account',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt',
+    'allauth',
+    'allauth.account',
     'dj_rest_auth',
-    'dj_rest_auth.registration'
+    'dj_rest_auth.registration',
+    'debug_toolbar'
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -131,6 +134,11 @@ REST_FRAMEWORK = {
     ]
 }
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
+
 # dj_rest_auth
 
 REST_USE_JWT = True
@@ -151,8 +159,15 @@ SIMPLE_JWT = {
 # allauth
 
 ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_SUBJECT_PREFIX = 'floppshop'
+ACCOUNT_USERNAME_MIN_LENGTH = 5
 
+# email settings
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # Internationalization
