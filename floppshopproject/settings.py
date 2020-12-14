@@ -33,7 +33,7 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', "").split()
 # Application definition
 
 INSTALLED_APPS = [
-    'security',
+    'users',
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.sites',
@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'dj_rest_auth',
     'dj_rest_auth.registration',
-    'debug_toolbar'
 ]
 
 MIDDLEWARE = [
@@ -127,6 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Authentication
 
 SITE_ID = 1
+AUTH_USER_MODEL = 'users.CustomUser'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
