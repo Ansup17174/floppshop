@@ -145,6 +145,11 @@ AUTHENTICATION_BACKENDS = [
 
 # dj_rest_auth
 
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'security.serializers.CustomRegisterSerializer'
+}
+
+
 REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'kghjdbrekhs'
 OLD_PASSWORD_FIELD_ENABLED = True
