@@ -51,6 +51,16 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
 ]
 
+user = {
+    "email": "janusz@op.pl",
+    "first_name": "Janusz",
+    "last_name": "Stolec",
+    "phone": 666666666,
+    "date_of_birth": "2020-12-13",
+    "password1": "krowa123",
+    "password2": "krowa123"
+}
+
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -146,7 +156,12 @@ AUTHENTICATION_BACKENDS = [
 # dj_rest_auth
 
 REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'security.serializers.CustomRegisterSerializer'
+    'REGISTER_SERIALIZER': 'security.serializers.CustomRegisterSerializer',
+}
+
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'security.serializers.CustomUserDetailsSerializer'
 }
 
 
@@ -173,7 +188,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_SUBJECT_PREFIX = 'floppshop'
 ACCOUNT_USERNAME_REQUIRED = False
-
+ACCOUNT_ADAPTER = 'users.adapters.CustomAccountAdapter'
 # email settings
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

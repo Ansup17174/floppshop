@@ -9,7 +9,7 @@ class CustomUser(AbstractUser):
 
 
 class ShippingAddress(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, related_name="shipping_address")
     street = models.CharField(max_length=200)
     state = models.CharField(max_length=50)
     number = models.PositiveIntegerField()

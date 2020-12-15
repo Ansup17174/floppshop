@@ -1,9 +1,13 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+from dj_rest_auth.serializers import UserDetailsSerializer
+from django.contrib.auth import get_user_model
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from django.utils import timezone
 from datetime import date
 import re
+
+UserModel = get_user_model()
 
 
 class CustomRegisterSerializer(RegisterSerializer):
@@ -19,7 +23,6 @@ class CustomRegisterSerializer(RegisterSerializer):
         return phone
 
     def validate_date_of_birth(self, date_of_birth):
-        # TODO naprawic to tutaj
         if date_of_birth > timezone.now().date() or date_of_birth < date(1900, 1, 1):
             raise ValidationError("Invalid date of birth")
         return date_of_birth
@@ -34,3 +37,16 @@ class CustomRegisterSerializer(RegisterSerializer):
             'date_of_birth': self.validated_data.get('date_of_birth', ''),
             'phone': self.validated_data.get('phone', '')
         }
+
+
+class CustomUserDetailsSerializer(UserDetailsSerializer):
+    class Meta:
+        extra_fields = []
+        if hasattr(UserModel, "USERNAME_FIELD"):
+            extra_fields.append(UserModel.USERNAME_FIELD)
+        if hasattr(UserModel, "EMAIL_FIELD"):
+            extra_fields.append(UserModel.EMAIL_FIELD)
+
+        model = UserModel
+        fields = ('pk', *extra_fields, 'first_name', 'last_name', 'date_of_birth', 'phone')
+        read_only_fields = ('email',)
