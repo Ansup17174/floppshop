@@ -1,6 +1,11 @@
-from django.urls import path
-from .views import ShippingAddressView
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import ShippingAddressViewset
+
+shipping_router = DefaultRouter()
+shipping_router.register(r"shipping", ShippingAddressViewset, basename='shipping')
+
 
 urlpatterns = [
-    path("auth/user/shipping", ShippingAddressView.as_view(), name='shipping_address')
+    path('', include(shipping_router.urls))
 ]
