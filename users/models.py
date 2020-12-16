@@ -14,10 +14,10 @@ class ShippingAddress(models.Model):
         on_delete=models.DO_NOTHING,
         primary_key=True
     )
-    street = models.CharField(max_length=200)
-    state = models.CharField(max_length=50)
-    number = models.PositiveIntegerField()
-    post_code = models.CharField(max_length=6)
-    city = models.CharField(max_length=100)
+    street = models.CharField(max_length=200, blank=False, null=False)
+    state = models.CharField(max_length=50, blank=False, null=False)
+    number = models.PositiveIntegerField(blank=False, null=False)
+    post_code = models.CharField(max_length=6, blank=False, null=False)
+    city = models.CharField(max_length=100, blank=False, null=False)
 
 
