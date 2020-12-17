@@ -35,6 +35,7 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', "").split()
 INSTALLED_APPS = [
     'users',
     'security',
+    'shop',
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.sites',

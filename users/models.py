@@ -12,7 +12,7 @@ class ShippingAddress(models.Model):
     user = models.OneToOneField(
         get_user_model(),
         on_delete=models.DO_NOTHING,
-        primary_key=True
+        related_name="shipping_address"
     )
     street = models.CharField(max_length=200, blank=False, null=False)
     state = models.CharField(max_length=50, blank=False, null=False)
