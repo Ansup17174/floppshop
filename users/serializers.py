@@ -13,4 +13,3 @@ class ShippingAddressSerializer(serializers.ModelSerializer):
         if not re.match(r"^\d\d-\d\d\d$", post_code):
             raise ValidationError('Invalid post code')
         return post_code
-
