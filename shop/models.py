@@ -27,6 +27,7 @@ class Item(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
     quantity = models.PositiveIntegerField(default=0)
     is_available = models.BooleanField(default=True)
+    is_visible = models.BooleanField(default=True, blank=True)
 
 
 class Cart(models.Model):
