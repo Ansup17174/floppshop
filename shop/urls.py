@@ -6,5 +6,5 @@ admin_item_router = DefaultRouter()
 admin_item_router.register(r"admin", AdminItemViewset, basename="shop-admin")
 
 urlpatterns = [
-    path("", include(admin_item_router.urls))
+    path("items/", include(admin_item_router.urls))
 ]

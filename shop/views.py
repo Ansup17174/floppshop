@@ -8,3 +8,5 @@ class AdminItemViewset(ModelViewSet):
     serializer_class = ItemSerializer
     queryset = Item.objects.all()
     permission_classes = [IsAdminUser]
+
+# TODO dodawanie do koszyka
