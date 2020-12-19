@@ -43,7 +43,7 @@ class UserItemDetailView(APIView):
         if quantity > item.quantity:
             raise NotAcceptable("Quantity is higher than in the stock")
         order, is_created = Order.objects.get_or_create(user=user, is_finished=False)
-        if is_created:
+        if not is_created:
             cart = order.carts.get(item=item)
             cart.quantity += quantity
             cart.total_price += item.price * quantity
