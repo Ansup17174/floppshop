@@ -13,7 +13,7 @@ class ShippingAddress(models.Model):
         get_user_model(),
         on_delete=models.DO_NOTHING,
         related_name="shipping_address",
-        null=True
+        primary_key=True
     )
     street = models.CharField(max_length=200, blank=False, null=False)
     state = models.CharField(max_length=50, blank=False, null=False)
