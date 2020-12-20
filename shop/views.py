@@ -39,12 +39,17 @@ class UserItemDetailView(APIView):
     def post(self, request, pk):
         item = get_object_or_404(Item, pk=pk, is_visible=True, is_available=True)
         user = request.user
-        quantity = int(request.query_params.get('quantity', 0))
-        if quantity > item.quantity:
-            raise NotAcceptable("Quantity is higher than in the stock")
+        try:
+            quantity = int(request.query_params.get('quantity', 0))
+        except ValueError:
+            raise NotAcceptable("Invalid quantity")
+        if quantity > item.quantity or quantity <= 0:
+            raise NotAcceptable("Invalid quantity")
         order, is_created = Order.objects.get_or_create(user=user, is_finished=False)
         if not is_created:
             cart = order.carts.get(item=item)
+            if cart.quantity + quantity > item.quantity:
+                raise NotAcceptable("Invalid quantity")
             cart.quantity += quantity
             cart.total_price += item.price * quantity
             order.total_price += item.price * quantity

@@ -9,6 +9,12 @@ class ItemSerializer(serializers.ModelSerializer):
 
 
 class CartSerializer(serializers.ModelSerializer):
+
+    def get_item_name(self, cart):
+        return cart.item.name
+
+    item_name = serializers.SerializerMethodField("get_item_name")
+
     class Meta:
         model = Cart
         exclude = ("order",)
