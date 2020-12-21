@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.exceptions import NotAcceptable
 from rest_framework.permissions import IsAdminUser
+from rest_framework.parsers import MultiPartParser, FormParser
 from django.db import transaction, IntegrityError
 from .serializers import ItemSerializer, OrderSerializer
 from .models import Item, Order, Cart
@@ -14,6 +15,7 @@ class AdminItemViewset(ModelViewSet):
     serializer_class = ItemSerializer
     queryset = Item.objects.all()
     permission_classes = [IsAdminUser]
+    parser_classes = [MultiPartParser, FormParser]
 
 
 class UserItemView(APIView):

@@ -36,17 +36,17 @@ class Item(models.Model):
     description = models.CharField(max_length=500)
     is_available = models.BooleanField(default=True)
     is_discount = models.BooleanField(default=False)
-    is_visible = models.BooleanField(default=True, blank=True)
-
-
-def get_upload_path(instance, filename):
-    return f"{instance.item.pk}/{filename}"
+    is_visible = models.BooleanField(default=True)
+    # TODO czemu default=true nie dziala
 
 
 class ItemImage(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="image")
-    file = models.FileField(blank=True, null=True, upload_to=get_upload_path)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="images")
+    image = models.FileField(blank=True, null=True)
 
+    def delete(self, using=None, keep_parents=False):
+        self.image.delete()
+        super().delete()
 
 
 class Cart(models.Model):
