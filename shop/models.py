@@ -26,9 +26,27 @@ class Order(models.Model):
 class Item(models.Model):
     name = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
+    discount_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(0)],
+        default=Decimal("0.00")
+    )
     quantity = models.PositiveIntegerField(default=0)
+    description = models.CharField(max_length=500)
     is_available = models.BooleanField(default=True)
+    is_discount = models.BooleanField(default=False)
     is_visible = models.BooleanField(default=True, blank=True)
+
+
+def get_upload_path(instance, filename):
+    return f"{instance.item.pk}/{filename}"
+
+
+class ItemImage(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="image")
+    file = models.FileField(blank=True, null=True, upload_to=get_upload_path)
+
 
 
 class Cart(models.Model):

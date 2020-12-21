@@ -35,7 +35,6 @@ class UserItemDetailView(APIView):
         serializer = ItemSerializer(item)
         return Response(serializer.data, status=200)
 
-    #add to cart
     def post(self, request, item_pk):
         item = get_object_or_404(Item, pk=item_pk, is_visible=True, is_available=True)
         user = request.user
@@ -58,7 +57,10 @@ class UserItemDetailView(APIView):
                 try:
                     with transaction.atomic():
                         cart.delete()
-                        order.save()
+                        if order.quantity:
+                            order.save()
+                        else:
+                            order.delete()
                     return Response({"detail": f"Removed {item.name} from cart"})
                 except IntegrityError:
                     return Response({"detail": "Something went wrong when removing items from cart!"}, status=400)
