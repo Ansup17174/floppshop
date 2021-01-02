@@ -39,7 +39,6 @@ class Item(models.Model):
     is_available = models.BooleanField(default=True)
     is_discount = models.BooleanField(default=False)
     is_visible = models.BooleanField(default=True)
-    # TODO default=True not working
 
 
 def get_upload_path(instance, filename):
