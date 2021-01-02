@@ -1,12 +1,13 @@
 from rest_framework import serializers
 from .models import Item, Order, Cart, ItemImage
+import os
 
 
 class ItemSerializer(serializers.ModelSerializer):
 
     def get_images_urls(self, item):
         images = ItemImage.objects.filter(item=item)
-        urls = [image.image.url for image in images]
+        urls = [image.image.url for image in images if os.path.isfile(image.image.path)]
         return urls
 
     images = serializers.SerializerMethodField("get_images_urls", read_only=True)
@@ -18,6 +19,12 @@ class ItemSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         images_data = self.context.get("view").request.FILES.getlist("images")
         item = Item.objects.create(**validated_data)
+        for image_data in images_data:
+            ItemImage.objects.create(item=item, image=image_data)
+        return item
+
+    def update(self, item, validated_data):
+        images_data = self.context.get("view").request.FILES.getlist("images")
         for image_data in images_data:
             ItemImage.objects.create(item=item, image=image_data)
         return item

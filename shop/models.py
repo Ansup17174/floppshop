@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 from users.models import ShippingAddress
 from decimal import Decimal
 
@@ -37,16 +39,21 @@ class Item(models.Model):
     is_available = models.BooleanField(default=True)
     is_discount = models.BooleanField(default=False)
     is_visible = models.BooleanField(default=True)
-    # TODO czemu default=true nie dziala
+    # TODO default=True not working
+
+
+def get_upload_path(instance, filename):
+    return f"{instance.item.id}/{filename}"
 
 
 class ItemImage(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="images")
-    image = models.FileField(blank=True, null=True)
+    image = models.FileField(blank=True, null=True, upload_to=get_upload_path)
 
-    def delete(self, using=None, keep_parents=False):
-        self.image.delete()
-        super().delete()
+
+@receiver(post_delete, sender=ItemImage)
+def post_delete_image(sender, instance, *args, **kwargs):
+    instance.image.delete()
 
 
 class Cart(models.Model):

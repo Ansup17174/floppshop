@@ -46,7 +46,7 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
             extra_fields.append(UserModel.USERNAME_FIELD)
         if hasattr(UserModel, "EMAIL_FIELD"):
             extra_fields.append(UserModel.EMAIL_FIELD)
-
+    
         model = UserModel
         fields = ('pk', *extra_fields, 'first_name', 'last_name', 'date_of_birth', 'phone', 'is_staff')
         read_only_fields = ('email',)
