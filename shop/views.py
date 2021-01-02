@@ -1,5 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
+from rest_framework.generics import DestroyAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
@@ -8,14 +9,22 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.db import transaction, IntegrityError
 from .serializers import ItemSerializer, OrderSerializer
-from .models import Item, Order, Cart
+from .models import Item, Order, Cart, ItemImage
 
 
 class AdminItemViewset(ModelViewSet):
+
     serializer_class = ItemSerializer
     queryset = Item.objects.all()
     permission_classes = [IsAdminUser]
     parser_classes = [MultiPartParser, FormParser]
+
+
+class AdminDeleteItemImageView(DestroyAPIView):
+
+    permission_classes = [IsAdminUser]
+    queryset = ItemImage.objects.all()
+    lookup_url_kwarg = "image_pk"
 
 
 class UserItemView(APIView):

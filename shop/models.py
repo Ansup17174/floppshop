@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
-from django.db.models.signals import post_delete
+from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from users.models import ShippingAddress
 from decimal import Decimal
@@ -51,8 +51,8 @@ class ItemImage(models.Model):
     image = models.FileField(blank=True, null=True, upload_to=get_upload_path)
 
 
-@receiver(post_delete, sender=ItemImage)
-def post_delete_image(sender, instance, *args, **kwargs):
+@receiver(pre_delete, sender=ItemImage)
+def pre_delete_image(sender, instance, *args, **kwargs):
     instance.image.delete()
 
 

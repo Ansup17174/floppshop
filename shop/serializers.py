@@ -7,8 +7,8 @@ class ItemSerializer(serializers.ModelSerializer):
 
     def get_images_urls(self, item):
         images = ItemImage.objects.filter(item=item)
-        urls = [image.image.url for image in images if os.path.isfile(image.image.path)]
-        return urls
+        image_list = [{"url": image.image.url, "id": image.pk} for image in images if os.path.isfile(image.image.path)]
+        return image_list
 
     images = serializers.SerializerMethodField("get_images_urls", read_only=True)
 
