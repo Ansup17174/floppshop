@@ -16,7 +16,7 @@ class Order(models.Model):
     date_finished = models.DateTimeField(null=True, blank=True)
     date_paid = models.DateTimeField(null=True, blank=True)
     quantity = models.PositiveIntegerField(default=0)
-    shipping_address = models.OneToOneField(
+    address = models.OneToOneField(
         ShippingAddress,
         on_delete=models.DO_NOTHING,
         related_name="order",

@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import DestroyAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.exceptions import NotAcceptable
 from rest_framework.permissions import IsAdminUser
@@ -10,6 +11,8 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.db import transaction, IntegrityError
 from .serializers import ItemSerializer, OrderSerializer
 from .models import Item, Order, Cart, ItemImage
+from users.models import ShippingAddress
+from users.serializers import ShippingAddressSerializer
 
 
 class AdminItemViewset(ModelViewSet):
@@ -102,6 +105,21 @@ class UserItemDetailView(APIView):
 class UserOrderView(APIView):
 
     def get(self, request):
-        order = get_object_or_404(Order, user=request.user, is_finished=False)
+        order = get_object_or_404(Order, user=request.user, is_paid=False)
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=200)
+
+    def post(self, request):
+        order = get_object_or_404(Order, user=request.user, is_paid=False)
+        shipping_address = ShippingAddressSerializer(data=request.data)
+        if shipping_address.is_valid(raise_exception=True):
+            shipping_address = shipping_address.save()
+        order.address = shipping_address
+        order.is_finished = True
+        order.date_finished = timezone.now()
+        order.save()
+        order_serializer = OrderSerializer(order)
+        return Response(order_serializer.data, status=200)
+
+
+

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Item, Order, Cart, ItemImage
+from users.serializers import ShippingAddressSerializer
 import os
 
 
@@ -45,6 +46,7 @@ class CartSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
 
     carts = CartSerializer(many=True, read_only=True)
+    address = ShippingAddressSerializer(read_only=True)
 
     class Meta:
         model = Order
