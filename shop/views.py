@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework.response import Response
-from rest_framework.exceptions import NotAcceptable
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAdminUser
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.db import transaction, IntegrityError
@@ -55,16 +55,16 @@ class UserItemDetailView(APIView):
         try:
             quantity = int(request.query_params.get('quantity', " "))
         except ValueError:
-            raise NotAcceptable("Invalid quantity")
+            raise ValidationError({"detail": "Invalid quantity"})
         if quantity == 0:
-            raise NotAcceptable("Invalid quantity")
+            raise ValidationError({"detail": "Invalid quantity"})
         if quantity > item.quantity:
-            raise NotAcceptable("Invalid quantity")
+            raise ValidationError({"detail": "Invalid quantity"})
         order, is_created = Order.objects.get_or_create(user=user, is_finished=False)
         if not is_created:
             cart = order.carts.get(item=item)
             if cart.quantity + quantity > item.quantity or cart.quantity + quantity < 0:
-                raise NotAcceptable("Invalid quantity")
+                raise ValidationError({"detail": "Invalid quantity"})
             if cart.quantity + quantity == 0:
                 order.quantity -= 1
                 order.total_price -= cart.total_price
@@ -83,7 +83,7 @@ class UserItemDetailView(APIView):
             order.total_price += item.price * quantity
         else:
             if quantity < 0:
-                raise NotAcceptable("Invalid quantity")
+                raise ValidationError({"detail": "Invalid quantity"})
             cart = Cart.objects.create(order=order, item=item)
             cart.quantity += quantity
             cart.total_price += quantity * item.price
@@ -111,13 +111,22 @@ class UserOrderView(APIView):
 
     def post(self, request):
         order = get_object_or_404(Order, user=request.user, is_finished=False)
-        shipping_address = ShippingAddressSerializer(data=request.data)
+        request_data = request.data
+        if "shipping_method" not in request_data:
+            raise ValidationError({"detail": "Invalid shipping method"})
+        shipping_method = request_data.pop('shipping_method')
+        if shipping_method not in ("InPost", "UPS"):
+            raise ValidationError({"detail": "Invalid shipping method"})
+        shipping_address = ShippingAddressSerializer(data=request_data)
         if shipping_address.is_valid(raise_exception=True):
             shipping_address = shipping_address.save()
         order.address = shipping_address
-        order.is_finished = True
+        order.shipping_method = shipping_method
+        # order.is_finished = True TODO tymczasowo do testowania
         order.date_finished = timezone.now()
         order.save()
+        shipping_price = 10 if shipping_method == "InPost" else 20
+        order.total_price += shipping_price
         order_serializer = OrderSerializer(order)
         return Response(order_serializer.data, status=200)
 

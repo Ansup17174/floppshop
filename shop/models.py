@@ -7,6 +7,11 @@ from users.models import ShippingAddress
 from decimal import Decimal
 
 
+class ShippingMethod(models.Model):
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
+
+
 class Order(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, related_name="orders")
     total_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)], default=Decimal("0.00"))
@@ -23,11 +28,13 @@ class Order(models.Model):
         blank=True,
         null=True
     )
-    methods = (
-        ("UPS", "UPS"),
-        ("InPost", "InPost")
+    shipping_method = models.ForeignKey(
+        ShippingMethod,
+        on_delete=models.DO_NOTHING,
+        blank=True,
+        null=True,
+        related_name="orders"
     )
-    shipping_method = models.CharField(max_length=6, blank=True, null=True, choices=methods)
 
 
 class Item(models.Model):
@@ -64,7 +71,6 @@ class Cart(models.Model):
     item = models.OneToOneField(
         Item,
         on_delete=models.DO_NOTHING,
-        primary_key=True
     )
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="carts")
     quantity = models.PositiveIntegerField(default=0)
