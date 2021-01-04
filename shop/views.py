@@ -129,13 +129,16 @@ class UserOrderView(APIView):
         order.method = shipping_method
         order.is_finished = True
         order.date_finished = timezone.now()
-        for cart in order.carts:
+        for cart in order.carts.all():
             if cart.item.quantity < cart.quantity:
                 raise ValidationError({"detail": f"{cart.item.name} quantity is invalid"})
         with transaction.atomic():
-            for cart in order.carts:
+            for cart in order.carts.all():
                 cart.item.quantity -= cart.quantity
                 cart.item.save()
             order.save()
         order_serializer = OrderSerializer(order)
         return Response(order_serializer.data, status=200)
+
+
+# TODO sprawdzic robienie kilku orderow na raz, potem chyba platnsoci

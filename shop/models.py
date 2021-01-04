@@ -56,6 +56,12 @@ class Item(models.Model):
     is_discount = models.BooleanField(default=False)
     is_visible = models.BooleanField(default=True)
 
+    def save(self, *args, **kwargs):
+        if self.quantity <= 0:
+            self.quantity = 0
+            self.is_available = False
+        super().save(*args, **kwargs)
+
 
 def get_upload_path(instance, filename):
     return f"{instance.item.id}/{filename}"
