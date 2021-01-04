@@ -110,7 +110,7 @@ class UserOrderView(APIView):
         return Response(serializer.data, status=200)
 
     def post(self, request):
-        order = get_object_or_404(Order, user=request.user, is_paid=False)
+        order = get_object_or_404(Order, user=request.user, is_finished=False)
         shipping_address = ShippingAddressSerializer(data=request.data)
         if shipping_address.is_valid(raise_exception=True):
             shipping_address = shipping_address.save()

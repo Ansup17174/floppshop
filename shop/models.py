@@ -23,6 +23,11 @@ class Order(models.Model):
         blank=True,
         null=True
     )
+    methods = (
+        ("UPS", "UPS"),
+        ("InPost", "InPost")
+    )
+    shipping_method = models.CharField(max_length=6, blank=True, null=True, choices=methods)
 
 
 class Item(models.Model):
