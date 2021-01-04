@@ -9,8 +9,8 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAdminUser
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.db import transaction, IntegrityError
-from .serializers import ItemSerializer, OrderSerializer
-from .models import Item, Order, Cart, ItemImage
+from .serializers import ItemSerializer, OrderSerializer, ShippingMethodSerializer
+from .models import Item, Order, Cart, ItemImage, ShippingMethod
 from users.models import ShippingAddress
 from users.serializers import ShippingAddressSerializer
 
@@ -21,6 +21,12 @@ class AdminItemViewset(ModelViewSet):
     queryset = Item.objects.all()
     permission_classes = [IsAdminUser]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+
+class AdminShippingMethodViewset(ModelViewSet):
+    permission_classes = [IsAdminUser]
+    serializer_class = ShippingMethodSerializer
+    queryset = ShippingMethod.objects.all()
 
 
 class AdminDeleteItemImageView(DestroyAPIView):
@@ -114,19 +120,17 @@ class UserOrderView(APIView):
         request_data = request.data
         if "shipping_method" not in request_data:
             raise ValidationError({"detail": "Invalid shipping method"})
-        shipping_method = request_data.pop('shipping_method')
-        if shipping_method not in ("InPost", "UPS"):
-            raise ValidationError({"detail": "Invalid shipping method"})
+        shipping_method_name = request_data.pop('shipping_method')
+        shipping_method = get_object_or_404(ShippingMethod, name=shipping_method_name)
         shipping_address = ShippingAddressSerializer(data=request_data)
         if shipping_address.is_valid(raise_exception=True):
             shipping_address = shipping_address.save()
         order.address = shipping_address
-        order.shipping_method = shipping_method
-        # order.is_finished = True TODO tymczasowo do testowania
+        order.method = shipping_method
+        order.is_finished = True
         order.date_finished = timezone.now()
         order.save()
-        shipping_price = 10 if shipping_method == "InPost" else 20
-        order.total_price += shipping_price
+        order.total_price += shipping_method.price
         order_serializer = OrderSerializer(order)
         return Response(order_serializer.data, status=200)
 

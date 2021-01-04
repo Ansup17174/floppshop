@@ -28,7 +28,7 @@ class Order(models.Model):
         blank=True,
         null=True
     )
-    shipping_method = models.ForeignKey(
+    method = models.ForeignKey(
         ShippingMethod,
         on_delete=models.DO_NOTHING,
         blank=True,

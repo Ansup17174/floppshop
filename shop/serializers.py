@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Item, Order, Cart, ItemImage
+from .models import Item, Order, Cart, ItemImage, ShippingMethod
 from users.serializers import ShippingAddressSerializer
 import os
 
@@ -51,3 +51,9 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         exclude = ('user',)
+
+
+class ShippingMethodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ShippingMethod
+        fields = "__all__"
