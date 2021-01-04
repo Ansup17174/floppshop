@@ -130,9 +130,5 @@ class UserOrderView(APIView):
         order.is_finished = True
         order.date_finished = timezone.now()
         order.save()
-        order.total_price += shipping_method.price
         order_serializer = OrderSerializer(order)
         return Response(order_serializer.data, status=200)
-
-
-

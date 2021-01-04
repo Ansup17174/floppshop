@@ -40,20 +40,27 @@ class CartSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cart
-        exclude = ("order",)
-
-
-class OrderSerializer(serializers.ModelSerializer):
-
-    carts = CartSerializer(many=True, read_only=True)
-    address = ShippingAddressSerializer(read_only=True)
-
-    class Meta:
-        model = Order
-        exclude = ('user',)
+        exclude = ("order", 'id')
 
 
 class ShippingMethodSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShippingMethod
-        fields = "__all__"
+        exclude = ('id',)
+
+
+class OrderSerializer(serializers.ModelSerializer):
+
+    def get_total_price(self, order):
+        if order.method is not None:
+            return str(order.total_price + order.method.price)
+        return str(order.total_price)
+
+    carts = CartSerializer(many=True, read_only=True)
+    address = ShippingAddressSerializer(read_only=True)
+    method = ShippingMethodSerializer(read_only=True)
+    total_price = serializers.SerializerMethodField("get_total_price")
+
+    class Meta:
+        model = Order
+        exclude = ('user', 'id')

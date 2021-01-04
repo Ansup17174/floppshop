@@ -7,7 +7,7 @@ import re
 class ShippingAddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShippingAddress
-        exclude = ('user',)
+        exclude = ('user', 'id')
 
     def validate_post_code(self, post_code):
         if not re.match(r"^\d\d-\d\d\d$", post_code):
