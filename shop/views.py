@@ -121,14 +121,21 @@ class UserOrderView(APIView):
         if "shipping_method" not in request_data:
             raise ValidationError({"detail": "Invalid shipping method"})
         shipping_method_name = request_data.pop('shipping_method')
-        shipping_method = get_object_or_404(ShippingMethod, name=shipping_method_name)
-        shipping_address = ShippingAddressSerializer(data=request_data)
-        if shipping_address.is_valid(raise_exception=True):
-            shipping_address = shipping_address.save()
+        shipping_method = get_object_or_404(ShippingMethod, name=shipping_method_name, is_available=True)
+        shipping_address_serializer = ShippingAddressSerializer(data=request_data)
+        if shipping_address_serializer.is_valid(raise_exception=True):
+            shipping_address = ShippingAddress.objects.create(**shipping_address_serializer.validated_data)
         order.address = shipping_address
         order.method = shipping_method
         order.is_finished = True
         order.date_finished = timezone.now()
-        order.save()
+        for cart in order.carts:
+            if cart.item.quantity < cart.quantity:
+                raise ValidationError({"detail": f"{cart.item.name} quantity is invalid"})
+        with transaction.atomic():
+            for cart in order.carts:
+                cart.item.quantity -= cart.quantity
+                cart.item.save()
+            order.save()
         order_serializer = OrderSerializer(order)
         return Response(order_serializer.data, status=200)
