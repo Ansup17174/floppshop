@@ -50,7 +50,7 @@ class UserItemDetailView(APIView):
 
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def get(self, request, pk):
+    def get(self, request, item_pk):
         item = get_object_or_404(Item, pk=pk, is_visible=True)
         serializer = ItemSerializer(item)
         return Response(serializer.data, status=200)
@@ -111,12 +111,18 @@ class UserItemDetailView(APIView):
 class UserOrderView(APIView):
 
     def get(self, request):
-        if 'history' in request.query_params:
-            orders = Order.objects.filter(user=request.user, is_finished=True)
+        if 'unpaid' in request.query_params:
+            orders = Order.objects.filter(user=request.user, is_paid=False, is_finished=True)
+            serializer = OrderSerializer(orders, many=True)
+            return Response(serializer.data, status=200)
+        elif 'history' in request.query_params:
+            orders = Order.objects.filter(user=request.user, is_paid=True)
+            serializer = OrderSerializer(orders, many=True)
+            return Response(serializer.data, status=200)
         else:
-            orders = get_list_or_404(Order, user=request.user, is_finished=False)
-        serializer = OrderSerializer(orders, many=True)
-        return Response(serializer.data, status=200)
+            order = get_object_or_404(Order, user=request.user, is_finished=False, is_paid=False)
+            serializer = OrderSerializer(order)
+            return Response(serializer.data, status=200)
 
     def post(self, request):
         order = get_object_or_404(Order, user=request.user, is_finished=False)
@@ -146,3 +152,8 @@ class UserOrderView(APIView):
         return Response(order_serializer.data, status=200)
 
 
+class UserOrderPaymentView(APIView):
+
+    def get(self, request, order_pk):
+        order = get_object_or_404(Order, pk=order_pk, user=request.user)
+        return Response({"detail": f"Total price to pay:{order.total_price + order.method.price} "}, status=200)
