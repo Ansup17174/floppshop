@@ -2,7 +2,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.generics import DestroyAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404
 from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
@@ -111,8 +111,11 @@ class UserItemDetailView(APIView):
 class UserOrderView(APIView):
 
     def get(self, request):
-        order = get_object_or_404(Order, user=request.user, is_paid=False)
-        serializer = OrderSerializer(order)
+        if 'history' in request.query_params:
+            orders = Order.objects.filter(user=request.user, is_finished=True)
+        else:
+            orders = get_list_or_404(Order, user=request.user, is_finished=False)
+        serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data, status=200)
 
     def post(self, request):
@@ -131,7 +134,9 @@ class UserOrderView(APIView):
         order.date_finished = timezone.now()
         for cart in order.carts.all():
             if cart.item.quantity < cart.quantity:
-                raise ValidationError({"detail": f"{cart.item.name} quantity is invalid"})
+                cart.quantity = cart.item.quantity
+                cart.save()
+                raise ValidationError({"detail": f"{cart.item.name} quantity is invalid, changed to {cart.item.quantity}"})
         with transaction.atomic():
             for cart in order.carts.all():
                 cart.item.quantity -= cart.quantity
@@ -141,4 +146,3 @@ class UserOrderView(APIView):
         return Response(order_serializer.data, status=200)
 
 
-# TODO sprawdzic robienie kilku orderow na raz, potem chyba platnsoci

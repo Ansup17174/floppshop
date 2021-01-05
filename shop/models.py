@@ -78,7 +78,7 @@ def pre_delete_image(sender, instance, *args, **kwargs):
 
 
 class Cart(models.Model):
-    item = models.OneToOneField(
+    item = models.ForeignKey(
         Item,
         on_delete=models.DO_NOTHING,
     )
