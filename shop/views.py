@@ -51,7 +51,7 @@ class UserItemDetailView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request, item_pk):
-        item = get_object_or_404(Item, pk=pk, is_visible=True)
+        item = get_object_or_404(Item, pk=item_pk, is_visible=True)
         serializer = ItemSerializer(item)
         return Response(serializer.data, status=200)
 
@@ -156,4 +156,7 @@ class UserOrderPaymentView(APIView):
 
     def get(self, request, order_pk):
         order = get_object_or_404(Order, pk=order_pk, user=request.user)
-        return Response({"detail": f"Total price to pay:{order.total_price + order.method.price} "}, status=200)
+        return Response({"detail": f"Total price to pay:{order.total_price + order.method.price}"}, status=200)
+
+    def post(self, request, order_pk):
+        order = get_object_or_404(Order, pk=order_pk, user=request.user)
