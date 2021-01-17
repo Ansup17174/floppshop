@@ -158,12 +158,3 @@ class UserOrderPaymentView(APIView):
         order = get_object_or_404(Order, pk=order_pk, user=request.user)
         return Response({"detail": f"Total price to pay:{order.total_price + order.method.price}"}, status=200)
 
-    def post(self, request, order_pk):
-        order = get_object_or_404(Order, pk=order_pk, user=request.user)
-
-
-class PayUNotifyView(APIView):
-
-    def post(self, request):
-        print(request.data)
-        return Response(status=200)
