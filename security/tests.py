@@ -3,7 +3,6 @@ from django.shortcuts import reverse
 from django.core import mail
 from django.contrib.auth import get_user_model
 from .serializers import CustomUserDetailsSerializer
-from datetime import timedelta
 import json
 import re
 
@@ -112,29 +111,7 @@ class UserTestCase(APITestCase):
             "email": self.email,
             "password": self.password
         }
-        self.client.post(reverse("rest_login"), login_request, format="json")
-
-    @override_settings(
-        SIMPLE_JWT={
-            'ACCESS_TOKEN_LIFETIME': timedelta(seconds=1),
-            'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-            'ROTATE_REFRESH_TOKENS': True
-        }
-    )
-    def test_user_token_expired(self):
-        login_request = {
-            "email": self.email,
-            "password": self.password
-        }
-        login_response = self.client.post(reverse("rest_login"), login_request, format="json")
-        self.assertEqual(login_response.status_code, 200)
-        self.assertEqual(
-            login_response.cookies.get("floppauth").value,
-            login_response.data.get("access_token")
-        )
-
-        user_details_response = self.client.get(reverse("rest_user_details"))
-        print(user_details_response.status_code, user_details_response.data)
+        self.response = self.client.post(reverse("rest_login"), login_request, format="json")
 
     def test_user_change_password(self):
         request_body = {
@@ -188,5 +165,16 @@ class UserTestCase(APITestCase):
         login_response = self.client.post(reverse("rest_login"), login_request, format="json")
         self.assertEqual(login_response.status_code, 200)
         self.assertEqual(login_response.cookies.get("floppauth").value, login_response.data.get("access_token"))
+
+    def test_user_refresh_token(self):
+        refresh_token = self.response.data.get("refresh_token")
+        self.client.post(reverse("token_refresh"), {"refresh": refresh_token}, format="json")
+        user_response = self.client.get(reverse("rest_user_details"))
+        self.assertEqual(user_response.status_code, 200)
+
+    def test_user_details_with_invalid_token(self):
+        self.client.cookies['floppauth'] = "asdasf32fs.gdsdg2wsdg.sdg2wg3wesg"
+        response = self.client.get(reverse("rest_user_details"))
+        self.assertEqual(response.status_code, 401)
 
 
