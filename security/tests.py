@@ -1,4 +1,4 @@
-from rest_framework.test import APITestCase, override_settings
+from rest_framework.test import APITestCase
 from django.shortcuts import reverse
 from django.core import mail
 from django.contrib.auth import get_user_model
