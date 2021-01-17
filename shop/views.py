@@ -50,6 +50,27 @@ class UserItemDetailView(APIView):
 
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+    def add_item_to_existing_cart(self, order, item, quantity):
+        cart = order.carts.get(item=item)
+        if cart.quantity + quantity > item.quantity or cart.quantity + quantity < 0:
+            raise ValidationError({"detail": "Invalid quantity"})
+        if cart.quantity + quantity == 0:
+            order.quantity -= 1
+            order.total_price -= cart.total_price
+            try:
+                with transaction.atomic():
+                    cart.delete()
+                    if order.quantity:
+                        order.save()
+                    else:
+                        order.delete()
+                return Response({"detail": f"Removed {item.name} from cart"})
+            except IntegrityError:
+                return Response({"detail": "Something went wrong when removing items from cart!"}, status=400)
+        cart.quantity += quantity
+        cart.total_price += item.price * quantity
+        order.total_price += item.price * quantity
+
     def get(self, request, item_pk):
         item = get_object_or_404(Item, pk=item_pk, is_visible=True)
         serializer = ItemSerializer(item)
@@ -62,6 +83,7 @@ class UserItemDetailView(APIView):
             quantity = int(request.query_params.get('quantity', " "))
         except ValueError:
             raise ValidationError({"detail": "Invalid quantity"})
+
         if quantity == 0:
             raise ValidationError({"detail": "Invalid quantity"})
         if quantity > item.quantity:
@@ -106,7 +128,6 @@ class UserItemDetailView(APIView):
             return Response({"detail": message}, status=200)
         except IntegrityError:
             return Response({"detail": "Something went wrong when adding item to cart!"}, status=400)
-
 
 class UserOrderView(APIView):
 
