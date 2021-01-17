@@ -42,8 +42,6 @@ class CustomRegisterSerializer(RegisterSerializer):
 class CustomUserDetailsSerializer(UserDetailsSerializer):
     class Meta:
         extra_fields = []
-        if hasattr(UserModel, "USERNAME_FIELD"):
-            extra_fields.append(UserModel.USERNAME_FIELD)
         if hasattr(UserModel, "EMAIL_FIELD"):
             extra_fields.append(UserModel.EMAIL_FIELD)
     
