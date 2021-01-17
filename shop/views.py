@@ -160,3 +160,10 @@ class UserOrderPaymentView(APIView):
 
     def post(self, request, order_pk):
         order = get_object_or_404(Order, pk=order_pk, user=request.user)
+
+
+class PayUNotifyView(APIView):
+
+    def post(self, request):
+        print(request.data)
+        return Response(status=200)
