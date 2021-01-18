@@ -12,8 +12,11 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.db import transaction, IntegrityError
 from .serializers import ItemSerializer, OrderSerializer, ShippingMethodSerializer, PayUOrderSerializer
 from .models import Item, Order, Cart, ItemImage, ShippingMethod
+from .exceptions import PayUException
 from users.models import ShippingAddress
 from users.serializers import ShippingAddressSerializer
+import requests
+import json
 
 
 class AdminItemViewset(ModelViewSet):
@@ -176,7 +179,7 @@ class UserOrderPaymentView(APIView):
             "language": "pl"
         }
         payu_order = {
-            "customerIp": "TODO",
+            "customerIp": "127.0.0.1", # TODO
             "merchantPosId": settings.MERCHANT_POS_ID,
             "extOrderId": str(order.pk),
             "description": "Floppshop order",
@@ -192,5 +195,25 @@ class UserOrderPaymentView(APIView):
     def post(self, request, order_pk):
         order = get_object_or_404(Order, pk=order_pk, user=request.user, is_finished=True, is_paid=False)
         request_data = self.prepare_request(order).data
+        payu_login_response = requests.post(
+            "https://secure.snd.payu.com/pl/standard/user/oauth/authorize?"
+            + "grant_type=client_credentials"
+            + f"&client_id={settings.MERCHANT_POS_ID}"
+            + f"&client_secret={settings.CLIENT_SECRET}"
+        )
+        if payu_login_response.status_code != 200:
+            raise PayUException()
+        payu_response = requests.request(
+            "post",
+            "https://secure.snd.payu.com/api/v2_1/orders",
+            json=request_data,
+            headers={
+                "content-type": "application/json",
+                "Authorization": f"Bearer {payu_login_response.json().get('access_token')}"
+            },
+            allow_redirects=False
+        )
+        print(payu_response.status_code)
+        print(payu_response.json())
         return Response(request_data, status=200)
 

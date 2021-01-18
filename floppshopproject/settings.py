@@ -198,7 +198,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # PayU
 
-MERCHANT_POS_ID = os.environ.get("MERCHANT_POS_ID", "402266")
+MERCHANT_POS_ID = os.environ.get("MERCHANT_POS_ID", "402260")
 CLIENT_SECRET = os.environ.get("CLIENT_SECRET", "8c68ebf4951fa46b8951ef1d3609ffdb")
 
 
