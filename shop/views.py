@@ -11,12 +11,12 @@ from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.db import transaction, IntegrityError
 from .serializers import ItemSerializer, OrderSerializer, ShippingMethodSerializer, PayUOrderSerializer, PayUNotificationSerializer
-from .models import Item, Order, Cart, ItemImage, ShippingMethod
+from .models import Item, Order, Cart, ItemImage, ShippingMethod, PayUNotification
 from .exceptions import PayUException
 from users.models import ShippingAddress
 from users.serializers import ShippingAddressSerializer
 import requests
-
+import json
 
 class AdminItemViewset(ModelViewSet):
 
@@ -201,7 +201,6 @@ class UserOrderPaymentView(APIView):
             + f"&client_secret={settings.CLIENT_SECRET}"
         )
         if payu_login_response.status_code != 200:
-            print(payu_login_response.json())
             raise PayUException()
         payu_response = requests.post(
             "https://secure.snd.payu.com/api/v2_1/orders",
@@ -213,7 +212,6 @@ class UserOrderPaymentView(APIView):
             allow_redirects=False
         )
         if payu_response.status_code != 302:
-            print(payu_response.json())
             raise PayUException()
         return Response(payu_response.json(), status=200)
 
@@ -223,6 +221,8 @@ class PayUNotifyView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
+        notification = PayUNotification(content=json.dumps(request.data))
+        notification.save()
         notification_serializer = PayUNotificationSerializer(data=request.data)
         notification_serializer.is_valid(raise_exception=True)
         if notification_serializer.validated_data['order']['status'] == "COMPLETED":
@@ -236,3 +236,12 @@ class PayUNotifyView(APIView):
             order.date_paid = notification_serializer.validated_data['localReceiptDateTime']
             order.save()
         return Response(status=200)
+
+
+class AdminNotificationView(APIView):
+
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        notifications = [json.loads(notification.content) for notification in PayUNotification.objects.all()]
+        return Response(notifications, status=200)
