@@ -181,7 +181,7 @@ class UserOrderPaymentView(APIView):
         payu_order = {
             "customerIp": "127.0.0.1", # TODO
             "merchantPosId": settings.MERCHANT_POS_ID,
-            "extOrderId": str(order.pk),
+            "extOrderId": "12",
             "description": "Floppshop order",
             "currencyCode": "PLN",
             "totalAmount": str(int(order.total_price * 100)),
@@ -203,8 +203,7 @@ class UserOrderPaymentView(APIView):
         )
         if payu_login_response.status_code != 200:
             raise PayUException()
-        payu_response = requests.request(
-            "post",
+        payu_response = requests.post(
             "https://secure.snd.payu.com/api/v2_1/orders",
             json=request_data,
             headers={
@@ -213,7 +212,12 @@ class UserOrderPaymentView(APIView):
             },
             allow_redirects=False
         )
-        print(payu_response.status_code)
-        print(payu_response.json())
-        return Response(request_data, status=200)
+        if payu_response.status_code != 302:
+            raise PayUException()
+        return Response(payu_response.json(), status=200)
 
+
+class PayUNotifyView(APIView):
+
+    def post(self, request):
+        pass

@@ -80,6 +80,10 @@ class PayUProductSerializer(serializers.Serializer):
     quantity = serializers.CharField(max_length=30)
 
 
+class PayUMethodSerializer(serializers.Serializer):
+    type = serializers.CharField(max_length=20)
+
+
 class PayUOrderSerializer(serializers.Serializer):
     notifyUrl = serializers.CharField(max_length=100, required=False)
     extOrderId = serializers.CharField(max_length=30)
@@ -92,3 +96,16 @@ class PayUOrderSerializer(serializers.Serializer):
     buyer = PayUBuyerSerializer()
     products = PayUProductSerializer(many=True)
 
+    payMethod = PayUMethodSerializer(required=False)
+    status = serializers.CharField(max_length=30)
+
+
+class PayUPropertySerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=100)
+    value = serializers.CharField(max_length=100)
+
+
+class PayUNotificationSerializer(serializers.Serializer):
+    order = PayUOrderSerializer()
+    localReceiptDateTime = serializers.DateTimeField(required=False)
+    properties = PayUPropertySerializer(many=True, required=False)
