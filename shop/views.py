@@ -108,6 +108,7 @@ class UserItemDetailView(APIView):
         except IntegrityError:
             return Response({"detail": "Something went wrong when adding item to cart!"}, status=400)
 
+
 class UserOrderView(APIView):
 
     def get(self, request):
@@ -155,6 +156,6 @@ class UserOrderView(APIView):
 class UserOrderPaymentView(APIView):
 
     def get(self, request, order_pk):
-        order = get_object_or_404(Order, pk=order_pk, user=request.user)
+        order = get_object_or_404(Order, pk=order_pk, user=request.user, is_finished=True, is_paid=False)
         return Response({"detail": f"Total price to pay:{order.total_price + order.method.price}"}, status=200)
 
