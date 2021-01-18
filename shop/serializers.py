@@ -64,3 +64,31 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         exclude = ('user',)
+
+
+class PayUBuyerSerializer(serializers.Serializer):
+    email = serializers.EmailField(max_length=50)
+    phone = serializers.CharField(max_length=12)
+    firstName = serializers.CharField(max_length=200)
+    lastName = serializers.CharField(max_length=200)
+    language = serializers.CharField(max_length=10)
+
+
+class PayUProductSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=200)
+    unitPrice = serializers.CharField(max_length=100)
+    quantity = serializers.CharField(max_length=30)
+
+
+class PayUOrderSerializer(serializers.Serializer):
+    notifyUrl = serializers.CharField(max_length=100, required=False)
+    extOrderId = serializers.CharField(max_length=30)
+    customerIp = serializers.CharField(max_length=20)
+    merchantPosId = serializers.CharField(max_length=6)
+    description = serializers.CharField(max_length=200)
+    currencyCode = serializers.CharField(max_length=5)
+    totalAmount = serializers.CharField(max_length=100)
+
+    buyer = PayUBuyerSerializer()
+    products = PayUProductSerializer(many=True)
+

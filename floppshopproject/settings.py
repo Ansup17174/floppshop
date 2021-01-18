@@ -196,6 +196,12 @@ ACCOUNT_ADAPTER = 'users.adapters.CustomAccountAdapter'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
+# PayU
+
+MERCHANT_POS_ID = os.environ.get("MERCHANT_POS_ID", "402266")
+CLIENT_SECRET = os.environ.get("CLIENT_SECRET", "8c68ebf4951fa46b8951ef1d3609ffdb")
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 

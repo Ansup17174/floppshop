@@ -2,14 +2,15 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.generics import DestroyAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django.shortcuts import get_object_or_404, get_list_or_404
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.conf import settings
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAdminUser
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.db import transaction, IntegrityError
-from .serializers import ItemSerializer, OrderSerializer, ShippingMethodSerializer
+from .serializers import ItemSerializer, OrderSerializer, ShippingMethodSerializer, PayUOrderSerializer
 from .models import Item, Order, Cart, ItemImage, ShippingMethod
 from users.models import ShippingAddress
 from users.serializers import ShippingAddressSerializer
@@ -157,5 +158,39 @@ class UserOrderPaymentView(APIView):
 
     def get(self, request, order_pk):
         order = get_object_or_404(Order, pk=order_pk, user=request.user, is_finished=True, is_paid=False)
-        return Response({"detail": f"Total price to pay:{order.total_price + order.method.price}"}, status=200)
+        return Response({"detail": f"Total price to pay: {order.total_price + order.method.price}"}, status=200)
+
+    def prepare_request(self, order):
+        products = []
+        for cart in order.carts.all():
+            products.append({
+                "name": cart.item.name,
+                "unitPrice": str(int(cart.item.price * 100)),
+                "quantity": str(cart.quantity)
+            })
+        buyer = {
+            "email": order.user.email,
+            "phone": str(order.user.phone),
+            "firstName": order.user.first_name,
+            "lastName": order.user.last_name,
+            "language": "pl"
+        }
+        payu_order = {
+            "customerIp": "TODO",
+            "merchantPosId": settings.MERCHANT_POS_ID,
+            "extOrderId": str(order.pk),
+            "description": "Floppshop order",
+            "currencyCode": "PLN",
+            "totalAmount": str(int(order.total_price * 100)),
+            "buyer": buyer,
+            "products": products
+        }
+        payu_order_serializer = PayUOrderSerializer(data=payu_order)
+        payu_order_serializer.is_valid(raise_exception=True)
+        return payu_order_serializer
+
+    def post(self, request, order_pk):
+        order = get_object_or_404(Order, pk=order_pk, user=request.user, is_finished=True, is_paid=False)
+        request_data = self.prepare_request(order).data
+        return Response(request_data, status=200)
 

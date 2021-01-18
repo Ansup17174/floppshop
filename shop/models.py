@@ -85,3 +85,5 @@ class Cart(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="carts")
     quantity = models.PositiveIntegerField(default=0)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)], default=Decimal("0.00"))
+
+# TODO switch from 1,2,3 id to uuid
