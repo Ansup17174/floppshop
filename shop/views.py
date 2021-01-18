@@ -18,6 +18,7 @@ from users.serializers import ShippingAddressSerializer
 import requests
 import json
 
+
 class AdminItemViewset(ModelViewSet):
 
     serializer_class = ItemSerializer
@@ -178,7 +179,7 @@ class UserOrderPaymentView(APIView):
             "language": "pl"
         }
         payu_order = {
-            "customerIp": "127.0.0.1", # TODO
+            "customerIp": "127.0.0.1",
             "merchantPosId": settings.MERCHANT_POS_ID,
             "extOrderId": str(order.pk),
             "description": "Floppshop order",

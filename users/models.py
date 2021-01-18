@@ -1,14 +1,17 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
+import uuid
 
 
 class CustomUser(AbstractUser):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     date_of_birth = models.DateField()
     phone = models.IntegerField()
 
 
 class ShippingAddress(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     user = models.OneToOneField(
         get_user_model(),
         on_delete=models.DO_NOTHING,

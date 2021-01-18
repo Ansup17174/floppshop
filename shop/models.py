@@ -5,9 +5,11 @@ from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from users.models import ShippingAddress
 from decimal import Decimal
+import uuid
 
 
 class ShippingMethod(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
     is_available = models.BooleanField(default=True)
@@ -17,6 +19,7 @@ class ShippingMethod(models.Model):
 
 
 class Order(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     user = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, related_name="orders")
     total_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)], default=Decimal("0.00"))
     is_finished = models.BooleanField(default=False)
@@ -42,6 +45,7 @@ class Order(models.Model):
 
 
 class Item(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     name = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
     discount_price = models.DecimalField(
@@ -68,6 +72,7 @@ def get_upload_path(instance, filename):
 
 
 class ItemImage(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="images")
     image = models.FileField(blank=True, null=True, upload_to=get_upload_path)
 
@@ -78,6 +83,7 @@ def pre_delete_image(sender, instance, *args, **kwargs):
 
 
 class Cart(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     item = models.ForeignKey(
         Item,
         on_delete=models.DO_NOTHING,
@@ -88,6 +94,7 @@ class Cart(models.Model):
 
 
 class PayUNotification(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     content = models.CharField(max_length=1000)
 
 
