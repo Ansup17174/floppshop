@@ -7,16 +7,15 @@ from django.utils import timezone
 from django.conf import settings
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.db import transaction, IntegrityError
-from .serializers import ItemSerializer, OrderSerializer, ShippingMethodSerializer, PayUOrderSerializer
+from .serializers import ItemSerializer, OrderSerializer, ShippingMethodSerializer, PayUOrderSerializer, PayUNotificationSerializer
 from .models import Item, Order, Cart, ItemImage, ShippingMethod
 from .exceptions import PayUException
 from users.models import ShippingAddress
 from users.serializers import ShippingAddressSerializer
 import requests
-import json
 
 
 class AdminItemViewset(ModelViewSet):
@@ -181,7 +180,7 @@ class UserOrderPaymentView(APIView):
         payu_order = {
             "customerIp": "127.0.0.1", # TODO
             "merchantPosId": settings.MERCHANT_POS_ID,
-            "extOrderId": "12",
+            "extOrderId": str(order.pk),
             "description": "Floppshop order",
             "currencyCode": "PLN",
             "totalAmount": str(int(order.total_price * 100)),
@@ -202,6 +201,7 @@ class UserOrderPaymentView(APIView):
             + f"&client_secret={settings.CLIENT_SECRET}"
         )
         if payu_login_response.status_code != 200:
+            print(payu_login_response.json())
             raise PayUException()
         payu_response = requests.post(
             "https://secure.snd.payu.com/api/v2_1/orders",
@@ -213,11 +213,26 @@ class UserOrderPaymentView(APIView):
             allow_redirects=False
         )
         if payu_response.status_code != 302:
+            print(payu_response.json())
             raise PayUException()
         return Response(payu_response.json(), status=200)
 
 
 class PayUNotifyView(APIView):
 
+    permission_classes = [AllowAny]
+
     def post(self, request):
-        pass
+        notification_serializer = PayUNotificationSerializer(data=request.data)
+        notification_serializer.is_valid(raise_exception=True)
+        if notification_serializer.validated_data['order']['status'] == "COMPLETED":
+            order = get_object_or_404(
+                Order,
+                pk=notification_serializer.validated_data['order']['extOrderId'],
+                is_paid=False,
+                is_finished=True
+            )
+            order.is_paid = True
+            order.date_paid = notification_serializer.validated_data['localReceiptDateTime']
+            order.save()
+        return Response(status=200)

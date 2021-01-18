@@ -93,11 +93,11 @@ class PayUOrderSerializer(serializers.Serializer):
     currencyCode = serializers.CharField(max_length=5)
     totalAmount = serializers.CharField(max_length=100)
 
-    buyer = PayUBuyerSerializer()
+    buyer = PayUBuyerSerializer(required=False)
     products = PayUProductSerializer(many=True)
 
     payMethod = PayUMethodSerializer(required=False)
-    status = serializers.CharField(max_length=30)
+    status = serializers.CharField(max_length=30, required=False)
 
 
 class PayUPropertySerializer(serializers.Serializer):
