@@ -111,17 +111,6 @@ class UserItemDetailView(APIView):
 
 class UserOrderView(APIView):
 
-    def get_cart_total_price(self, cart):
-        return cart.quantity * cart.item.discount_price if cart.item.is_discount else cart.item.price
-
-    def get_order_total_price(self, order):
-        total_price = Decimal("0.00")
-        for cart in order.carts.all():
-            total_price += self.get_cart_total_price(cart)
-        if order.method is not None:
-            total_price += order.method.price
-        return total_price
-
     def get(self, request):
         if 'unpaid' in request.query_params:
             orders = Order.objects.filter(user=request.user, is_paid=False, is_finished=True)

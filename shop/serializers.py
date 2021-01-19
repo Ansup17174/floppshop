@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Item, Order, Cart, ItemImage, ShippingMethod
 from users.serializers import ShippingAddressSerializer
+from decimal import Decimal
 import os
 
 
@@ -51,15 +52,21 @@ class ShippingMethodSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
 
-    def get_total_price(self, order):
+    def get_cart_total_price(self, cart):
+        return cart.quantity * cart.item.discount_price if cart.item.is_discount else cart.item.price
+
+    def get_order_total_price(self, order):
+        total_price = Decimal("0.00")
+        for cart in order.carts.all():
+            total_price += self.get_cart_total_price(cart)
         if order.method is not None:
-            return str(order.total_price + order.method.price)
-        return str(order.total_price)
+            total_price += order.method.price
+        return total_price
 
     carts = CartSerializer(many=True, read_only=True)
     address = ShippingAddressSerializer(read_only=True)
     method = ShippingMethodSerializer(read_only=True)
-    total_price = serializers.SerializerMethodField("get_total_price")
+    total_price = serializers.SerializerMethodField("get_order_price")
 
     class Meta:
         model = Order
