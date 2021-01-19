@@ -177,10 +177,12 @@ class UserTestCase(APITestCase):
         response = self.client.get(reverse("rest_user_details"))
         self.assertEqual(response.status_code, 401)
 
-    def test_user_profile_edit(self):
+    def test_user_edit_profile(self):
         initial_data = self.response.data['user']
-        request = {
-            "phone": "997"
+        request_data = {
+            "phone": 123456789
         }
-
-
+        edit_response = self.client.patch(reverse("rest_user_details"), request_data, format="json")
+        self.assertEqual(edit_response.status_code, 200)
+        self.assertEqual(edit_response.data, {**initial_data, "phone": 123456789})
+        self.assertEqual(User.objects.get(email="janusz@op.pl").phone, 123456789)
