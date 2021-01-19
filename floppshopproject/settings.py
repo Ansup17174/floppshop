@@ -33,12 +33,12 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', "").split()
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.sites',
     'users',
     'security',
     'shop',
     'django.contrib.auth',
     'django.contrib.admin',
-    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
     'dj_rest_auth',
     'dj_rest_auth.registration',
 ]
@@ -104,7 +105,7 @@ if os.environ.get('DB_NAME'):
             'USER': os.environ.get('DB_USER'),
             'PASSWORD': os.environ.get('DB_PASSWORD'),
             'PORT': int(os.environ.get('DB_PORT'))
-        }
+        },
     }
 else:
     DATABASES = {

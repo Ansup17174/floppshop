@@ -95,7 +95,7 @@ class Cart(models.Model):
 
 class PayUNotification(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    content = models.CharField(max_length=1000)
+    content = models.CharField(max_length=2000)
 
 
 # TODO switch from 1,2,3 id to uuid

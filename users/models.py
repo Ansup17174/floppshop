@@ -12,13 +12,6 @@ class CustomUser(AbstractUser):
 
 class ShippingAddress(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    user = models.OneToOneField(
-        get_user_model(),
-        on_delete=models.DO_NOTHING,
-        related_name="shipping_address",
-        blank=True,
-        null=True
-    )
     street = models.CharField(max_length=200, blank=False, null=False)
     state = models.CharField(max_length=50, blank=False, null=False)
     number = models.PositiveIntegerField(blank=False, null=False)
