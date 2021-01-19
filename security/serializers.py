@@ -40,6 +40,17 @@ class CustomRegisterSerializer(RegisterSerializer):
 
 
 class CustomUserDetailsSerializer(UserDetailsSerializer):
+
+    def validate_phone(self, phone):
+        if not re.search(r"^\d{9}$", str(phone)):
+            raise ValidationError("Invalid phone number")
+        return phone
+
+    def validate_date_of_birth(self, date_of_birth):
+        if date_of_birth > timezone.now().date() or date_of_birth < date(1900, 1, 1):
+            raise ValidationError("Invalid date of birth")
+        return date_of_birth
+
     class Meta:
         extra_fields = []
         if hasattr(UserModel, "EMAIL_FIELD"):

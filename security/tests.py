@@ -177,4 +177,10 @@ class UserTestCase(APITestCase):
         response = self.client.get(reverse("rest_user_details"))
         self.assertEqual(response.status_code, 401)
 
+    def test_user_profile_edit(self):
+        initial_data = self.response.data['user']
+        request = {
+            "phone": "997"
+        }
+
 
