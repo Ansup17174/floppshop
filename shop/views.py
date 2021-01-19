@@ -16,6 +16,7 @@ from .exceptions import PayUException
 from users.models import ShippingAddress
 from users.serializers import ShippingAddressSerializer
 import requests
+from decimal import Decimal
 import json
 
 
@@ -76,13 +77,12 @@ class UserItemDetailView(APIView):
             cart = order.carts.get(item=item)
             if cart.quantity + quantity > item.quantity or cart.quantity + quantity < 0:
                 raise ValidationError({"detail": "Invalid quantity"})
-            if cart.quantity + quantity == 0:
+            if cart.quantity + quantity == 0:  # removing item from cart
                 order.quantity -= 1
-                order.total_price -= cart.total_price
                 try:
                     with transaction.atomic():
                         cart.delete()
-                        if order.quantity:
+                        if order.quantity >= 1:
                             order.save()
                         else:
                             order.delete()
@@ -90,16 +90,12 @@ class UserItemDetailView(APIView):
                 except IntegrityError:
                     return Response({"detail": "Something went wrong when removing items from cart!"}, status=400)
             cart.quantity += quantity
-            cart.total_price += item.price * quantity
-            order.total_price += item.price * quantity
         else:
             if quantity < 0:
                 raise ValidationError({"detail": "Invalid quantity"})
             cart = Cart.objects.create(order=order, item=item)
             cart.quantity += quantity
-            cart.total_price += quantity * item.price
             order.quantity += 1
-            order.total_price += quantity * item.price
         try:
             with transaction.atomic():
                 cart.save()
@@ -114,6 +110,17 @@ class UserItemDetailView(APIView):
 
 
 class UserOrderView(APIView):
+
+    def get_cart_total_price(self, cart):
+        return cart.quantity * cart.item.discount_price if cart.item.is_discount else cart.item.price
+
+    def get_order_total_price(self, order):
+        total_price = Decimal("0.00")
+        for cart in order.carts.all():
+            total_price += self.get_cart_total_price(cart)
+        if order.method is not None:
+            total_price += order.method.price
+        return total_price
 
     def get(self, request):
         if 'unpaid' in request.query_params:
