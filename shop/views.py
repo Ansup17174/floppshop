@@ -145,7 +145,9 @@ class UserOrderView(APIView):
             if cart.item.quantity < cart.quantity:
                 cart.quantity = cart.item.quantity
                 cart.save()
-                raise ValidationError({"detail": f"{cart.item.name} quantity is invalid, changed to {cart.item.quantity}"})
+                raise ValidationError({
+                    "detail": f"{cart.item.name} quantity is invalid, changed to {cart.item.quantity} (max)"
+                })
         with transaction.atomic():
             for cart in order.carts.all():
                 cart.item.quantity -= cart.quantity

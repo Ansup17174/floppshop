@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, IntegrityError
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 from django.db.models.signals import pre_delete
@@ -42,6 +42,14 @@ class Order(models.Model):
         null=True,
         related_name="orders"
     )
+
+    def save(self, *args, **kwargs):
+        if not self.is_finished:
+            if Order.objects.filter(user=self.user).exclude(pk=self.pk).count():
+                raise IntegrityError("Only one active order may exist")
+        if self.is_paid and not self.is_finished:
+            raise IntegrityError("Order cannot be paid and not finished")
+        super().save(*args, **kwargs)
 
 
 class Item(models.Model):

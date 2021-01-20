@@ -1,6 +1,7 @@
 from rest_framework.test import APITestCase
 from django.shortcuts import reverse
 from django.core import mail
+from django.db import IntegrityError
 from django.test import tag
 from .models import ShippingMethod
 from .models import Order, Cart, Item
@@ -98,15 +99,31 @@ class ShopOrderExistsTestCase(APITestCase):
         self.assertQuerysetEqual(Order.objects.all(), Order.objects.none())
 
     def test_submit_order(self):
+        order = Order.objects.all().first()
         response = self.client.post(reverse("order_view"), self.shipping_address, format="json")
         self.assertEqual(response.status_code, 200)
         self.cat_food.refresh_from_db()
         self.assertEqual(self.cat_food.quantity, 70)
+        order.refresh_from_db()
+        self.assertTrue(order.is_finished)
+        self.assertFalse(order.is_paid)
 
     def test_submit_order_when_item_quantity_changed(self):
         self.cat_food.quantity = 1
         self.cat_food.save()
         response = self.client.post(reverse("order_view"), self.shipping_address, format="json")
-        print(response.data)
         self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data, {
+            "detail": f"{self.cat_food.name} quantity is invalid, changed to {self.cat_food.quantity} (max)"
+        })
 
+    def test_user_can_have_only_one_order_active(self):
+        order = Order.objects.all().first()
+        Order.objects.create(user=order.user, is_finished=True)
+        with self.assertRaises(IntegrityError):
+            Order.objects.create(user=order.user)
+        with self.assertRaises(IntegrityError):
+            Order.objects.create(user=order.user, is_paid=True)
+
+    def test_starting_payment(self):
+        self.client.post(reverse("order_view"), self.shipping_address, format="json")
