@@ -53,7 +53,7 @@ class ShippingMethodSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
 
     def get_cart_total_price(self, cart):
-        return cart.quantity * cart.item.discount_price if cart.item.is_discount else cart.item.price
+        return cart.quantity * (cart.item.discount_price if cart.item.is_discount else cart.item.price)
 
     def get_order_total_price(self, order):
         total_price = Decimal("0.00")

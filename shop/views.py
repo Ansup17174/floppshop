@@ -10,7 +10,8 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.db import transaction, IntegrityError
-from .serializers import ItemSerializer, OrderSerializer, ShippingMethodSerializer, PayUOrderSerializer, PayUNotificationSerializer
+from .serializers import (ItemSerializer, OrderSerializer, ShippingMethodSerializer, PayUOrderSerializer,
+                          PayUNotificationSerializer)
 from .models import Item, Order, Cart, ItemImage, ShippingMethod, PayUNotification
 from .exceptions import PayUException
 from users.models import ShippingAddress
@@ -100,10 +101,11 @@ class UserItemDetailView(APIView):
             with transaction.atomic():
                 cart.save()
                 order.save()
-                if quantity < 0:
-                    message = f"{-quantity} items were removed from cart for total price of {-quantity*item.price}"
-                else:
-                    message = f"{quantity} items were added to cart for total price of {quantity*item.price}"
+            item_price = quantity * (item.discount_price if item.is_discount else item.price)
+            if quantity < 0:
+                message = f"{-quantity} items were removed from cart for total price of {-item_price}"
+            else:
+                message = f"{quantity} items were added to cart for total price of {item_price}"
             return Response({"detail": message}, status=200)
         except IntegrityError:
             return Response({"detail": "Something went wrong when adding item to cart!"}, status=400)

@@ -1,8 +1,10 @@
 from rest_framework.test import APITestCase
 from django.shortcuts import reverse
+from django.core import mail
 from .models import Order, Cart, Item, ItemImage, PayUNotification
 from .serializers import ItemSerializer
 from decimal import Decimal
+import re
 
 
 class ShopTestCase(APITestCase):
@@ -37,9 +39,86 @@ class ShopTestCase(APITestCase):
             is_available=False,
             is_visible=False
         )
+        self.email = "janusz@op.pl"
+        self.password = "krowa123"
+        self.first_name = "Januszaaa"
+        self.last_name = "Tracz"
+        self.phone = "666691337"
+        self.date_of_birth = "2000-01-04"
+        request_body = {
+            "email": self.email,
+            "password1": self.password,
+            "password2": self.password,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "phone": self.phone,
+            "date_of_birth": self.date_of_birth
+        }
+        self.client.post(reverse("rest_register"), request_body, format="json")
+        key = re.search(r"\w\w:[a-zA-Z0-9-_:]+", mail.outbox[0].body)
+        if not key:
+            raise AssertionError
+        email_confirmation_request = {"key": key.group(0)}
+        self.client.post(
+            reverse("rest_verify_email"),
+            email_confirmation_request,
+            format="json"
+        )
+        login_request = {
+            "email": self.email,
+            "password": self.password
+        }
+        self.client.post(reverse("rest_login"), login_request, format="json")
 
     def test_get_items_view(self):
         response = self.client.get(reverse("item_view"))
         self.assertEqual(response.status_code, 200)
-        items_serializer = ItemSerializer(Item.objects.filter(is_available=True, is_visible=True), many=True)
+        items_serializer = ItemSerializer(Item.objects.filter(is_visible=True), many=True)
         self.assertEqual(response.data, items_serializer.data)
+
+    def test_get_item_by_pk(self):
+        cat_food_pk = self.cat_food.pk
+        catnip_pk = self.catnip.pk
+        cat_food_response = self.client.get(reverse("item_details_view", kwargs={"item_pk": cat_food_pk}))
+        catnip_response = self.client.get(reverse("item_details_view", kwargs={"item_pk": catnip_pk}))
+        cat_food_serializer = ItemSerializer(self.cat_food)
+        self.assertEqual(cat_food_response.status_code, 200)
+        self.assertEqual(catnip_response.status_code, 404)
+        self.assertEqual(cat_food_response.data, cat_food_serializer.data)
+
+    def test_add_item_to_order_without_authentication(self):
+        cat_food_pk = self.cat_food.pk
+        logout_response = self.client.post(reverse("rest_logout"))
+        self.assertEqual(logout_response.status_code, 200)
+        add_item_response = self.client.post(
+            reverse("item_details_view", kwargs={"item_pk": cat_food_pk})
+            + "?quantity=1"
+        )
+        self.assertEqual(add_item_response.status_code, 401)
+
+    def test_add_item_to_order_when_order_doesnt_exist(self):
+        cat_food_pk = self.cat_food.pk
+        quantity = 15
+        add_item_response = self.client.post(
+            reverse("item_details_view", kwargs={"item_pk": cat_food_pk})
+            + f"?quantity={quantity}"
+        )
+        self.assertEqual(add_item_response.status_code, 200)
+        expected_response = {
+            "detail": f"{quantity} items were added to cart for total price of {quantity * self.cat_food.price}"
+        }
+        self.assertEqual(add_item_response.data, expected_response)
+
+    def test_add_item_with_discount_price(self):
+        cat_toy_pk = self.cat_toy.pk
+        quantity = 10
+        add_item_response = self.client.post(
+            reverse("item_details_view", kwargs={"item_pk": cat_toy_pk})
+            + f"?quantity={quantity}"
+        )
+        self.assertEqual(add_item_response.status_code, 200)
+        expected_response = {
+            "detail": f"{quantity} items were added to cart for total price of"
+                      f" {quantity * self.cat_toy.discount_price}"
+        }
+        self.assertEqual(add_item_response.data, expected_response)
