@@ -1,11 +1,27 @@
 from rest_framework.test import APITestCase
+from rest_framework.exceptions import ValidationError
 from django.shortcuts import reverse
-from django.test import tag
+from django.test import TestCase, tag
 from django.core import mail
 from .models import Order, Cart, Item
+from users.serializers import ShippingAddressSerializer
 from .serializers import ItemSerializer
 from decimal import Decimal
 import re
+
+
+@tag("shop")
+class ShippingAddressTestCase(TestCase):
+
+    def test_validate_post_code(self):
+        shipping_address_serializer = ShippingAddressSerializer()
+        post_code1 = "23-400"
+        post_code2 = "12-22"
+        post_code3 = "12345"
+        self.assertEqual(post_code1, shipping_address_serializer.validate_post_code(post_code1))
+        self.assertRaises(ValidationError, shipping_address_serializer.validate_post_code, post_code2)
+        self.assertRaises(ValidationError, shipping_address_serializer.validate_post_code, post_code3)
+
 
 
 @tag("shop")

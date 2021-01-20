@@ -87,4 +87,7 @@ class ShopNoOrderTestCase(APITestCase):
         self.assertQuerysetEqual(Cart.objects.all(), Cart.objects.none())
         self.assertQuerysetEqual(Order.objects.all(), Order.objects.none())
 
+    def test_submit_order(self):
+
+
 
