@@ -86,23 +86,22 @@ class ShopTestCase(APITestCase):
         self.assertEqual(catnip_response.status_code, 404)
         self.assertEqual(cat_food_response.data, cat_food_serializer.data)
 
+    def add_item_to_order(self, item, quantity):
+        response = self.client.post(
+            reverse("item_details_view", args=(item.pk,))
+            + f"?quantity={quantity}"
+        )
+        return response
+
     def test_add_item_to_order_without_authentication(self):
-        cat_food_pk = self.cat_food.pk
         logout_response = self.client.post(reverse("rest_logout"))
         self.assertEqual(logout_response.status_code, 200)
-        add_item_response = self.client.post(
-            reverse("item_details_view", kwargs={"item_pk": cat_food_pk})
-            + "?quantity=1"
-        )
+        add_item_response = self.add_item_to_order(self.cat_food, 5)
         self.assertEqual(add_item_response.status_code, 401)
 
     def test_add_item_to_order_when_order_doesnt_exist(self):
-        cat_food_pk = self.cat_food.pk
         quantity = 15
-        add_item_response = self.client.post(
-            reverse("item_details_view", kwargs={"item_pk": cat_food_pk})
-            + f"?quantity={quantity}"
-        )
+        add_item_response = self.add_item_to_order(self.cat_food, quantity)
         self.assertEqual(add_item_response.status_code, 200)
         expected_response = {
             "detail": f"{quantity} items were added to cart for total price of {quantity * self.cat_food.price}"
@@ -110,15 +109,26 @@ class ShopTestCase(APITestCase):
         self.assertEqual(add_item_response.data, expected_response)
 
     def test_add_item_with_discount_price(self):
-        cat_toy_pk = self.cat_toy.pk
         quantity = 10
-        add_item_response = self.client.post(
-            reverse("item_details_view", kwargs={"item_pk": cat_toy_pk})
-            + f"?quantity={quantity}"
-        )
+        add_item_response = self.add_item_to_order(self.cat_toy, quantity)
         self.assertEqual(add_item_response.status_code, 200)
         expected_response = {
             "detail": f"{quantity} items were added to cart for total price of"
                       f" {quantity * self.cat_toy.discount_price}"
         }
         self.assertEqual(add_item_response.data, expected_response)
+
+    def test_add_invisible_or_unavailable(self):
+        quantity = 15
+        litterbox_response = self.add_item_to_order(self.cat_litterbox, quantity)
+        self.assertEqual(litterbox_response.status_code, 404)
+        catnip_response = self.add_item_to_order(self.catnip, quantity)
+        self.assertEqual(catnip_response.status_code, 404)
+
+    def test_add_item_with_improper_quantity(self):
+        cat_food_response = self.add_item_to_order(self.cat_food, 111)
+        self.assertEqual(cat_food_response.status_code, 400)
+        self.assertEqual(cat_food_response.data, {"detail": "Invalid quantity"})
+        cat_toy_response = self.add_item_to_order(self.cat_toy, 111)
+        self.assertEqual(cat_toy_response.status_code, 400)
+        self.assertEqual(cat_toy_response.data, {"detail": "Invalid quantity"})
