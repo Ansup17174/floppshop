@@ -1,12 +1,14 @@
 from rest_framework.test import APITestCase
 from django.shortcuts import reverse
 from django.core import mail
+from django.test import tag
 from .models import Order, Cart, Item
 from .serializers import ItemSerializer
 from decimal import Decimal
 import re
 
 
+@tag("shop")
 class ShopNoOrderTestCase(APITestCase):
 
     def add_item_to_order(self, item, quantity):
@@ -76,6 +78,13 @@ class ShopNoOrderTestCase(APITestCase):
             "password": self.password
         }
         self.client.post(reverse("rest_login"), login_request, format="json")
-        self.add_item_to_order()
+        self.add_item_to_order(self.cat_food, 30)
+
+    def test_order_disappears_when_empty(self):
+        response = self.add_item_to_order(self.cat_food, -30)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, {"detail": f"Removed {self.cat_food.name} from cart"})
+        self.assertQuerysetEqual(Cart.objects.all(), Cart.objects.none())
+        self.assertQuerysetEqual(Order.objects.all(), Order.objects.none())
 
 

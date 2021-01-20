@@ -1,4 +1,5 @@
 from rest_framework.test import APITestCase
+from django.test import tag
 from django.shortcuts import reverse
 from django.core import mail
 from django.contrib.auth import get_user_model
@@ -9,6 +10,7 @@ import re
 User = get_user_model()
 
 
+@tag("auth")
 class UserRegisterAndLoginTestCase(APITestCase):
 
     def setUp(self):
@@ -33,7 +35,7 @@ class UserRegisterAndLoginTestCase(APITestCase):
         response = self.client.post(reverse("rest_register"), request_body, format="json")
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data, {'detail': 'Verification e-mail sent.'})
-        key = re.search(r"MQ:[a-zA-Z0-9-_:]+", mail.outbox[0].body)
+        key = re.search(r"MQ:[a-zA-Z0-9-_:]+", mail.outbox[-1].body)
         if not key:
             raise AssertionError
         email_confirmation_request = {"key": key.group(0)}
@@ -58,7 +60,7 @@ class UserRegisterAndLoginTestCase(APITestCase):
         }
 
         self.client.post(reverse("rest_register"), register_request, format="json")
-        key = re.search(r"\w\w:[a-zA-Z0-9-_:]+", mail.outbox[0].body)
+        key = re.search(r"\w\w:[a-zA-Z0-9-_:]+", mail.outbox[-1].body)
         if not key:
             raise AssertionError
         email_confirmation_request = {"key": key.group(0)}
@@ -79,6 +81,7 @@ class UserRegisterAndLoginTestCase(APITestCase):
         self.assertEqual(login_response.cookies.get("floppauth").value, login_response.data.get("access_token"))
 
 
+@tag("auth")
 class UserTestCase(APITestCase):
 
     def setUp(self):
@@ -98,7 +101,7 @@ class UserTestCase(APITestCase):
             "date_of_birth": self.date_of_birth
         }
         self.client.post(reverse("rest_register"), request_body, format="json")
-        key = re.search(r"\w\w:[a-zA-Z0-9-_:]+", mail.outbox[0].body)
+        key = re.search(r"\w\w:[a-zA-Z0-9-_:]+", mail.outbox[-1].body)
         if not key:
             raise AssertionError
         email_confirmation_request = {"key": key.group(0)}

@@ -1,10 +1,11 @@
-from django.test import TestCase
+from django.test import TestCase, tag
 from django.utils import timezone
 from rest_framework.exceptions import ValidationError
 from security.serializers import CustomRegisterSerializer
 from datetime import date, timedelta
 
 
+@tag("auth")
 class UserSerializersValidationTestCase(TestCase):
 
     custom_register_serializer = CustomRegisterSerializer()

@@ -1,5 +1,6 @@
 from rest_framework.test import APITestCase
 from django.shortcuts import reverse
+from django.test import tag
 from django.core import mail
 from .models import Order, Cart, Item
 from .serializers import ItemSerializer
@@ -7,6 +8,7 @@ from decimal import Decimal
 import re
 
 
+@tag("shop")
 class ShopNoOrderTestCase(APITestCase):
 
     def setUp(self):
@@ -55,7 +57,7 @@ class ShopNoOrderTestCase(APITestCase):
             "date_of_birth": self.date_of_birth
         }
         self.client.post(reverse("rest_register"), request_body, format="json")
-        key = re.search(r"\w\w:[a-zA-Z0-9-_:]+", mail.outbox[0].body)
+        key = re.search(r"\w\w:[a-zA-Z0-9-_:]+", mail.outbox[-1].body)
         if not key:
             raise AssertionError
         email_confirmation_request = {"key": key.group(0)}
@@ -128,7 +130,7 @@ class ShopNoOrderTestCase(APITestCase):
         cat_food_response = self.add_item_to_order(self.cat_food, 111)
         self.assertEqual(cat_food_response.status_code, 400)
         self.assertEqual(cat_food_response.data, {"detail": "Invalid quantity"})
-        cat_toy_response = self.add_item_to_order(self.cat_toy, 111)
+        cat_toy_response = self.add_item_to_order(self.cat_toy, -1111)
         self.assertEqual(cat_toy_response.status_code, 400)
         self.assertEqual(cat_toy_response.data, {"detail": "Invalid quantity"})
 
