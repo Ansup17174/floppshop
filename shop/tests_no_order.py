@@ -23,7 +23,6 @@ class ShippingAddressTestCase(TestCase):
         self.assertRaises(ValidationError, shipping_address_serializer.validate_post_code, post_code3)
 
 
-
 @tag("shop")
 class ShopNoOrderTestCase(APITestCase):
 

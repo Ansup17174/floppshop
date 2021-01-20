@@ -130,9 +130,9 @@ class UserOrderView(APIView):
     def post(self, request):
         order = get_object_or_404(Order, user=request.user, is_finished=False)
         request_data = request.data
-        if "shipping_method" not in request_data:
+        if "method" not in request_data:
             raise ValidationError({"detail": "Invalid shipping method"})
-        shipping_method_name = request_data.pop('shipping_method')
+        shipping_method_name = request_data.pop('method')
         shipping_method = get_object_or_404(ShippingMethod, name=shipping_method_name, is_available=True)
         shipping_address_serializer = ShippingAddressSerializer(data=request_data)
         if shipping_address_serializer.is_valid(raise_exception=True):

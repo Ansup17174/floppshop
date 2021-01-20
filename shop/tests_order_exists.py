@@ -2,6 +2,7 @@ from rest_framework.test import APITestCase
 from django.shortcuts import reverse
 from django.core import mail
 from django.test import tag
+from .models import ShippingMethod
 from .models import Order, Cart, Item
 from .serializers import ItemSerializer
 from decimal import Decimal
@@ -9,7 +10,7 @@ import re
 
 
 @tag("shop")
-class ShopNoOrderTestCase(APITestCase):
+class ShopOrderExistsTestCase(APITestCase):
 
     def add_item_to_order(self, item, quantity):
         response = self.client.post(
@@ -79,6 +80,15 @@ class ShopNoOrderTestCase(APITestCase):
         }
         self.client.post(reverse("rest_login"), login_request, format="json")
         self.add_item_to_order(self.cat_food, 30)
+        self.shipping_method = ShippingMethod.objects.create(name="InPost", price=Decimal("9.99"))
+        self.shipping_address = {
+            "street": "Szkolna",
+            "state": "Podlaskie",
+            "number": "17",
+            "post_code": "23-400",
+            "city": "Białystok",
+            "method": self.shipping_method.name
+        }
 
     def test_order_disappears_when_empty(self):
         response = self.add_item_to_order(self.cat_food, -30)
@@ -88,6 +98,15 @@ class ShopNoOrderTestCase(APITestCase):
         self.assertQuerysetEqual(Order.objects.all(), Order.objects.none())
 
     def test_submit_order(self):
+        response = self.client.post(reverse("order_view"), self.shipping_address, format="json")
+        self.assertEqual(response.status_code, 200)
+        self.cat_food.refresh_from_db()
+        self.assertEqual(self.cat_food.quantity, 70)
 
-
+    def test_submit_order_when_item_quantity_changed(self):
+        self.cat_food.quantity = 1
+        self.cat_food.save()
+        response = self.client.post(reverse("order_view"), self.shipping_address, format="json")
+        print(response.data)
+        self.assertEqual(response.status_code, 400)
 
