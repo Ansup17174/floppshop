@@ -1,0 +1,81 @@
+from rest_framework.test import APITestCase
+from django.shortcuts import reverse
+from django.core import mail
+from .models import Order, Cart, Item
+from .serializers import ItemSerializer
+from decimal import Decimal
+import re
+
+
+class ShopNoOrderTestCase(APITestCase):
+
+    def add_item_to_order(self, item, quantity):
+        response = self.client.post(
+            reverse("item_details_view", args=(item.pk,))
+            + f"?quantity={quantity}"
+        )
+        return response
+
+    def setUp(self):
+        self.cat_food = Item.objects.create(
+            name="Cat food(chicken) - 1kg",
+            price=Decimal("10.99"),
+            quantity=100,
+            description="Cat food for cats",
+        )
+        self.cat_toy = Item.objects.create(
+            name="Cat plush toy",
+            price=Decimal("2.40"),
+            quantity=100,
+            description="Cat plush toy made for cats",
+            discount_price=Decimal("2.19"),
+            is_discount=True
+        )
+        self.cat_litterbox = Item.objects.create(
+            name="Litter box",
+            price=Decimal("21.99"),
+            quantity=0,
+            description="Litter box for cats",
+            is_available=False
+        )
+        self.catnip = Item.objects.create(
+            name="Catnip",
+            price=Decimal("25.00"),
+            quantity=20,
+            description="Drug for cats",
+            is_available=False,
+            is_visible=False
+        )
+        self.email = "janusz@op.pl"
+        self.password = "krowa123"
+        self.first_name = "Januszaaa"
+        self.last_name = "Tracz"
+        self.phone = "666691337"
+        self.date_of_birth = "2000-01-04"
+        request_body = {
+            "email": self.email,
+            "password1": self.password,
+            "password2": self.password,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "phone": self.phone,
+            "date_of_birth": self.date_of_birth
+        }
+        self.client.post(reverse("rest_register"), request_body, format="json")
+        key = re.search(r"\w\w:[a-zA-Z0-9-_:]+", mail.outbox[0].body)
+        if not key:
+            raise AssertionError
+        email_confirmation_request = {"key": key.group(0)}
+        self.client.post(
+            reverse("rest_verify_email"),
+            email_confirmation_request,
+            format="json"
+        )
+        login_request = {
+            "email": self.email,
+            "password": self.password
+        }
+        self.client.post(reverse("rest_login"), login_request, format="json")
+        self.add_item_to_order()
+
+

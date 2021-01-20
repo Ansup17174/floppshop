@@ -1,13 +1,13 @@
 from rest_framework.test import APITestCase
 from django.shortcuts import reverse
 from django.core import mail
-from .models import Order, Cart, Item, ItemImage, PayUNotification
+from .models import Order, Cart, Item
 from .serializers import ItemSerializer
 from decimal import Decimal
 import re
 
 
-class ShopTestCase(APITestCase):
+class ShopNoOrderTestCase(APITestCase):
 
     def setUp(self):
         self.cat_food = Item.objects.create(
@@ -93,12 +93,6 @@ class ShopTestCase(APITestCase):
         )
         return response
 
-    def test_add_item_to_order_without_authentication(self):
-        logout_response = self.client.post(reverse("rest_logout"))
-        self.assertEqual(logout_response.status_code, 200)
-        add_item_response = self.add_item_to_order(self.cat_food, 5)
-        self.assertEqual(add_item_response.status_code, 401)
-
     def test_add_item_to_order_when_order_doesnt_exist(self):
         quantity = 15
         add_item_response = self.add_item_to_order(self.cat_food, quantity)
@@ -107,6 +101,10 @@ class ShopTestCase(APITestCase):
             "detail": f"{quantity} items were added to cart for total price of {quantity * self.cat_food.price}"
         }
         self.assertEqual(add_item_response.data, expected_response)
+        get_order_response = self.client.get(reverse("order_view"))
+        self.assertEqual(get_order_response.status_code, 200)
+        order = Order.objects.all().first()
+
 
     def test_add_item_with_discount_price(self):
         quantity = 10
@@ -132,3 +130,9 @@ class ShopTestCase(APITestCase):
         cat_toy_response = self.add_item_to_order(self.cat_toy, 111)
         self.assertEqual(cat_toy_response.status_code, 400)
         self.assertEqual(cat_toy_response.data, {"detail": "Invalid quantity"})
+
+    def test_add_item_to_order_without_authentication(self):
+        logout_response = self.client.post(reverse("rest_logout"))
+        self.assertEqual(logout_response.status_code, 200)
+        add_item_response = self.add_item_to_order(self.cat_food, 5)
+        self.assertEqual(add_item_response.status_code, 401)
