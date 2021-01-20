@@ -93,7 +93,7 @@ class ShopNoOrderTestCase(APITestCase):
         )
         return response
 
-    def test_add_item_to_order_when_order_doesnt_exist(self):
+    def test_add_item_to_order(self):
         quantity = 15
         add_item_response = self.add_item_to_order(self.cat_food, quantity)
         self.assertEqual(add_item_response.status_code, 200)
@@ -104,7 +104,8 @@ class ShopNoOrderTestCase(APITestCase):
         get_order_response = self.client.get(reverse("order_view"))
         self.assertEqual(get_order_response.status_code, 200)
         order = Order.objects.all().first()
-
+        cart = Cart.objects.all().first()
+        self.assertTrue(cart in order.carts.all())
 
     def test_add_item_with_discount_price(self):
         quantity = 10

@@ -66,7 +66,7 @@ class OrderSerializer(serializers.ModelSerializer):
     carts = CartSerializer(many=True, read_only=True)
     address = ShippingAddressSerializer(read_only=True)
     method = ShippingMethodSerializer(read_only=True)
-    total_price = serializers.SerializerMethodField("get_order_price")
+    total_price = serializers.SerializerMethodField("get_order_total_price")
 
     class Meta:
         model = Order
