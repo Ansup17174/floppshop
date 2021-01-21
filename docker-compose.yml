@@ -25,11 +25,8 @@ services:
       - db
     volumes:
     - .:/usr/src/app/
-    - media:/code/media/
-    - static:/code/static/
 
 volumes:
   postgres_data:
-  static:
-  media:
+
 

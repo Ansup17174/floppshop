@@ -1,7 +1,9 @@
 from rest_framework.test import APITestCase
 from django.contrib.auth import get_user_model
 from django.shortcuts import reverse
+from django.test import override_settings
 from django.core import mail
+from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from .models import Item, ItemImage
 from pathlib import Path
@@ -14,6 +16,7 @@ import shutil
 User = get_user_model()
 
 
+@override_settings(MEDIA_ROOT=settings.MEDIA_ROOT + "test")
 class ItemImageTestCase(APITestCase):
 
     def setUp(self):
@@ -107,6 +110,6 @@ class ItemImageTestCase(APITestCase):
             self.assertEqual(remove_response.status_code, 204)
 
     def tearDown(self):
-        media_path = Path(__file__).resolve().parent.parent / "media"
+        media_path = Path(__file__).resolve().parent.parent / "mediatest"
         if os.path.isdir(media_path):
             shutil.rmtree(media_path)
