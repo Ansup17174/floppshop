@@ -1,7 +1,7 @@
 from django.db import models, IntegrityError
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
-from django.db.models.signals import pre_delete
+from django.db.models.signals import pre_delete, pre_save
 from django.dispatch import receiver
 from users.models import ShippingAddress
 from decimal import Decimal
@@ -43,13 +43,14 @@ class Order(models.Model):
         related_name="orders"
     )
 
-    def save(self, *args, **kwargs):
-        if not self.is_finished:
-            if Order.objects.filter(user=self.user).exclude(pk=self.pk).count():
-                raise IntegrityError("Only one active order may exist")
-        if self.is_paid and not self.is_finished:
-            raise IntegrityError("Order cannot be paid and not finished")
-        super().save(*args, **kwargs)
+
+@receiver(pre_save, sender=Order)
+def pre_order_save(sender, instance, *args, **kwargs):
+    if not instance.is_finished:
+        if Order.objects.exclude(pk=instance.pk).filter(user=instance.user, is_finished=False).count():
+            raise IntegrityError("Only one active order may exist")
+    if instance.is_paid and not instance.is_finished:
+        raise IntegrityError("Order cannot be paid and not finished")
 
 
 class Item(models.Model):

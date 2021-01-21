@@ -185,7 +185,7 @@ class UserOrderPaymentView(APIView):
             "extOrderId": str(order.pk)[:13],
             "description": "Floppshop order",
             "currencyCode": "PLN",
-            "totalAmount": str(int((order.total_price + order.method.price) * 100)),
+            "totalAmount": str(int(     order.total_price * 100)),
             "buyer": buyer,
             "products": products
         }
