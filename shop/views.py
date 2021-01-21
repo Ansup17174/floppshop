@@ -176,10 +176,10 @@ class UserOrderPaymentView(APIView):
         payu_order = {
             "customerIp": "127.0.0.1",
             "merchantPosId": settings.MERCHANT_POS_ID,
-            "extOrderId": str(order.pk)[:13],
+            "extOrderId": str(order.pk),
             "description": "Floppshop order",
             "currencyCode": "PLN",
-            "totalAmount": str(int(     order.total_price * 100)),
+            "totalAmount": str(int(order.total_price * 100)),
             "buyer": buyer,
             "products": products
         }
@@ -217,14 +217,13 @@ class PayUNotifyView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        notification = PayUNotification(content=json.dumps(request.data))
-        notification.save()
         notification_serializer = PayUNotificationSerializer(data=request.data)
         notification_serializer.is_valid(raise_exception=True)
+        notification = PayUNotification.objects.create(content=json.dumps(request.data))
         if notification_serializer.validated_data['order']['status'] == "COMPLETED":
             order = get_object_or_404(
                 Order,
-                pk=notification_serializer.validated_data['order']['extOrderId'],
+                pk=int(notification_serializer.validated_data['order']['extOrderId']),
                 is_paid=False,
                 is_finished=True
             )

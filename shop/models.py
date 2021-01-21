@@ -19,7 +19,6 @@ class ShippingMethod(models.Model):
 
 
 class Order(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     user = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, related_name="orders")
     total_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)], default=Decimal("0.00"))
     is_finished = models.BooleanField(default=False)

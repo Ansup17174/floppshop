@@ -5,7 +5,7 @@ from django.db import IntegrityError
 from django.test import tag
 from .models import ShippingMethod
 from .models import Order, Cart, Item
-from .serializers import ItemSerializer
+from datetime import datetime
 from decimal import Decimal
 import re
 
@@ -125,12 +125,65 @@ class ShopOrderExistsTestCase(APITestCase):
         with self.assertRaises(IntegrityError):
             Order.objects.create(user=order.user, is_paid=True)
 
-    def test_starting_payment(self):
-        self.client.post(reverse("order_view"), self.shipping_address, format="json")
-        order = Order.objects.all().first()
-        ext_order_id = str(order.pk)[:13]
-        payment_response = self.client.post(reverse("payment_view", args=(order.pk,)))
-        print(payment_response.data)
-        print(payment_response.status_code)
+    # def test_starting_payment(self):
+    #     self.client.post(reverse("order_view"), self.shipping_address, format="json")
+    #     order = Order.objects.all().first()
+    #     ext_order_id = str(order.pk)
+    #     payment_response = self.client.post(reverse("payment_view", args=(order.pk,)))
+    #     print(payment_response)
+    #     self.assertEqual(payment_response.status_code, 200)
+    #     self.assertEqual(payment_response.data.get('status').get('statusCode'), "SUCCESS")
+    #     self.assertEqual(payment_response.data.get("extOrderId"), ext_order_id)
 
+    def test_receiving_payu_notification(self):
+        order = Order.objects.all().first()
+        order.is_finished = True
+        order.save()
+        payu_notification = {
+            "order": {
+                "orderId": "LDLW5N7MF4140324GUEST000P01",
+                "extOrderId": str(order.pk),
+                "orderCreateDate": "2012-12-31T12:00:00",
+                "notifyUrl": "abc",
+                "customerIp": "127.0.0.1",
+                "merchantPosId": "123456",
+                "description": "Twój opis zamówienia",
+                "currencyCode": "PLN",
+                "totalAmount": "200",
+                "buyer": {
+                    "email": "john.doe@example.org",
+                    "phone": "111111111",
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "language": "pl"
+                },
+                "payMethod": {
+                    "type": "CARD_TOKEN"
+            },
+            "products": [
+                {
+                    "name": "Product 1",
+                    "unitPrice": "200",
+                    "quantity": "1"
+                }
+            ],
+            "status": "COMPLETED"
+        },
+        "localReceiptDateTime": "2016-03-02T12:58:14.828+01:00",
+        "properties": [
+            {
+                "name": "PAYMENT_ID",
+                "value": "151471228"
+            }
+            ]
+        }
+
+        notification_response = self.client.post(reverse("notify_view"), payu_notification, format="json")
+        self.assertEqual(notification_response.status_code, 200)
+        order.refresh_from_db()
+        self.assertTrue(order.is_paid)
+        self.assertEqual(
+            order.date_paid,
+            datetime.strptime(payu_notification.get("localReceiptDateTime"), "%Y-%m-%dT%H:%M:%S.%f%z")
+        )
 # TODO test images
