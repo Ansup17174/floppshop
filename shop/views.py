@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
-from django.db import transaction, IntegrityError
+from django.db import transaction
 from .serializers import (ItemSerializer, OrderSerializer, ShippingMethodSerializer, PayUOrderSerializer,
                           PayUNotificationSerializer)
 from .models import Item, Order, Cart, ItemImage, ShippingMethod, PayUNotification
@@ -17,9 +17,10 @@ from .exceptions import PayUException
 from users.models import ShippingAddress
 from users.serializers import ShippingAddressSerializer
 import requests
-from decimal import Decimal
 import json
 
+
+# TODO item view pagination
 
 class AdminItemViewset(ModelViewSet):
 
@@ -73,42 +74,35 @@ class UserItemDetailView(APIView):
             raise ValidationError({"detail": "Invalid quantity"})
         if quantity > item.quantity:
             raise ValidationError({"detail": "Invalid quantity"})
-        order, is_created = Order.objects.get_or_create(user=user, is_finished=False)
-        if not is_created:
-            cart = order.carts.get(item=item)
-            if cart.quantity + quantity > item.quantity or cart.quantity + quantity < 0:
-                raise ValidationError({"detail": "Invalid quantity"})
-            if cart.quantity + quantity == 0:  # removing item from cart
-                order.quantity -= 1
-                try:
-                    with transaction.atomic():
-                        cart.delete()
-                        if order.quantity >= 1:
-                            order.save()
-                        else:
-                            order.delete()
+        with transaction.atomic():
+            order, is_created = Order.objects.get_or_create(user=user, is_finished=False)
+            if not is_created:
+                cart = order.carts.get(item=item)
+                if cart.quantity + quantity > item.quantity or cart.quantity + quantity < 0:
+                    raise ValidationError({"detail": "Invalid quantity"})
+                if cart.quantity + quantity == 0:  # removing item from cart
+                    order.quantity -= 1
+                    cart.delete()
+                    if order.quantity >= 1:
+                        order.save()
+                    else:
+                        order.delete()
                     return Response({"detail": f"Removed {item.name} from cart"})
-                except IntegrityError:
-                    return Response({"detail": "Something went wrong when removing items from cart!"}, status=400)
-            cart.quantity += quantity
-        else:
-            if quantity < 0:
-                raise ValidationError({"detail": "Invalid quantity"})
-            cart = Cart.objects.create(order=order, item=item)
-            cart.quantity += quantity
-            order.quantity += 1
-        try:
-            with transaction.atomic():
-                cart.save()
-                order.save()
+                cart.quantity += quantity
+            else:
+                if quantity < 0:
+                    raise ValidationError({"detail": "Invalid quantity"})
+                cart = Cart.objects.create(order=order, item=item)
+                cart.quantity += quantity
+                order.quantity += 1
+            cart.save()
+            order.save()
             item_price = quantity * (item.discount_price if item.is_discount else item.price)
             if quantity < 0:
                 message = f"{-quantity} items were removed from cart for total price of {-item_price}"
             else:
                 message = f"{quantity} items were added to cart for total price of {item_price}"
             return Response({"detail": message}, status=200)
-        except IntegrityError:
-            return Response({"detail": "Something went wrong when adding item to cart!"}, status=400)
 
 
 class UserOrderView(APIView):
