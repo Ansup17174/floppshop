@@ -92,5 +92,21 @@ class ItemImageTestCase(APITestCase):
             self.assertEqual(response.status_code, 200)
             self.assertEqual(ItemImage.objects.all().count(), 3)
 
+    def test_delete_item_image(self):
+        with open(Path(__file__).resolve().parent.parent / "test.jpg", "rb") as image_file:
+            image_uploaded_file = SimpleUploadedFile(
+                image_file.name, image_file.read(),
+                content_type="multipart/form-data"
+            )
+            self.client.patch(
+                reverse("shop-admin-detail", args=(self.cat_food.pk,)),
+                {"images": image_uploaded_file}
+            )
+            image = self.cat_food.images.all().first()
+            remove_response = self.client.delete(reverse("delete_image_view", args=(image.pk,)))
+            self.assertEqual(remove_response.status_code, 204)
+
     def tearDown(self):
-        shutil.rmtree(Path(__file__).resolve().parent.parent / "media")
+        media_path = Path(__file__).resolve().parent.parent / "media"
+        if os.path.isdir(media_path):
+            shutil.rmtree(media_path)
