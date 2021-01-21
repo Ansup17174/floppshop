@@ -152,6 +152,7 @@ class UserOrderView(APIView):
             for cart in order.carts.all():
                 cart.item.quantity -= cart.quantity
                 cart.item.save()
+            order.total_price = OrderSerializer().get_order_total_price(order)
             order.save()
         order_serializer = OrderSerializer(order)
         return Response(order_serializer.data, status=200)
@@ -181,7 +182,7 @@ class UserOrderPaymentView(APIView):
         payu_order = {
             "customerIp": "127.0.0.1",
             "merchantPosId": settings.MERCHANT_POS_ID,
-            "extOrderId": str(order.pk),
+            "extOrderId": str(order.pk)[:13],
             "description": "Floppshop order",
             "currencyCode": "PLN",
             "totalAmount": str(int((order.total_price + order.method.price) * 100)),

@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', default="abcd")
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get('DEBUG', default=1))
@@ -199,8 +199,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # PayU
 
-MERCHANT_POS_ID = os.environ.get("MERCHANT_POS_ID", "402260")
-CLIENT_SECRET = os.environ.get("CLIENT_SECRET", "8c68ebf4951fa46b8951ef1d3609ffdb")
+MERCHANT_POS_ID = os.environ.get("MERCHANT_POS_ID")
+CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
 
 
 # Internationalization

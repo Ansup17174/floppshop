@@ -37,7 +37,11 @@ class CartSerializer(serializers.ModelSerializer):
     def get_item_name(self, cart):
         return cart.item.name
 
+    def get_cart_total_price(self, cart):
+        return cart.quantity * (cart.item.discount_price if cart.item.is_discount else cart.item.price)
+
     item_name = serializers.SerializerMethodField("get_item_name")
+    total_price = serializers.SerializerMethodField("get_cart_total_price", read_only=True)
 
     class Meta:
         model = Cart
@@ -52,13 +56,10 @@ class ShippingMethodSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
 
-    def get_cart_total_price(self, cart):
-        return cart.quantity * (cart.item.discount_price if cart.item.is_discount else cart.item.price)
-
     def get_order_total_price(self, order):
         total_price = Decimal("0.00")
         for cart in order.carts.all():
-            total_price += self.get_cart_total_price(cart)
+            total_price += CartSerializer().get_cart_total_price(cart)
         if order.method is not None:
             total_price += order.method.price
         return total_price
@@ -66,7 +67,7 @@ class OrderSerializer(serializers.ModelSerializer):
     carts = CartSerializer(many=True, read_only=True)
     address = ShippingAddressSerializer(read_only=True)
     method = ShippingMethodSerializer(read_only=True)
-    total_price = serializers.SerializerMethodField("get_order_total_price")
+    total_price = serializers.SerializerMethodField("get_order_total_price", read_only=True)
 
     class Meta:
         model = Order

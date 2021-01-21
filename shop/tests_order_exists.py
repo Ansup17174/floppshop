@@ -127,3 +127,10 @@ class ShopOrderExistsTestCase(APITestCase):
 
     def test_starting_payment(self):
         self.client.post(reverse("order_view"), self.shipping_address, format="json")
+        order = Order.objects.all().first()
+        ext_order_id = str(order.pk)[:13]
+        payment_response = self.client.post(reverse("payment_view", args=(order.pk,)))
+        print(payment_response.data)
+        print(payment_response.status_code)
+
+# TODO test images
