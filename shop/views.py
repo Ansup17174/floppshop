@@ -175,11 +175,17 @@ class UserOrderView(APIView):
         order.date_finished = timezone.now()
         for cart in order.carts.all():
             if cart.item.quantity < cart.quantity:
-                cart.quantity = cart.item.quantity
-                cart.save()
-                raise ValidationError({
-                    "detail": f"{cart.item.name} quantity is invalid, changed to {cart.item.quantity} (max)"
-                })
+                if not cart.item.quantity:
+                    cart.delete()
+                    raise ValidationError({
+                        "detail": f"{cart.item.name} quantity is invalid, item not available"
+                    })
+                else:
+                    cart.quantity = cart.item.quantity
+                    cart.save()
+                    raise ValidationError({
+                        "detail": f"{cart.item.name} quantity is invalid, changed to {cart.item.quantity} (max)"
+                    })
         with transaction.atomic():
             for cart in order.carts.all():
                 cart.item.quantity -= cart.quantity
