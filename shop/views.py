@@ -20,6 +20,7 @@ import requests
 from decimal import Decimal, InvalidOperation
 import json
 
+
 class AdminItemViewset(ModelViewSet):
 
     serializer_class = ItemSerializer
@@ -77,14 +78,14 @@ class UserItemView(APIView):
                 is_visible=True,
                 category__name=request.GET['category']
             )[10*page:10*page+10]
-        else:
-            items = Item.objects.filter(is_visible=True)[10*page:10*page+10]
         if "max_price" in request.GET:
             try:
                 max_price = Decimal(request.GET['max_price'])
-                items = items.filter(price__lte=max_price)
+                items = Item.objects.filter(price__lte=max_price)
             except InvalidOperation:
                 pass
+        else:
+            items = Item.objects.filter(is_visible=True)[10*page:10*page+10]
         serializer = ItemSerializer(items, many=True)
         return Response(serializer.data, status=200)
 
