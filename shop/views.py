@@ -19,8 +19,10 @@ from users.serializers import ShippingAddressSerializer
 import requests
 import json
 
-
+# TODO duplicate key value violates unique constraint "users_customuser_username_key"
 # TODO item view pagination
+# TODO max length password validator
+
 
 class AdminItemViewset(ModelViewSet):
 
@@ -48,7 +50,8 @@ class UserItemView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request):
-        items = Item.objects.filter(is_visible=True)
+        # TODO pagination
+        items = Item.objects.filter(is_visible=True)[:10]
         serializer = ItemSerializer(items, many=True)
         return Response(serializer.data, status=200)
 

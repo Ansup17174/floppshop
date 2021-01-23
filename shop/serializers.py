@@ -1,8 +1,14 @@
 from rest_framework import serializers
-from .models import Item, Order, Cart, ItemImage, ShippingMethod
+from .models import Item, Order, Cart, ItemImage, ShippingMethod, Category
 from users.serializers import ShippingAddressSerializer
 from decimal import Decimal
 import os
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = "__all__"
 
 
 class ItemSerializer(serializers.ModelSerializer):
@@ -13,6 +19,7 @@ class ItemSerializer(serializers.ModelSerializer):
         return image_list
 
     images = serializers.SerializerMethodField("get_images_urls", read_only=True)
+    category = CategorySerializer(read_only=True)
 
     class Meta:
         model = Item

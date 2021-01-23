@@ -10,7 +10,7 @@ import uuid
 
 class ShippingMethod(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
     is_available = models.BooleanField(default=True)
 
@@ -52,10 +52,16 @@ def pre_order_save(sender, instance, *args, **kwargs):
         raise IntegrityError("Order cannot be paid and not finished")
 
 
+class Category(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    name = models.CharField(max_length=70, unique=True)
+
+
 class Item(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     name = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=True, blank=True)
     discount_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
