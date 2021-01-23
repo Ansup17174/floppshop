@@ -31,6 +31,20 @@ class AdminItemViewset(ModelViewSet):
     permission_classes = [IsAdminUser]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
+    def list(self, request, *args, **kwargs):
+        page = 0
+        if "page" in request.GET:
+            try:
+                page = int(request.GET['page']) if int(request.GET['page']) > 0 else page
+            except ValueError:
+                pass
+        if "category" in request.GET:
+            items = Item.objects.filter(category__name=request.GET['category'])[10*page:10*page+10]
+        else:
+            items = Item.objects.all()[10 * page:10 * page + 10]
+        serializer = ItemSerializer(items, many=True)
+        return Response(serializer.data, status=200)
+
 
 class AdminShippingMethodViewset(ModelViewSet):
     permission_classes = [IsAdminUser]
