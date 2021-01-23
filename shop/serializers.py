@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.shortcuts import get_object_or_404
 from .models import Item, Order, Cart, ItemImage, ShippingMethod, Category
 from users.serializers import ShippingAddressSerializer
 from decimal import Decimal
@@ -19,7 +20,7 @@ class ItemSerializer(serializers.ModelSerializer):
         return image_list
 
     images = serializers.SerializerMethodField("get_images_urls", read_only=True)
-    category = CategorySerializer(read_only=True)
+    category = serializers.CharField(max_length=70, required=False)
 
     class Meta:
         model = Item
@@ -27,7 +28,11 @@ class ItemSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         images_data = self.context.get("view").request.FILES.getlist("images")
+        category_name = validated_data.pop("category", None)
         item = Item.objects.create(**validated_data)
+        if category_name is not None:
+            category = get_object_or_404(Category, name=category_name)
+            item.category = category
         for image_data in images_data:
             ItemImage.objects.create(item=item, image=image_data)
         return item

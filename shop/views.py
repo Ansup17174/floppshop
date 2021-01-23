@@ -11,15 +11,14 @@ from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.db import transaction
 from .serializers import (ItemSerializer, OrderSerializer, ShippingMethodSerializer, PayUOrderSerializer,
-                          PayUNotificationSerializer)
-from .models import Item, Order, Cart, ItemImage, ShippingMethod, PayUNotification
+                          PayUNotificationSerializer, CategorySerializer)
+from .models import Item, Order, Cart, ItemImage, ShippingMethod, PayUNotification, Category
 from .exceptions import PayUException
 from users.models import ShippingAddress
 from users.serializers import ShippingAddressSerializer
 import requests
 import json
 
-# TODO duplicate key value violates unique constraint "users_customuser_username_key"
 # TODO item view pagination
 # TODO max length password validator
 
@@ -36,6 +35,12 @@ class AdminShippingMethodViewset(ModelViewSet):
     permission_classes = [IsAdminUser]
     serializer_class = ShippingMethodSerializer
     queryset = ShippingMethod.objects.all()
+
+
+class AdminCategoryViewset(ModelViewSet):
+    permission_classes = [IsAdminUser]
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
 
 
 class AdminDeleteItemImageView(DestroyAPIView):
