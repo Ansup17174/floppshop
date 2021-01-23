@@ -227,7 +227,7 @@ class PayUNotifyView(APIView):
     def post(self, request):
         notification_serializer = PayUNotificationSerializer(data=request.data)
         notification_serializer.is_valid(raise_exception=True)
-        notification = PayUNotification.objects.create(content=json.dumps(request.data))
+        PayUNotification.objects.create(content=json.dumps(request.data))
         if notification_serializer.validated_data['order']['status'] == "COMPLETED":
             order = get_object_or_404(
                 Order,

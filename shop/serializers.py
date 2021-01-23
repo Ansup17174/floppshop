@@ -19,8 +19,12 @@ class ItemSerializer(serializers.ModelSerializer):
         image_list = [{"url": image.image.url, "id": image.pk} for image in images if os.path.isfile(image.image.path)]
         return image_list
 
+    def get_category_name(self, item):
+        return None if item.category is None else item.category.name
+
     images = serializers.SerializerMethodField("get_images_urls", read_only=True)
-    category = serializers.CharField(max_length=70, required=False)
+    category_name = serializers.CharField(max_length=70, required=False, write_only=True)
+    category = serializers.SerializerMethodField("get_category_name", read_only=True)
 
     class Meta:
         model = Item
@@ -28,19 +32,26 @@ class ItemSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         images_data = self.context.get("view").request.FILES.getlist("images")
-        category_name = validated_data.pop("category", None)
+        category_name = validated_data.pop("category_name", None)
         item = Item.objects.create(**validated_data)
         if category_name is not None:
             category = get_object_or_404(Category, name=category_name)
             item.category = category
+            item.save()
         for image_data in images_data:
             ItemImage.objects.create(item=item, image=image_data)
         return item
 
     def update(self, item, validated_data):
         images_data = self.context.get("view").request.FILES.getlist("images")
+        category_name = validated_data.pop("category_name", None)
+        if category_name is not None:
+            category = get_object_or_404(Category, name=category_name)
+            item.category = category
+            item.save()
         for image_data in images_data:
             ItemImage.objects.create(item=item, image=image_data)
+        item = super().update(item, validated_data)
         return item
 
 
