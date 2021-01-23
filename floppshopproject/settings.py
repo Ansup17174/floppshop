@@ -53,15 +53,6 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
 ]
 
-# user = {
-#     "email": "janusz@op.pl",
-#     "first_name": "Janusz",
-#     "last_name": "Stolec",
-#     "phone": 666666666,
-#     "date_of_birth": "2020-12-13",
-#     "password1": "krowa123",
-#     "password2": "krowa123"
-# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
