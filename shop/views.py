@@ -19,10 +19,8 @@ from users.serializers import ShippingAddressSerializer
 import requests
 import json
 
-# TODO item view pagination
-# TODO max length password validator
-# TODO view items by category
 
+# TODO max length password validator
 
 class AdminItemViewset(ModelViewSet):
 
