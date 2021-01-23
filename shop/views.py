@@ -21,6 +21,7 @@ import json
 
 # TODO item view pagination
 # TODO max length password validator
+# TODO view items by category
 
 
 class AdminItemViewset(ModelViewSet):
@@ -55,8 +56,19 @@ class UserItemView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request):
-        # TODO pagination
-        items = Item.objects.filter(is_visible=True)[:10]
+        page = 0
+        if "page" in request.GET:
+            try:
+                page = int(request.GET['page'])
+            except ValueError:
+                pass
+        if "category" in request.GET:
+            items = Item.objects.filter(
+                is_visible=True,
+                category__name=request.GET['category']
+            )[10*page:10*page+10]
+        else:
+            items = Item.objects.filter(is_visible=True)[10*page:10*page+10]
         serializer = ItemSerializer(items, many=True)
         return Response(serializer.data, status=200)
 
