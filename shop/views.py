@@ -20,8 +20,6 @@ import requests
 import json
 
 
-# TODO max length password validator
-
 class AdminItemViewset(ModelViewSet):
 
     serializer_class = ItemSerializer
