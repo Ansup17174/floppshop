@@ -89,7 +89,7 @@ class UserItemView(APIView):
             items = items.filter(name__icontains=search_string)
         if "category" in request.GET:
             items = items.filter(category__name=request.GET['category'])
-        items = items[10*page:10*page+10]
+        items = items[10*(page-1):10*(page-1)+10]
         serializer = ItemSerializer(items, many=True)
         return Response(serializer.data, status=200)
 
