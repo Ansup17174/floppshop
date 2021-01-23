@@ -86,7 +86,7 @@ class UserItemView(APIView):
                 pass
         if "search" in request.GET:
             search_string = request.GET['search'].lower()
-            items = items.filter(item__name__icontains=search_string)
+            items = items.filter(name__icontains=search_string)
         if "category" in request.GET:
             items = items.filter(category__name=request.GET['category'])
         items = items[10*page:10*page+10]
