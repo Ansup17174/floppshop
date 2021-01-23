@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 
 
 
@@ -12,9 +12,19 @@ const App = () => {
     const url = `http://localhost:8000/shop/items/?search=${inputValue}`;
     axios.get(url)
     .then(response => {
-      console.log(response.data);
+      setItems(response.data);
+    })
+    .catch(error => {
+      console.log(error.response);
+      console.log(error.status);
     })
   };
+
+  // useEffect(() => {
+  //   if (items.legth) {
+
+  //   }
+  // }, [items]);
 
   
   return (
@@ -23,6 +33,15 @@ const App = () => {
         <input type="text" value={inputValue} onChange={e => setInputValue(e.target.value)}/>
         <input type="submit" value="Search items by name"/>
       </form>
+      <div>
+        {items.map(item => (
+          <div key={item.id}>
+            <h3>Name: {item.name}</h3>
+            <h3>Price: {item.price}</h3>
+            <h3>Description: {item.description}</h3>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
