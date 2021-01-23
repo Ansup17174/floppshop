@@ -59,7 +59,7 @@ class UserItemView(APIView):
         page = 0
         if "page" in request.GET:
             try:
-                page = int(request.GET['page'])
+                page = int(request.GET['page']) if int(request.GET['page']) > 0 else page
             except ValueError:
                 pass
         if "category" in request.GET:
