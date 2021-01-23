@@ -67,25 +67,26 @@ class UserItemView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request):
+        items = Item.objects.all()
         page = 0
         if "page" in request.GET:
             try:
                 page = int(request.GET['page']) if int(request.GET['page']) > 0 else page
             except ValueError:
                 pass
-        if "category" in request.GET:
-            items = Item.objects.filter(
-                is_visible=True,
-                category__name=request.GET['category']
-            )[10*page:10*page+10]
         if "max_price" in request.GET:
             try:
-                max_price = Decimal(request.GET['max_price'])
-                items = Item.objects.filter(price__lte=max_price)
+                items = items.filter(price__lte=request.GET['max_price'])
             except InvalidOperation:
                 pass
-        else:
-            items = Item.objects.filter(is_visible=True)[10*page:10*page+10]
+        if "min_price" in request.GET:
+            try:
+                items = items.filter(price__gte=request.GET['min_price'])
+            except InvalidOperation:
+                pass
+        if "category" in request.GET:
+            items = items.filter(category__name=request.GET['category'])
+        items = items[10*page:10*page+10]
         serializer = ItemSerializer(items, many=True)
         return Response(serializer.data, status=200)
 
