@@ -17,7 +17,7 @@ from .exceptions import PayUException
 from users.models import ShippingAddress
 from users.serializers import ShippingAddressSerializer
 import requests
-from decimal import Decimal, InvalidOperation
+from decimal import InvalidOperation
 import json
 
 
