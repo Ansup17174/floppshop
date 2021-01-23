@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'users',
     'security',
     'django.contrib.auth',
-    'corsheaders'
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
