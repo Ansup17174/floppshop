@@ -67,7 +67,7 @@ class UserItemView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request):
-        items = Item.objects.all()
+        items = Item.objects.filter(is_visible=True)
         page = 0
         if "page" in request.GET:
             try:

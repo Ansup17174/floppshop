@@ -8,6 +8,7 @@ from users.serializers import ShippingAddressSerializer
 from .serializers import ItemSerializer
 from decimal import Decimal
 import re
+import json
 
 
 @tag("shop")
