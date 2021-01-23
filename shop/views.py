@@ -68,7 +68,7 @@ class UserItemView(APIView):
 
     def get(self, request):
         items = Item.objects.filter(is_visible=True)
-        page = 0
+        page = 1
         if "page" in request.GET:
             try:
                 page = int(request.GET['page']) if int(request.GET['page']) > 0 else page
