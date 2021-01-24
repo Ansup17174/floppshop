@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 
 
 
@@ -20,11 +20,6 @@ const App = () => {
     })
   };
 
-  // useEffect(() => {
-  //   if (items.legth) {
-
-  //   }
-  // }, [items]);
 
   
   return (
