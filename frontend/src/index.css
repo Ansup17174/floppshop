@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+
 body {
     margin: 0;
     padding: 0;
@@ -8,8 +10,12 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 0 100px;
+    height: 10vh;
     align-items: center;
-    background-color: cadetblue;
+    background-color: rgb(12, 89, 196);
+    color: white;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 20px;
 }
 
 .nav-links {
@@ -18,15 +24,38 @@ body {
 }
 
 .nav-item {
-    padding: 0 10px;
+    padding: 0 20px;
 }
 
 a {
     text-decoration: none;
-    color: black;
+    color: white;
+    font-size: 35px;
 }
 
 a:active {
     text-decoration: none;
-    color: black;
+    color: white;   
+}
+
+.filter {
+    display: flex;
+    height: 90vh;
+    background-color: rgb(237, 237, 237);
+    max-width: 20%;
+}
+
+.filter-form {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.filter-form div {
+    padding-bottom: 30px;
+}
+
+
+.filter-form input[type="number"] {
+    max-width: 20%;
 }
