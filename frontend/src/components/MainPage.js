@@ -1,7 +1,14 @@
-    
+import {useState, useEffect} from 'react';
 
 
 const MainPage = () => {
+
+    const [items, setItems] = useState([]);
+
+    useEffect(() => {
+        // TODO
+    }, [items]);
+
     return (
         <div className="main-page">
             
