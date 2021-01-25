@@ -11,11 +11,6 @@
     display: flex;
 }
 
-.main-page {
-
-}
-
-
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -50,6 +45,7 @@ a:active {
 .main-page {
     display: flex;
     flex-direction: column;
+    justify-content: start;
     width: 100%;
 }
 
@@ -61,12 +57,16 @@ a:active {
     border-bottom: 1px solid rgb(200, 200, 200);
 }
 
+.item:hover {
+    background-color: rgb(220, 220, 220);
+    cursor: pointer;
+}
+
 .item img {
     width: 180px;
     height: 180px;
     margin: 10px 0;
     border-radius: 20%;
-    border: 1px solid black;
 }
 
 .item-info {
@@ -82,7 +82,7 @@ a:active {
 }
 
 .item-info div {
-    padding: 5px;
+    padding: 5px 30px;
 }
 
 .item-price {
