@@ -12,9 +12,16 @@
     width: 100%;
 }
 
+.logo {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
 .page {
     position: fixed;
     top: 10vh;
+    width: 100%
 }
 
 .navbar {
@@ -31,10 +38,20 @@
 .nav-links {
     list-style-type: none;
     display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.nav-links:hover {
+    cursor: pointer;
 }
 
 .nav-item {
     padding: 0 20px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
 a {
@@ -157,4 +174,11 @@ a:active {
 
 .submit-button:hover {
     cursor: pointer;
+}
+
+.not-found {
+    display: flex;
+    justify-content: center;
+    padding-top: 100px;
+    font-size: 40px;
 }
