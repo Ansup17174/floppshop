@@ -9,7 +9,7 @@ const FilterForm = () => {
                     <h4>Filter by</h4>
                     <div>
                         <label htmlFor="searchText">Search by text:</label>
-                        <input id="searchText" type="text" maxLength="100" size="10"/>
+                        <input id="searchText" type="text" maxLength="100" size="10" autoComplete="off"/>
                     </div>
                     <div>
                         <label htmlFor="min-price">Price:</label>

@@ -3,6 +3,7 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: 'Roboto Condensed', sans-serif;
 }
 
 
@@ -14,7 +15,6 @@ body {
     align-items: center;
     background-color: rgb(12, 89, 196);
     color: white;
-    font-family: 'Roboto Condensed', sans-serif;
     font-size: 20px;
 }
 
@@ -41,7 +41,7 @@ a:active {
 .filter {
     display: flex;
     height: 90vh;
-    background-color: rgb(237, 237, 237);
+    background-color: rgb(200, 200, 200);
     max-width: 20%;
 }
 
@@ -53,6 +53,18 @@ a:active {
 
 .filter-form div {
     padding-bottom: 30px;
+}
+
+.filter-form input[type="text"], .filter-form input[type="number"] {
+    outline: none;
+    appearance: none;
+    border: none;
+    border-radius: 5px;
+    margin: 7px;
+}
+
+.filter-form input[type="radio"] {
+    margin: 10px;
 }
 
 
