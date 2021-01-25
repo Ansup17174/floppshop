@@ -7,13 +7,14 @@
     box-sizing: border-box;
 }
 
-.page {
-    display: flex;
-}
-
 .nav-wrapper {
     position: fixed;
     width: 100%;
+}
+
+.page {
+    position: fixed;
+    top: 10vh;
 }
 
 .navbar {
@@ -47,20 +48,14 @@ a:active {
     color: white;   
 }
 
-.main-wrapper {
+.main-page {
     position: fixed;
-    top: 10vh;
     left: 20vw;
     width: 80vw;
     height: 90vh;
     overflow-y: scroll;
-}
-
-.main-page {
     display: flex;
     flex-direction: column;
-    justify-content: start;
-    width: 100%;
 }
 
 .item {
@@ -109,17 +104,12 @@ a:active {
     border-radius: 7px;
 }
 
-.filter-wrapper {
-    position: fixed;
-    top: 10vh;
-    width: 20vw;
-}
-
 .filter {
+    position: fixed;
     display: flex;
     height: 90vh;
     background-color: rgb(200, 200, 200);
-    width: 100%;
+    width: 20vw;
 }
 
 .filter-form {
@@ -149,7 +139,6 @@ a:active {
 .filter-form input[type="radio"] {
     margin: 10px;
 }
-
 
 .filter-form input[type="number"] {
     max-width: 20%;
