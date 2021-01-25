@@ -31,7 +31,8 @@ const FilterForm = () => {
                         <label htmlFor="price2">Descending</label> 
                     </div>
                 </div>
-            </form>
+                <input className="submit-button" type="submit" value="Filter"/>
+            </form> 
         </div>
     );
 };

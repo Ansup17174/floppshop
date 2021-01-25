@@ -1,9 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
 
-body {
+* {
     margin: 0;
     padding: 0;
     font-family: 'Roboto Condensed', sans-serif;
+    box-sizing: border-box;
+}
+
+.page {
+    display: flex;
+}
+
+.main-page {
+
 }
 
 
@@ -38,6 +47,54 @@ a:active {
     color: white;   
 }
 
+.main-page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.item {
+    display: flex;
+    align-items: center; 
+    padding: 0 70px;
+    text-align: center;
+    border-bottom: 1px solid rgb(200, 200, 200);
+}
+
+.item img {
+    width: 180px;
+    height: 180px;
+    margin: 10px 0;
+    border-radius: 20%;
+    border: 1px solid black;
+}
+
+.item-info {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.item-name {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.item-info div {
+    padding: 5px;
+}
+
+.item-price {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+    background-color: rgb(12, 89, 196);
+    padding: 10px;
+    border-radius: 7px;
+}
+
 .filter {
     display: flex;
     height: 90vh;
@@ -49,10 +106,16 @@ a:active {
     display: flex;
     flex-direction: column;
     text-align: center;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .filter-form div {
     padding-bottom: 30px;
+}
+
+.filter-form input {
+    padding: 5px;
 }
 
 .filter-form input[type="text"], .filter-form input[type="number"] {
@@ -70,4 +133,19 @@ a:active {
 
 .filter-form input[type="number"] {
     max-width: 20%;
+}
+
+.submit-button {
+    background-color: rgb(12, 89, 196);
+    font-family: 'Roboto Condensed', sans-serif;
+    color: white;
+    font-size: 25px;
+    min-width: 70%;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+}
+
+.submit-button:hover {
+    cursor: pointer;
 }

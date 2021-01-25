@@ -1,11 +1,17 @@
 import Header from './components/Header';
 import FilterForm from './components/FilterForm';
+import MainPage from './components/MainPage';
 
 const App = () => {
   return (
     <div>
-      <Header />
-      <FilterForm />
+      <div>
+        <Header />
+      </div>
+      <div className="page">
+        <FilterForm />
+        <MainPage />
+      </div>
     </div>
   );
 };
