@@ -1,7 +1,16 @@
-
+import {useState} from 'react';
 
 
 const FilterForm = () => {
+
+    const [state, setState] = useState({
+        text: "",
+        minPrice: 0,
+        maxPrice: 0,
+        isDiscount: false,
+        orderBy: null
+    });
+
     return (
         <div className="filter">
             <form className="filter-form">

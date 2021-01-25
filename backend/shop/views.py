@@ -75,10 +75,11 @@ class UserItemView(APIView):
             except ValueError:
                 pass
         if "max_price" in request.GET:
-            try:
-                items = items.filter(price__lte=request.GET['max_price'])
-            except InvalidOperation:
-                pass
+                try:
+                    if float(request.GET['max_price']) > 0:
+                        items = items.filter(price__lte=request.GET['max_price'])
+                except (InvalidOperation, ValueError):
+                    pass
         if "min_price" in request.GET:
             try:
                 items = items.filter(price__gte=request.GET['min_price'])

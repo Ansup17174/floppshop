@@ -100,6 +100,27 @@ a:active {
     width: 100%;
     flex-direction: column;
     justify-content: space-around;
+    align-items: center;
+}
+
+.item-is-available {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+    background-color: rgb(75, 255, 15);
+    border-radius: 7px;
+    width: 40%;
+}
+
+.item-not-available {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+    background-color: rgb(212, 8, 8);
+    border-radius: 7px;
+    width: 40%;
 }
 
 .item-name {
