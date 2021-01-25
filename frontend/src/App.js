@@ -5,7 +5,7 @@ import MainPage from './components/MainPage';
 const App = () => {
   return (
     <div>
-      <div>
+      <div className="nav-wrapper">
         <Header />
       </div>
       <div className="page">
