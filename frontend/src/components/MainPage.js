@@ -9,6 +9,7 @@ const MainPage = () => {
                 <div className="item-info">
                     <div className="item-name">Cat food</div>
                     <div className="item-description">Cat food for cats, each pack is 1kg</div>
+                    <div className="item-quantity">Available in-stock: 5</div>
                 </div>
                 <div className="item-price">21.99zł</div>
             </div>
@@ -17,6 +18,7 @@ const MainPage = () => {
                 <div className="item-info">
                     <div className="item-name">Cat food</div>
                     <div className="item-description">Cat food for cats, each pack is 1kg</div>
+                    <div className="item-quantity">Available in-stock: 5</div>
                 </div>
                 <div className="item-price">21.99zł</div>
             </div>
@@ -25,6 +27,7 @@ const MainPage = () => {
                 <div className="item-info">
                     <div className="item-name">Cat food</div>
                     <div className="item-description">Cat food for cats, each pack is 1kg</div>
+                    <div className="item-quantity">Available in-stock: 5</div>
                 </div>
                 <div className="item-price">21.99zł</div>
             </div>
@@ -33,6 +36,7 @@ const MainPage = () => {
                 <div className="item-info">
                     <div className="item-name">Cat food</div>
                     <div className="item-description">Cat food for cats, each pack is 1kg</div>
+                    <div className="item-quantity">Available in-stock: 5</div>
                 </div>
                 <div className="item-price">21.99zł</div>
             </div>
