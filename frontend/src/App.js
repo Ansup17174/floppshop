@@ -1,6 +1,5 @@
 import Header from './components/Header';
 import FilterForm from './components/FilterForm';
-import MainPage from './components/MainPage';
 import NotFound from './components/NotFound';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
@@ -15,7 +14,6 @@ const App = () => {
           <Route path="/" exact>
           <div className="page">
               <FilterForm />
-              <MainPage />
             </div>
           </Route>
           <Route path="*">
