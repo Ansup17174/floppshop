@@ -75,10 +75,11 @@ class UserItemView(APIView):
             except ValueError:
                 pass
         if "max_price" in request.GET:
-            try:
-                items = items.filter(price__lte=request.GET['max_price'])
-            except InvalidOperation:
-                pass
+                try:
+                    if float(request.GET['max_price']) > 0:
+                        items = items.filter(price__lte=request.GET['max_price'])
+                except (InvalidOperation, ValueError):
+                    pass
         if "min_price" in request.GET:
             try:
                 items = items.filter(price__gte=request.GET['min_price'])
@@ -89,6 +90,9 @@ class UserItemView(APIView):
             items = items.filter(name__icontains=search_string)
         if "category" in request.GET:
             items = items.filter(category__name=request.GET['category'])
+        if "order_by" in request.GET:
+            if request.GET['order_by'] in ("price", "-price"):
+                items = items.order_by(request.GET['order_by'])
         items = items[10*(page-1):10*(page-1)+10]
         serializer = ItemSerializer(items, many=True)
         return Response(serializer.data, status=200)
