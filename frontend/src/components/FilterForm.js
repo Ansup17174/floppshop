@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import axios from 'axios';
 import ItemList from './ItemList';
 
@@ -50,8 +50,20 @@ const FilterForm = () => {
         });
     };
 
+    useEffect(() => {
+        const url = "http://localhost:8000/shop/items/";
+        axios.get(url)
+        .then(response => {
+            setItems(response.data);
+        })
+        .catch(error => {
+            console.log(error.response);
+            console.log(error.status);
+        });
+    }, []);
+
     return (
-        <div>
+        <>
         <div className="filter">
             <form className="filter-form" onSubmit={handleSubmit}>
                 <div>
@@ -84,7 +96,7 @@ const FilterForm = () => {
             </form> 
         </div>
         <ItemList items={items}/>
-        </div>
+        </>
     );
 };
 
