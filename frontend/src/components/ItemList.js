@@ -9,7 +9,7 @@ const ItemList = ({items}) => {
                     <div className="item-info">
                         <div className="item-name">{item.name}</div>
                         <div className="item-description">{item.description}</div>
-                        <div className="item-quantity">{item.quantity}</div>
+                        <div className="item-quantity">In-stock: {item.quantity}</div>
                         {item.is_available ? <div className="item-is-available">Available</div> : <div className="item-not-available">Not available</div>}
                     </div>
                     <div className="item-price">{item.price}zł</div>

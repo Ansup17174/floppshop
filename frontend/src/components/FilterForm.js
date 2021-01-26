@@ -9,7 +9,6 @@ const FilterForm = () => {
         text: "",
         minPrice: 0,
         maxPrice: 0,
-        isDiscount: false,
         orderBy: ""
     });
 
@@ -33,14 +32,14 @@ const FilterForm = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        const url = `
-            http://localhost:8000/shop/items/?
-            search=${search.text}
-            &min_price=${search.minPrice}
-            &max_price${search.maxPrice}
-            &order_by=${search.orderBy}
-        `
-        axios.get(url)
+        const url = "http://localhost:8000/shop/items/";
+        let params = {
+            search: search.text,
+            min_price: search.minPrice,
+            max_price: search.maxPrice,
+            order_by: search.orderBy
+        };
+        axios.get(url, {params})
         .then(response => {
             setItems(response.data);
         })
