@@ -14,7 +14,7 @@ const ItemList = ({items}) => {
                     </div>
                     <div className="item-price">{item.price}zł</div>
                 </div>
-            )) : <div>xD</div>}
+            )) : <div className="item-error">No items found</div>}
         </div>
     );
 };

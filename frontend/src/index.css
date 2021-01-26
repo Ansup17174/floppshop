@@ -103,6 +103,14 @@ a:active {
     align-items: center;
 }
 
+.item-error {
+    display: flex;
+    justify-content: center;
+    height: 400px;
+    align-items: center;
+    font-size: 100px;
+}
+
 .item-is-available {
     color: white;
     font-weight: bold;
@@ -210,12 +218,35 @@ a:active {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 400px;
+    height: 90vh;
 }
 
 .register-form {
     display: flex;
+    width: 500px;
+    padding: 20px 0;
+    background-color: rgb(230, 230, 230);
+    border-radius: 20px;
+    height: 600px;
     flex-direction: column;
     align-items: center;
-    width: 200px;
+    justify-content: space-around;
+}
+
+.register-form input {
+    padding: 0 20px;
+    outline: none;
+    width: 80%;
+    height: 30px;
+    appearance: none;
+    border: none;
+    border-radius: 20px;
+    margin: 7px;
+}
+
+.register-form input[type="submit"] {
+    margin-top: 20px;
+    color: white;
+    background-color: rgb(12, 89, 196);
+    cursor: pointer;
 }
