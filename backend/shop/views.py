@@ -91,6 +91,9 @@ class UserItemView(APIView):
         if "category" in request.GET:
             items = items.filter(category__name=request.GET['category'])
         items = items[10*(page-1):10*(page-1)+10]
+        if "order_by" in request.GET:
+            if order_by := request.GET['order_by'] in ("price", "-price"):
+                items = items.order_by(order_by)
         serializer = ItemSerializer(items, many=True)
         return Response(serializer.data, status=200)
 

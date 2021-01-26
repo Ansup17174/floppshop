@@ -27,10 +27,6 @@ const FilterForm = () => {
         setSearch({...search, maxPrice: e.target.value})
     };
 
-    const changeIsDiscount = e => {
-        setSearch({...search, isDiscount: !search.isDiscount})
-    };
-
     const changeOrderBy = e => {
         setSearch({...search, orderBy: e.target.value})
     };
@@ -38,7 +34,11 @@ const FilterForm = () => {
     const handleSubmit = e => {
         e.preventDefault();
         const url = `
-            http://localhost:8000/shop/items/?search=${search.text}&min_price=${search.minPrice}&max_price${search.maxPrice}
+            http://localhost:8000/shop/items/?
+            search=${search.text}
+            &min_price=${search.minPrice}
+            &max_price${search.maxPrice}
+            &order_by=${search.orderBy}
         `
         axios.get(url)
         .then(response => {
@@ -70,25 +70,21 @@ const FilterForm = () => {
                     <h4>Filter by</h4>
                     <div>
                         <label htmlFor="searchText">Search by text:</label>
-                        <input id="searchText" type="text" maxLength="100" size="10" autoComplete="off" value={search.text} onChange={changeText}/>
+                        <input id="searchText" type="text" maxLength="100" size="25" autoComplete="off" value={search.text} onChange={changeText}/>
                     </div>
                     <div>
                         <label htmlFor="min-price">Price:</label>
                         <input id="min-price" type="number" size="2" min="0" value={search.minPrice} onChange={changeMinPrice}/>-
                         <input id="max-price" type="number" size="2" min="0" value={search.maxPrice} onChange={changeMaxPrice}/>
                     </div>
-                    <div>
-                        <input type="checkbox" id="is-discount" checked={search.isDiscount} onChange={changeIsDiscount}/>
-                        <label htmlFor="is-discount">On discount</label>
-                    </div>
                 </div>
                 <div>
                     <h4>Order by</h4>
                     <label>Price:</label>
                     <div>
-                        <input type="radio" name="price" id="price1" value="ascending" onChange={changeOrderBy}/>
+                        <input type="radio" name="price" id="price1" value="price" onChange={changeOrderBy}/>
                         <label htmlFor="price1">Ascending</label>
-                        <input type="radio" name="price" id="price2" value="descending" onChange={changeOrderBy}/>
+                        <input type="radio" name="price" id="price2" value="-price" onChange={changeOrderBy}/>
                         <label htmlFor="price2">Descending</label> 
                     </div>
                 </div>
