@@ -21,7 +21,8 @@
 .page {
     position: fixed;
     top: 10vh;
-    width: 100%
+    width: 100%;
+    overflow-y: scroll;
 }
 
 .navbar {
@@ -227,7 +228,7 @@ a:active {
     padding: 20px 0;
     background-color: rgb(230, 230, 230);
     border-radius: 20px;
-    height: 600px;
+    height: 80vh;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
@@ -241,12 +242,39 @@ a:active {
     appearance: none;
     border: none;
     border-radius: 20px;
-    margin: 7px;
 }
 
-.register-form input[type="submit"] {
+.register-button {
     margin-top: 20px;
     color: white;
     background-color: rgb(12, 89, 196);
     cursor: pointer;
+}
+
+.register-success {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: rgb(75, 255, 15);
+    width: 60%;
+    height: 6vh;
+    border-radius: 10px;
+    font-size: 25px;
+}
+
+.register-fail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: rgb(212, 8, 8);
+    width: 60%;
+    height: 6vh;
+    border-radius: 10px;
+    font-size: 25px;
+}
+
+.hidden {
+    display: none;
 }
