@@ -19,6 +19,7 @@ const FilterForm = () => {
     };
 
     const changeMinPrice = e => {
+        
         setSearch({...search, minPrice: e.target.value})
     };
 
