@@ -270,9 +270,7 @@ a:active {
     color: white;
     background-color: rgb(212, 8, 8);
     width: 60%;
-    height: 6vh;
     border-radius: 10px;
-    font-size: 25px;
 }
 
 .hidden {
