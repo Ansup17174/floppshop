@@ -192,6 +192,7 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = 'floppshop'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_ADAPTER = 'users.adapters.CustomAccountAdapter'
+ACCOUNT_EMAIL_SUBJECT_PREFIX=""
 
 # email settings
 
