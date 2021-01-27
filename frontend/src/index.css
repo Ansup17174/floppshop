@@ -207,7 +207,7 @@ a:active {
     cursor: pointer;
 }
 
-.not-found {
+.main-text {
     display: flex;
     justify-content: center;
     padding-top: 100px;
