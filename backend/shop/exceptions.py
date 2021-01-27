@@ -13,5 +13,8 @@ def custom_exception_handler(exception, context):
     response = exception_handler(exception, context)
 
     if response is not None and isinstance(exception, Http404):
-        response.data['detail'] = exception.args[0]
+        try:
+            response.data['detail'] = exception.args[0]
+        except IndexError:
+            pass
     return response
