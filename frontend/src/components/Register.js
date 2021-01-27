@@ -14,8 +14,8 @@ const RegisterPage = () => {
         password1: "",
         password2: "",
         responseOk: false,
-        responseErrors: {}
     });
+    const [errors, setErrors] = useState({});
 
 
     const handleSubmit = e => {
@@ -28,13 +28,15 @@ const RegisterPage = () => {
             phone: formState.phone,
             date_of_birth: formState.dateOfBirth,
             password1: formState.password1,
-            password2: formState.password2
+            password2: formState.password2,
         })
         .then(response => {
             setFormState({...formState, responseOk: true});
+            setErrors({});
         })
         .catch(error => {
-            setFormState({...formState, responseErrors: error.response.data, responseOk: false});
+            setFormState({...formState, responseOk: false});
+            setErrors(error.response.data);
         });
     };
 
@@ -43,19 +45,41 @@ const RegisterPage = () => {
     <div className="register">
         <form className="register-form" onSubmit={handleSubmit}>
             <h1>Registration</h1>
-            <div className={formState.responseOk ? "register-success" : "hidden"}>Verification e-mail sent</div>
-            <input type="email" id="email" value={formState.email} placeholder="E-mail" onChange={e => setFormState({...formState, email: e.target.value})}/>
-            <input type="text" value={formState.firstName} placeholder="First name" onChange={e => setFormState({...formState, firstName: e.target.value})}/>
-            <input type="text" value={formState.lastName} placeholder="Last name" onChange={e => setFormState({...formState, lastName: e.target.value})}/>
-            <input type="text" value={formState.phone} placeholder="Phone number" onChange={e => setFormState({...formState, phone: e.target.value})}/>
-            <input type={dateInputType}
-             value={formState.dateOfBirth}
-              placeholder="Date of birth"
-               onFocus={() => setDateInputType("date")}
-                onBlur={() => setDateInputType("text")}
-                 onChange={e => setFormState({...formState, dateOfBirth: e.target.value})}/>
-            <input type="password" value={formState.password1} placeholder="Password" onChange={e => setFormState({...formState, password1: e.target.value})}/>
-            <input type="password" value={formState.password2} placeholder="Password again" onChange={e => setFormState({...formState, password2: e.target.value})}/>
+            {formState.responseOk ? <div className="register-success">Verification e-mail sent</div> : ""}
+            <div className="register-field">
+                <input type="email" id="email" value={formState.email} placeholder="E-mail" onChange={e => setFormState({...formState, email: e.target.value})}/>
+                {errors.email ? errors.email.map((message, index) => <div className="register-fail" key={index}>{message}</div>) : null}
+            </div>
+            <div className="register-field">
+                <input type="text" value={formState.firstName} placeholder="First name" onChange={e => setFormState({...formState, firstName: e.target.value})}/>
+                {errors.first_name ? errors.first_name.map((message, index) => <div className="register-fail" key={index}>{message}</div>) : null}
+            </div>
+            <div className="register-field">
+                <input type="text" value={formState.lastName} placeholder="Last name" onChange={e => setFormState({...formState, lastName: e.target.value})}/>
+                {errors.last_name ? errors.last_name.map((message, index) => <div className="register-fail" key={index}>{message}</div>) : null}
+            </div>
+            <div className="register-field">
+                <input type="text" value={formState.phone} placeholder="Phone number" onChange={e => setFormState({...formState, phone: e.target.value})}/>
+                {errors.phone ? errors.phone.map((message, index) => <div className="register-fail" key={index}>{message}</div>) : null}
+            </div>
+            <div className="register-field">
+                <input type={dateInputType}
+                value={formState.dateOfBirth}
+                placeholder="Date of birth"
+                onFocus={() => setDateInputType("date")}
+                    onBlur={() => setDateInputType("text")}
+                    onChange={e => setFormState({...formState, dateOfBirth: e.target.value})}/>
+                {errors.date_of_birth ? errors.date_of_birth.map((message, index) => <div className="register-fail" key={index}>{message}</div>) : null}
+            </div>
+            <div className="register-field">
+                <input type="password" value={formState.password1} placeholder="Password" onChange={e => setFormState({...formState, password1: e.target.value})}/>
+                {errors.password1 ? errors.password1.map((message, index) => <div className="register-fail" key={index}>{message}</div>) : null}
+            </div>
+            <div className="register-field">
+                <input type="password" value={formState.password2} placeholder="Password again" onChange={e => setFormState({...formState, password2: e.target.value})}/>
+                {errors.password2 ? errors.password2.map((message, index) => <div className="register-fail" key={index}>{message}</div>) : null}
+                {errors.non_field_errors ? errors.non_field_errors.map((message, index) => <div className="register-fail" key={index}>{message}</div>) : null}
+            </div>
             <input className="register-button" type="submit" value="Register" placeholder="Phone number"/>
         </form>
     </div>
