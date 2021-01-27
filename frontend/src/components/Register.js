@@ -14,12 +14,14 @@ const RegisterPage = () => {
         password1: "",
         password2: "",
         responseOk: false,
+        responseLoading: false
     });
     const [errors, setErrors] = useState({});
 
 
     const handleSubmit = e => {
         e.preventDefault();
+        setFormState({...formState, responseOk: false, responseLoading: true})
         const url = "http://localhost:8000/auth/registration/";
         axios.post(url, {
             email: formState.email,
@@ -31,11 +33,11 @@ const RegisterPage = () => {
             password2: formState.password2,
         })
         .then(response => {
-            setFormState({...formState, responseOk: true});
+            setFormState({...formState, responseOk: true, responseLoading: false});
             setErrors({});
         })
         .catch(error => {
-            setFormState({...formState, responseOk: false});
+            setFormState({...formState, responseOk: false, responseLoading: false});
             setErrors(error.response.data);
         });
     };
@@ -45,7 +47,8 @@ const RegisterPage = () => {
     <div className="register">
         <form className="register-form" onSubmit={handleSubmit}>
             <h1>Registration</h1>
-            {formState.responseOk ? <div className="register-success">Verification e-mail sent</div> : ""}
+            {formState.responseOk ? <div className="register-success">Verification e-mail sent</div> : null}
+            {formState.responseLoading ? <div className="register-loading">Sending...</div> : null}
             <div className="register-field">
                 <input type="email" id="email" value={formState.email} placeholder="E-mail" onChange={e => setFormState({...formState, email: e.target.value})}/>
                 {errors.email ? errors.email.map((message, index) => <div className="register-fail" key={index}>{message}</div>) : null}

@@ -270,6 +270,18 @@ a:active {
     font-size: 25px;
 }
 
+.register-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: rgb(12, 89, 196);
+    width: 60%;
+    height: 6vh;
+    border-radius: 10px;
+    font-size: 25px;
+}
+
 .register-fail {
     display: flex;
     align-items: center;
