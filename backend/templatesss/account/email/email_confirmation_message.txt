@@ -1,7 +1,0 @@
-{% extends "account/email/base_message.txt" %}
-{% load account %}
-{% load i18n %}
-
-{% block content %}{% autoescape off %}You're receiving this e-mail because user {{ user_display }} has given your e-mail address to register an account on http://floppshop.com
-
-To confirm this is correct, go to {{ activate_url }}{% endautoescape %}{% endblock %}

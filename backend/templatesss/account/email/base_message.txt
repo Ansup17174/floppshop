@@ -1,6 +1,0 @@
-{% load i18n %}{% autoescape off %} Hello from Floppshop!
-
-{% block content %}{% endblock %}
-
-Thank you for using http://floppshop.com!
-{% endautoescape %}
