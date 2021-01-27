@@ -22,6 +22,7 @@ const RegisterPage = () => {
     const handleSubmit = e => {
         e.preventDefault();
         setFormState({...formState, responseOk: false, responseLoading: true})
+        setErrors({});
         const url = "http://localhost:8000/auth/registration/";
         axios.post(url, {
             email: formState.email,
