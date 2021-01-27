@@ -21,7 +21,8 @@
 .page {
     position: fixed;
     top: 10vh;
-    width: 100%
+    width: 100%;
+    overflow-y: scroll;
 }
 
 .navbar {
@@ -101,6 +102,14 @@ a:active {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+}
+
+.item-error {
+    display: flex;
+    justify-content: center;
+    height: 400px;
+    align-items: center;
+    font-size: 100px;
 }
 
 .item-is-available {
@@ -210,12 +219,78 @@ a:active {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 400px;
+    height: 90vh;
 }
 
 .register-form {
     display: flex;
+    width: 500px;
+    padding: 20px 0;
+    background-color: rgb(230, 230, 230);
+    border-radius: 20px;
+    height: 80vh;
     flex-direction: column;
     align-items: center;
-    width: 200px;
+    justify-content: space-around;
+}
+
+.register-field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.register-form input {
+    padding: 0 20px;
+    outline: none;
+    width: 80%;
+    height: 30px;
+    appearance: none;
+    border: none;
+    border-radius: 20px;
+}
+
+.register-button {
+    margin-top: 20px;
+    color: white;
+    background-color: rgb(12, 89, 196);
+    cursor: pointer;
+}
+
+.register-success {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: rgb(75, 255, 15);
+    width: 60%;
+    height: 6vh;
+    border-radius: 10px;
+    font-size: 25px;
+}
+
+.register-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: rgb(12, 89, 196);
+    width: 60%;
+    height: 6vh;
+    border-radius: 10px;
+    font-size: 25px;
+}
+
+.register-fail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color:rgb(212, 8, 8);
+    width: 70%;
+}
+
+.hidden {
+    display: none;
 }
