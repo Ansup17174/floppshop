@@ -2,6 +2,7 @@ import Header from './components/Header';
 import FilterForm from './components/FilterForm';
 import NotFound from './components/NotFound';
 import Register from './components/Register';
+import Login from './components/Login';
 import ConfirmEmail from './components/ConfirmEmail';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
@@ -21,6 +22,9 @@ const App = () => {
             </Route>
             <Route path="/register" exact>
               <Register />
+            </Route>
+            <Route path="/login" exact>
+              <Login />
             </Route>
             <Route path="*">
               <NotFound />
