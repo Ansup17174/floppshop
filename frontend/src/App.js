@@ -3,7 +3,9 @@ import FilterForm from './components/FilterForm';
 import NotFound from './components/NotFound';
 import Register from './components/Register';
 import Login from './components/Login';
+import Logout from './components/Logout';
 import ConfirmEmail from './components/ConfirmEmail';
+import UserProfile from './components/UserProfile'
 import UserContext from './context/UserContext';
 import {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
@@ -32,21 +34,13 @@ const App = () => {
         </div>
         <div className="page">
         <Switch>
-            <Route path="/" exact>
-              <FilterForm />
-            </Route>
-            <Route path="/verify-email/:key" exact>
-              <ConfirmEmail />
-            </Route>
-            <Route path="/register" exact>
-              <Register />
-            </Route>
-            <Route path="/login" exact>
-              <Login />
-            </Route>
-            <Route path="*">
-              <NotFound />
-            </Route>
+            <Route path="/" component={FilterForm} exact/>
+            <Route path="/verify-email/:key" component={ConfirmEmail} exact/>
+            <Route path="/register" component={Register} exact/>
+            <Route path="/login" component={Login} exact/>
+            <Route path="/logout" component={Logout} exact/>
+            <Route path="/profile" component={UserProfile} exact />
+            <Route path="*" component={NotFound}/>
         </Switch>
         </div>
       </UserContext.Provider>
