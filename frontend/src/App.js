@@ -4,11 +4,29 @@ import NotFound from './components/NotFound';
 import Register from './components/Register';
 import Login from './components/Login';
 import ConfirmEmail from './components/ConfirmEmail';
-import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
+import UserContext from './context/UserContext';
+import {useState, useEffect} from 'react';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import axios from 'axios';
 
 const App = () => {
+
+  const [userData, setUserData] = useState({});
+
+  useEffect(() => {
+    const url = "http://localhost:8000/auth/user/";
+    axios.get(url, {withCredentials: true})
+    .then(response => {
+      setUserData(response.data);
+    })
+    .catch(error => {
+      setUserData({});  
+    })
+  }, []);
+
   return (
     <Router>
+      <UserContext.Provider value={{userData, setUserData}}>
         <div className="nav-wrapper">
           <Header />
         </div>
@@ -31,6 +49,7 @@ const App = () => {
             </Route>
         </Switch>
         </div>
+      </UserContext.Provider>
     </Router>
   );
 };

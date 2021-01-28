@@ -1,5 +1,8 @@
-import {useState} from 'react';
+import {useState, useContext} from 'react';
+import {useHistory} from 'react-router-dom';
+import UserContext from "../context/UserContext";
 import axios from 'axios';
+
 
 
 const Login = () => {
@@ -10,6 +13,8 @@ const Login = () => {
     });
 
     const [errors, setErrors] = useState({});
+    const history = useHistory();
+    const {setUserData} = useContext(UserContext);
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -17,6 +22,8 @@ const Login = () => {
         await axios.post(url, {email: formState.email, password: formState.password}, {withCredentials: true})
         .then(response => {
             setErrors({});
+            setUserData(response.data.user);
+            history.push("/");
         })
         .catch(error => {
             setErrors(error.response.data);
