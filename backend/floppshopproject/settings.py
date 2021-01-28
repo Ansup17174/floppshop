@@ -131,9 +131,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
 ]
 
+CORS_ALLOW_CREDENTIALS = True
 
 # Authentication
 
@@ -172,6 +174,7 @@ JWT_AUTH_COOKIE = 'floppauth'
 OLD_PASSWORD_FIELD_ENABLED = True
 JWT_AUTH_SAMESITE = 'Strict'
 LOGOUT_ON_PASSWORD_CHANGE = False
+JWT_AUTH_SECURE = False
 
 
 # rest_framework_simplejwt

@@ -4,7 +4,7 @@ import NotFound from './components/NotFound';
 import Register from './components/Register';
 import Login from './components/Login';
 import ConfirmEmail from './components/ConfirmEmail';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
 
 const App = () => {
   return (

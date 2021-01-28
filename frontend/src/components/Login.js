@@ -11,12 +11,11 @@ const Login = () => {
 
     const [errors, setErrors] = useState({});
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
         const url = "http://localhost:8000/auth/login/";
-        axios.post(url, {email: formState.email, password: formState.password})
+        await axios.post(url, {email: formState.email, password: formState.password}, {withCredentials: true})
         .then(response => {
-            console.log(response.data);
             setErrors({});
         })
         .catch(error => {

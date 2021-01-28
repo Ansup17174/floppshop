@@ -1,6 +1,8 @@
 
 
 const ItemList = ({items}) => {
+
+
     return (
         <div className="main-page">
             {items.length ? items.map((item, index) => (
@@ -10,7 +12,7 @@ const ItemList = ({items}) => {
                         <div className="item-name">{item.name}</div>
                         <div className="item-description">{item.description}</div>
                         <div className="item-quantity">In-stock: {item.quantity}</div>
-                        {item.is_available || item.quantity <=0 ? <div className="item-is-available">Available</div> : <div className="item-not-available">Not available</div>}
+                        {item.is_available || item.quantity <= 0 ? <div className="item-is-available">Available</div> : <div className="item-not-available">Not available</div>}
                     </div>
                     <div className="item-price">{item.price}zł</div>
                 </div>

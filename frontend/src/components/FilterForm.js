@@ -31,7 +31,7 @@ const FilterForm = () => {
         setSearch({...search, orderBy: e.target.value})
     };
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
         const url = "http://localhost:8000/shop/items/";
         let params = {
@@ -40,7 +40,7 @@ const FilterForm = () => {
             max_price: search.maxPrice,
             order_by: search.orderBy
         };
-        axios.get(url, {params})
+        await axios.get(url, {params})
         .then(response => {
             setItems(response.data);
         })
