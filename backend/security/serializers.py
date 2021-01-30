@@ -46,6 +46,16 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
             raise ValidationError("Invalid phone number")
         return phone
 
+    def validate_first_name(self, first_name):
+        if not first_name:
+            raise ValidationError("This field may not be blank")
+        return first_name
+    
+    def validate_last_name(self, last_name):
+        if not last_name:
+            raise ValidationError("This field may not be blank")
+        return last_name
+
     def validate_date_of_birth(self, date_of_birth):
         if date_of_birth > timezone.now().date() or date_of_birth < date(1900, 1, 1):
             raise ValidationError("Invalid date of birth")
@@ -57,6 +67,6 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
             extra_fields.append(UserModel.EMAIL_FIELD)
     
         model = UserModel
-        fields = ('pk', *extra_fields, 'first_name', 'last_name', 'date_of_birth', 'phone', 'is_staff')
+        fields = ('pk', *extra_fields, 'first_name', 'last_name', 'date_of_birth', 'phone')
         read_only_fields = ('email',)
 
