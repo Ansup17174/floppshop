@@ -155,7 +155,7 @@ a:active {
 
 .item-quantity {
     font-size: 20px;
-    padding: 10px;
+    margin: 10px;
 }
 
 .item-info div {
@@ -361,6 +361,11 @@ a:active {
 
 .quantity-form {
     display: flex;
+    justify-content: space-between;
+}
+
+.quantity-data {
+    display: flex;
 }
 
 .quantity-input {
@@ -385,4 +390,50 @@ a:active {
     font-size: 25px;
     text-align: center;
     cursor: pointer;
+}
+
+.add-to-cart {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+    background-color: rgb(75, 255, 15);
+    border-radius: 7px;
+    outline: none;
+    width: 40%;
+    border: none;
+    cursor: pointer;
+}
+
+.add-to-cart-unavailable {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: rgb(212, 8, 8);
+    border-radius: 7px;
+    width: 40%;
+    height: 34px;
+}
+
+.quantity-fail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color:rgb(212, 8, 8);
+    width: 70%;
+    font-size: 30px;
+}
+
+.quantity-success {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: green;
+    width: 70%;
+    font-size: 30px;
 }
