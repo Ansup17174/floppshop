@@ -4,7 +4,7 @@ const ItemList = ({items}) => {
 
 
     return (
-        <div className="main-page">
+        <div className="item-list">
             {items.length ? items.map((item, index) => (
                 <div className="item" key={index}>
                     <img src={item.images[0] ? item.images[0] : "https://i.stack.imgur.com/y9DpT.jpg"} alt=""/>

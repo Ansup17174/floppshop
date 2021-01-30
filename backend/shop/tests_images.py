@@ -49,7 +49,7 @@ class ItemImageTestCase(APITestCase):
             "email": self.email,
             "password": self.password
         }
-        resp = self.client.post(reverse("rest_login"), login_request, format="json")
+        self.client.post(reverse("rest_login"), login_request, format="json")
         self.user = User.objects.get(email=self.email)
         self.user.is_staff = True
         self.user.save()

@@ -2,7 +2,7 @@ const Logout = () => {
     return (
         <div className="main-text">
             <div>
-                <h1>Succesfully logged out</h1>
+                <h2>Succesfully logged out</h2>
             </div>
         </div>
     );
