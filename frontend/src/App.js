@@ -7,6 +7,7 @@ import Logout from './components/Logout';
 import ConfirmEmail from './components/ConfirmEmail';
 import UserProfile from './components/UserProfile'
 import UserContext from './context/UserContext';
+import ItemDetails from './components/ItemDetails'
 import {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import axios from 'axios';
@@ -35,6 +36,7 @@ const App = () => {
         <div className="page">
         <Switch>
             <Route path="/" component={FilterForm} exact/>
+            <Route path="/item-details/:id" component={ItemDetails} exact />
             <Route path="/verify-email/:key" component={ConfirmEmail} exact/>
             <Route path="/register" component={Register} exact/>
             <Route path="/login" component={Login} exact/>
