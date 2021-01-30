@@ -66,10 +66,10 @@ class ShopOrderExistsTestCase(APITestCase):
             "date_of_birth": self.date_of_birth
         }
         self.client.post(reverse("rest_register"), request_body, format="json")
-        key = re.search(r"\w\w:[a-zA-Z0-9-_:]+", mail.outbox[0].body)
+        key = re.search(r"/verify-email/([a-zA-Z0-9-_:]+)", mail.outbox[-1].body)
         if not key:
             raise AssertionError
-        email_confirmation_request = {"key": key.group(0)}
+        email_confirmation_request = {"key": key.group(1)}
         self.client.post(
             reverse("rest_verify_email"),
             email_confirmation_request,
