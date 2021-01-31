@@ -48,6 +48,9 @@ const ActiveOrder = () => {
             axios.get("http://localhost:8000/shop/order/", {withCredentials: true})
             .then(response => {
                 setOrder(response.data);
+            })
+            .catch(error => {
+                setOrder(error.response.data);
             });
         })
         .catch(error => {
@@ -67,15 +70,15 @@ const ActiveOrder = () => {
 
     return (
         <div className="order-page">
-            <div className="order">
+            {order.id ? <div className="order">
                 <h1>Active order</h1>
                 <div className="order-info">
                     <div className="order-field"><span>Order ID: </span><span>{order.id}</span></div>
                     <div className="order-field"><span>Quantity: </span><span>{order.quantity}</span></div>
                     <div className="order-field"><span>Total price: </span><span>{order.total_price}zl</span></div>
                 </div>
-            </div>
-            <div className="order">
+            </div> : <div className="order"><h1>No active order</h1></div>}
+            {order.id ? <div className="order">
                 <h1>Items</h1>
                 {order.carts.sort(compareCarts).map((cart, index) => (
                     <div className="order-item" key={index}>
@@ -83,6 +86,7 @@ const ActiveOrder = () => {
                         <h2 className="item-header">{cart.item.name}</h2>
                         <div className="item-description">{cart.item.description}</div>
                         <div className="item-price">{cart.item.price}zł</div>
+                        <h3>Total price: {cart.total_price}zł</h3>
                         <form className="quantity=form">
                             <div className="quantity-data">
                                 <div className="item-quantity">Quantity: </div>
@@ -95,7 +99,7 @@ const ActiveOrder = () => {
                         </form>
                     </div>
                 ))}
-            </div>
+            </div> : null}
         </div>
     );
 };
