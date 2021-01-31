@@ -9,23 +9,25 @@ const ActiveOrder = () => {
 
     const [order, setOrder] = useState({});
     const history = useHistory();
-    const {userData} = useContext(UserContext);
+    const {setUserData} = useContext(UserContext);
 
     useEffect(() => {
-        console.log(userData.pk);
-        if (userData.pk) {
-            const url = "http://localhost:8000/shop/orders/";
-            axios.get(url, {withCredentials: true})
+        axios.get("http://localhost:8000/auth/user/", {withCredentials: true})
+        .then(response => {
+            setUserData(response.data);
+            axios.get("http://localhost:8000/shop/order/", {withCredentials: true})
             .then(response => {
                 setOrder(response.data);
             })
             .catch(error => {
                 setOrder(error.response.data);
-            });
-        } else {
+            })
+        })
+        .catch(error => {
+            setUserData({});
             history.push("/login");
-        }
-    });
+        });
+    }, []);
 
     return (
         <div>
