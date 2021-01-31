@@ -27,7 +27,7 @@ input::-webkit-inner-spin-button {
 .page {
     position: fixed;
     top: 10vh;
-    width: 100%;
+    width: 100%;    
 }
 
 .navbar {
@@ -104,8 +104,8 @@ a:active {
 }
 
 .item img {
-    width: 180px;
-    height: 180px;
+    width: 20vh;
+    height: 20vh;
     margin: 10px 0;
     border-radius: 20%;
 }
@@ -328,7 +328,10 @@ a:active {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 90vh;
+    height: 80vh;
+    width: 80vw;
+    background-color: rgb(230, 230, 230);
+    border-radius: 30px;
 }
 
 .item-details-info {
@@ -344,8 +347,9 @@ a:active {
 }
 
 .item-details-image {
-    width: 400px;
-    height: 400px;
+    width: 50vh;
+    height: 50vh;
+    border-radius: 20%;
 }
 
 .item-details-name {
@@ -441,5 +445,72 @@ a:active {
 .item-details-line {
     background-color: black;
     width: 1px;
-    height: 80vh;   
+    height: 70vh;   
+}
+
+.item-details-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+
+.order-page {
+    overflow-y: scroll;
+    height: 90vh;
+}
+
+.order {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(230, 230, 230);
+    border-radius: 30px;
+    margin: 30px;
+    padding: 20px 0;
+}
+
+.order-info {
+    width: 70vw;
+}
+
+.order-field {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+}
+
+.order-item {
+    width: 90%;
+    height: 25vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item-image {
+    width: 20vh;
+    height: 20vh;
+    border-radius: 20%;
+}
+
+.item-header {
+    width: 10vw;
+}
+
+.item-description {
+    width: 20vw;
+}
+
+.cart-quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    width: 30px;
+    height: 30px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
 }

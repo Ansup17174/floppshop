@@ -74,31 +74,33 @@ const ItemDetails = () => {
     };
 
     return (
-        <div className="item-details">
-            <div className="item-details-images">
-                <img src="https://i.stack.imgur.com/y9DpT.jpg" alt="item" className="item-details-image"/>
-            </div>
-            <div className="item-details-line"></div>
-            <div className="item-details-info">
-                <div className="item-details-name">{item.name}</div>
-                <div className="item-details-description">{item.description}</div>
-                <div className="item-details-bottom">
-                    <div className="item-quantity">In-stock: {item.quantity}</div>
-                    <span className="item-price">{item.price}zl</span>
+        <div className="item-details-container">
+            <div className="item-details">
+                <div className="item-details-images">
+                    <img src="https://i.stack.imgur.com/y9DpT.jpg" alt="item" className="item-details-image"/>
                 </div>
-                {item.is_available || item.quantity <= 0 ? <form className="quantity-form" onSubmit={handleSubmit}>
-                    <div className="quantity-data">
-                        <div className="item-quantity">Quantity: </div>
-                        <div className="quantity-buttons">
-                            <div onClick={decreaseQuantity} className="sign-box">-</div>
-                            <input type="number" className="quantity-input" value={quantity} onChange={changeQuantity}/>
-                            <div onClick={increaseQuantity} className="sign-box">+</div>
-                        </div>
+                <div className="item-details-line"></div>
+                <div className="item-details-info">
+                    <div className="item-details-name">{item.name}</div>
+                    <div className="item-details-description">{item.description}</div>
+                    <div className="item-details-bottom">
+                        <div className="item-quantity">In-stock: {item.quantity}</div>
+                        <span className="item-price">{item.price}zl</span>
                     </div>
-                    <input type="submit" value="Add to cart" className="add-to-cart"/>
-                </form> : <div className="add-to-cart-unavailable">Item unavailable</div>}
-                {response.detail ? <div className="quantity-success">{response.detail}</div> : null}
-                {error.detail ? <div className="quantity-fail">{error.detail}</div> : null}
+                    {item.is_available || item.quantity <= 0 ? <form className="quantity-form" onSubmit={handleSubmit}>
+                        <div className="quantity-data">
+                            <div className="item-quantity">Quantity: </div>
+                            <div className="quantity-buttons">
+                                <div onClick={decreaseQuantity} className="sign-box">-</div>
+                                <input type="number" className="quantity-input" value={quantity} onChange={changeQuantity}/>
+                                <div onClick={increaseQuantity} className="sign-box">+</div>
+                            </div>
+                        </div>
+                        <input type="submit" value="Add to cart" className="add-to-cart"/>
+                    </form> : <div className="add-to-cart-unavailable">Item unavailable</div>}
+                    {response.detail ? <div className="quantity-success">{response.detail}</div> : null}
+                    {error.detail ? <div className="quantity-fail">{error.detail}</div> : null}
+                </div>
             </div>
         </div>
     );

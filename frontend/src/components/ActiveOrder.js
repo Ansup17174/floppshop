@@ -7,7 +7,19 @@ import UserContext from '../context/UserContext';
 
 const ActiveOrder = () => {
 
-    const [order, setOrder] = useState({});
+    const [order, setOrder] = useState({
+        id: "",
+        carts: [],
+        address: "",
+        method: {},
+        total_price: "",
+        is_finished: false,
+        is_paid: false,
+        date_created: "",
+        date_finished: "",
+        date_paid: "",
+        quantity: 0
+    });
     const history = useHistory();
     const {setUserData} = useContext(UserContext);
 
@@ -21,7 +33,7 @@ const ActiveOrder = () => {
             })
             .catch(error => {
                 setOrder(error.response.data);
-            })
+            });
         })
         .catch(error => {
             setUserData({});
@@ -30,10 +42,36 @@ const ActiveOrder = () => {
     }, []);
 
     return (
-        <div>
-            {order.detail ? <div>No active order</div> : null}
-            {order.id ? <div>{order.id}</div> : null}
-            {order.quantity ? <div>{order.quantity}</div> : null}
+        <div className="order-page">
+            <div className="order">
+                <h1>Active order</h1>
+                <div className="order-info">
+                    <div className="order-field"><span>Order ID: </span><span>{order.id}</span></div>
+                    <div className="order-field"><span>Quantity: </span><span>{order.quantity}</span></div>
+                    <div className="order-field"><span>Total price: </span><span>{order.total_price}zl</span></div>
+                </div>
+            </div>
+            <div className="order">
+                <h1>Items</h1>
+                {order.carts.map((cart, index) => (
+                    <div className="order-item" key={index}>
+                        <img src={cart.item.images.length ? cart.item.images[0] : "https://i.stack.imgur.com/y9DpT.jpg"} alt="" className="item-image"></img>
+                        <h2 className="item-header">{cart.item.name}</h2>
+                        <div className="item-description">{cart.item.description}</div>
+                        <div className="item-price">{cart.item.price}zł</div>
+                        <form className="quantity=form">
+                        <div className="quantity-data">
+                                <div className="item-quantity">Quantity: </div>
+                                <div className="quantity-buttons">
+                                    <div className="sign-box">-</div>
+                                    <span className="cart-quantity">{cart.quantity}</span>
+                                    <div className="sign-box">+</div>
+                                </div>
+                            </div>
+                    </form>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

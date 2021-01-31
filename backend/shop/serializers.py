@@ -57,14 +57,15 @@ class ItemSerializer(serializers.ModelSerializer):
 
 class CartSerializer(serializers.ModelSerializer):
 
-    def get_item_name(self, cart):
-        return cart.item.name
+    # def get_item_name(self, cart):
+    #     return cart.item.name
 
     def get_cart_total_price(self, cart):
         return cart.quantity * (cart.item.discount_price if cart.item.is_discount else cart.item.price)
 
-    item_name = serializers.SerializerMethodField("get_item_name")
+    # item_name = serializers.SerializerMethodField("get_item_name")
     total_price = serializers.SerializerMethodField("get_cart_total_price", read_only=True)
+    item = ItemSerializer(read_only=True)
 
     class Meta:
         model = Cart
