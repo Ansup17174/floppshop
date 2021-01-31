@@ -41,17 +41,28 @@ const ActiveOrder = () => {
         });
     }, []);
 
-    const increaseQuantity = id => {
-        console.log("dobra");
+    const changeQuantity = (id, quantity) => {
         const url = `http://localhost:8000/shop/items/${id}/`;
-        axios.post(url, {}, {withCredentials: true, params: {quantity: 1}})
+        axios.post(url, {}, {withCredentials: true, params: {quantity}})
         .then(response => {
-            // TODO
+            axios.get("http://localhost:8000/shop/order/", {withCredentials: true})
+            .then(response => {
+                setOrder(response.data);
+            });
         })
+        .catch(error => {
+            history.push("login/");
+        });
     };
 
-    const decreaseQuantity = id => {
-
+    const compareCarts = (cart1, cart2) => {
+        if (cart1.item.name < cart2.item.name) {
+            return -1;
+        } else if (cart1.item.name > cart2.item.name) {
+            return 1;
+        } else {
+            return 0;
+        }
     };
 
     return (
@@ -66,7 +77,7 @@ const ActiveOrder = () => {
             </div>
             <div className="order">
                 <h1>Items</h1>
-                {order.carts.map((cart, index) => (
+                {order.carts.sort(compareCarts).map((cart, index) => (
                     <div className="order-item" key={index}>
                         <img src={cart.item.images.length ? cart.item.images[0] : "https://i.stack.imgur.com/y9DpT.jpg"} alt="" className="item-image"></img>
                         <h2 className="item-header">{cart.item.name}</h2>
@@ -76,9 +87,9 @@ const ActiveOrder = () => {
                             <div className="quantity-data">
                                 <div className="item-quantity">Quantity: </div>
                                 <div className="quantity-buttons">
-                                    <div className="sign-box" onClick={() => decreaseQuantity(cart.item.id)}>-</div>
+                                    <div className="sign-box" onClick={() => changeQuantity(cart.item.id, -1)}>-</div>
                                     <span className="cart-quantity">{cart.quantity}</span>
-                                    <div className="sign-box" onClick={() => increaseQuantity(cart.item.id)}>+</div>
+                                    <div className="sign-box" onClick={() => changeQuantity(cart.item.id, 1)}>+</div>
                                 </div>
                             </div>
                         </form>
