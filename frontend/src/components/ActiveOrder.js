@@ -41,6 +41,19 @@ const ActiveOrder = () => {
         });
     }, []);
 
+    const increaseQuantity = id => {
+        console.log("dobra");
+        const url = `http://localhost:8000/shop/items/${id}/`;
+        axios.post(url, {}, {withCredentials: true, params: {quantity: 1}})
+        .then(response => {
+            // TODO
+        })
+    };
+
+    const decreaseQuantity = id => {
+
+    };
+
     return (
         <div className="order-page">
             <div className="order">
@@ -60,15 +73,15 @@ const ActiveOrder = () => {
                         <div className="item-description">{cart.item.description}</div>
                         <div className="item-price">{cart.item.price}zł</div>
                         <form className="quantity=form">
-                        <div className="quantity-data">
+                            <div className="quantity-data">
                                 <div className="item-quantity">Quantity: </div>
                                 <div className="quantity-buttons">
-                                    <div className="sign-box">-</div>
+                                    <div className="sign-box" onClick={() => decreaseQuantity(cart.item.id)}>-</div>
                                     <span className="cart-quantity">{cart.quantity}</span>
-                                    <div className="sign-box">+</div>
+                                    <div className="sign-box" onClick={() => increaseQuantity(cart.item.id)}>+</div>
                                 </div>
                             </div>
-                    </form>
+                        </form>
                     </div>
                 ))}
             </div>
