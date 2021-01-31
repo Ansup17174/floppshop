@@ -78,6 +78,7 @@ const ItemDetails = () => {
             <div className="item-details-images">
                 <img src="https://i.stack.imgur.com/y9DpT.jpg" alt="item" className="item-details-image"/>
             </div>
+            <div className="item-details-line"></div>
             <div className="item-details-info">
                 <div className="item-details-name">{item.name}</div>
                 <div className="item-details-description">{item.description}</div>

@@ -344,8 +344,8 @@ a:active {
 }
 
 .item-details-image {
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
 }
 
 .item-details-name {
@@ -436,4 +436,10 @@ a:active {
     color: green;
     width: 70%;
     font-size: 30px;
+}
+
+.item-details-line {
+    background-color: black;
+    width: 1px;
+    height: 80vh;   
 }
