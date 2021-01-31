@@ -33,6 +33,7 @@ const ActiveOrder = () => {
         <div>
             {order.detail ? <div>No active order</div> : null}
             {order.id ? <div>{order.id}</div> : null}
+            {order.quantity ? <div>{order.quantity}</div> : null}
         </div>
     );
 };

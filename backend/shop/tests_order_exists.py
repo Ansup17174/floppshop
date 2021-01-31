@@ -91,6 +91,22 @@ class ShopOrderExistsTestCase(APITestCase):
             "method": self.shipping_method.name
         }
 
+    def test_add_items_to_order(self):
+        quantity = 15
+        add_item_response = self.add_item_to_order(self.cat_food, quantity)
+        self.assertEqual(add_item_response.status_code, 200)
+        expected_response = {
+            "detail": f"{quantity} items were added to cart for total price of {quantity * self.cat_food.price}"
+        }
+        self.assertEqual(add_item_response.data, expected_response)
+        add_another_item_response = self.add_item_to_order(self.cat_toy, quantity)
+        self.assertEqual(add_another_item_response.status_code, 200)
+        get_order_response = self.client.get(reverse("order_view"))
+        self.assertEqual(get_order_response.status_code, 200)
+        order = Order.objects.all().first()
+        cart = Cart.objects.all().first()
+        self.assertTrue(cart in order.carts.all())
+
     def test_order_disappears_when_empty(self):
         response = self.add_item_to_order(self.cat_food, -30)
         self.assertEqual(response.status_code, 200)
@@ -186,4 +202,3 @@ class ShopOrderExistsTestCase(APITestCase):
             order.date_paid,
             datetime.strptime(payu_notification.get("localReceiptDateTime"), "%Y-%m-%dT%H:%M:%S.%f%z")
         )
-# TODO test images

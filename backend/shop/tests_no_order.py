@@ -110,7 +110,7 @@ class ShopNoOrderTestCase(APITestCase):
         )
         return response
 
-    def test_add_item_to_order(self):
+    def test_add_items_to_order(self):
         quantity = 15
         add_item_response = self.add_item_to_order(self.cat_food, quantity)
         self.assertEqual(add_item_response.status_code, 200)
@@ -118,6 +118,8 @@ class ShopNoOrderTestCase(APITestCase):
             "detail": f"{quantity} items were added to cart for total price of {quantity * self.cat_food.price}"
         }
         self.assertEqual(add_item_response.data, expected_response)
+        add_another_item_response = self.add_item_to_order(self.cat_toy, quantity)
+        self.assertEqual(add_another_item_response.status_code, 200)
         get_order_response = self.client.get(reverse("order_view"))
         self.assertEqual(get_order_response.status_code, 200)
         order = Order.objects.all().first()

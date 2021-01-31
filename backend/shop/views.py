@@ -120,9 +120,9 @@ class UserItemDetailView(APIView):
         if quantity > item.quantity:
             raise ValidationError({"detail": "Invalid quantity"})
         with transaction.atomic():
-            order, is_created = Order.objects.get_or_create(user=user, is_finished=False)
-            if not is_created:
-                cart = order.carts.get(item=item)
+            order, order_is_created = Order.objects.get_or_create(user=user, is_finished=False)
+            if not order_is_created:
+                cart, cart_is_created = Cart.objects.get_or_create(order=order, item=item)
                 if cart.quantity + quantity > item.quantity or cart.quantity + quantity < 0:
                     raise ValidationError({"detail": "Invalid quantity"})
                 if cart.quantity + quantity == 0:  # removing item from cart
@@ -134,6 +134,8 @@ class UserItemDetailView(APIView):
                         order.delete()
                     return Response({"detail": f"Removed {item.name} from cart"})
                 cart.quantity += quantity
+                if cart_is_created:
+                    order.quantity += 1
             else:
                 if quantity < 0:
                     raise ValidationError({"detail": "Invalid quantity"})
