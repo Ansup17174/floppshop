@@ -21,24 +21,10 @@ const ActiveOrder = () => {
         quantity: 0
     });
     const history = useHistory();
-    const {setUserData} = useContext(UserContext);
+    const {reloadUserData} = useContext(UserContext);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/auth/user/", {withCredentials: true})
-        .then(response => {
-            setUserData(response.data);
-            axios.get("http://localhost:8000/shop/order/", {withCredentials: true})
-            .then(response => {
-                setOrder(response.data);
-            })
-            .catch(error => {
-                setOrder(error.response.data);
-            });
-        })
-        .catch(error => {
-            setUserData({});
-            history.push("/login");
-        });
+        reloadUserData();
     }, []);
 
     const changeQuantity = (id, quantity) => {

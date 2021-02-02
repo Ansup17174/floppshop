@@ -17,21 +17,28 @@ import axios from 'axios';
 const App = () => {
 
   const [userData, setUserData] = useState({});
+  const [ready, setReady] = useState(false);
 
-  useEffect(() => {
+  const reloadUserData = () => {
     const url = "http://localhost:8000/auth/user/";
     axios.get(url, {withCredentials: true})
     .then(response => {
       setUserData(response.data);
+      setReady(true);
     })
     .catch(error => {
-      setUserData({});  
-    })
+      setUserData({});
+      setReady(true);  
+    });
+  }
+
+  useEffect(() => {
+    reloadUserData();
   }, []);
 
   return (
     <Router>
-      <UserContext.Provider value={{userData, setUserData}}>
+      {ready && <UserContext.Provider value={{userData, reloadUserData}}>
         <div className="nav-wrapper">
           <Header />
         </div>
@@ -49,7 +56,7 @@ const App = () => {
             <Route path="*" component={NotFound}/>
         </Switch>
         </div>
-      </UserContext.Provider>
+      </UserContext.Provider>}
     </Router>
   );
 };

@@ -1,6 +1,7 @@
 import axios from 'axios';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import {useParams, useHistory} from 'react-router-dom';
+import UserContext from '../context/UserContext';
 
 const ItemDetails = () => {
 
@@ -11,6 +12,7 @@ const ItemDetails = () => {
         price: 0,
 
     });
+    const {userData, reloadUserData} = useContext(UserContext);
     const [quantity, setQuantity] = useState(1);
     const [response, setResponse] = useState(false);
     const [error, setError] = useState({});
@@ -52,15 +54,7 @@ const ItemDetails = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        axios.get("http://localhost:8000/auth/user/", {withCredentials: true})
-        .then(response => {
-            return;
-        })
-        .catch(error => {
-            history.push("/login");
-        });
-
-
+        reloadUserData();
         const url = `http://localhost:8000/shop/items/${id}/`;
         axios.post(url, {}, {withCredentials: true, params: {quantity}})
         .then(response => {
@@ -68,6 +62,9 @@ const ItemDetails = () => {
             setError({});
         })
         .catch(error => {
+            if (error.response.status === 401) {
+                history.push("/login");
+            }
             setResponse({});
             setError(error.response.data);
         });

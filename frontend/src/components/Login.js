@@ -14,7 +14,7 @@ const Login = () => {
 
     const [errors, setErrors] = useState({});
     const history = useHistory();
-    const {setUserData} = useContext(UserContext);
+    const {reloadUserData} = useContext(UserContext);
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -22,7 +22,7 @@ const Login = () => {
         await axios.post(url, {email: formState.email, password: formState.password}, {withCredentials: true})
         .then(response => {
             setErrors({});
-            setUserData(response.data.user);
+            reloadUserData();
             history.push("/");
         })
         .catch(error => {

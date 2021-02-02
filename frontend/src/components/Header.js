@@ -1,11 +1,11 @@
 import {Link, useHistory} from 'react-router-dom';
 import UserContext from '../context/UserContext';
-import {useContext} from 'react';
+import {useContext, useEffect} from 'react';
 import axios from 'axios';
 
 const Header = () => {
 
-    const {userData, setUserData} = useContext(UserContext);
+    const {userData, reloadUserData} = useContext(UserContext);
 
     const history = useHistory();
 
@@ -13,7 +13,7 @@ const Header = () => {
         const url = "http://localhost:8000/auth/logout/"
         await axios.post(url, {}, {withCredentials: true})
         .then(response => {
-            setUserData({});
+            reloadUserData();
             history.push("/logout");
         })
     };
