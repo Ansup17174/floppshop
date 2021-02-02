@@ -49,7 +49,8 @@ const Checkout = () => {
             })
         })
         .catch(error => {
-            history.pushState("/login");
+            setUserData({});
+            history.push("/login");
         })
     }, []);
 
