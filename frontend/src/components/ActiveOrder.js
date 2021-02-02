@@ -1,8 +1,8 @@
 import axios from 'axios';
 import {useState, useEffect, useContext} from 'react';
-import {useHistory} from 'react-router-dom';
+import {useHistory, Link} from 'react-router-dom';
 import UserContext from '../context/UserContext';
-
+import OrderInfo from './OrderInfo';
 
 
 const ActiveOrder = () => {
@@ -70,14 +70,7 @@ const ActiveOrder = () => {
 
     return (
         <div className="order-page">
-            {order.id ? <div className="order">
-                <h1>Active order</h1>
-                <div className="order-info">
-                    <div className="order-field"><span>Order ID: </span><span>{order.id}</span></div>
-                    <div className="order-field"><span>Quantity: </span><span>{order.quantity}</span></div>
-                    <div className="order-field"><span>Total price: </span><span>{order.total_price}zl</span></div>
-                </div>
-            </div> : <div className="order"><h1>No active order</h1></div>}
+            <OrderInfo order={order} />
             {order.id ? <div className="order">
                 <h1>Items</h1>
                 {order.carts.sort(compareCarts).map((cart, index) => (
@@ -99,6 +92,7 @@ const ActiveOrder = () => {
                         </form>
                     </div>
                 ))}
+                <Link to="/checkout" className="checkout"><div className="checkout-button">Go to checkout &gt;</div></Link>
             </div> : null}
         </div>
     );
