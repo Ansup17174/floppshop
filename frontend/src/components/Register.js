@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {useState} from 'react';
-
+import {useForm} from 'react-hook-form'
 
 const RegisterPage = () => {
 
@@ -17,7 +17,6 @@ const RegisterPage = () => {
         responseLoading: false
     });
     const [errors, setErrors] = useState({});
-
 
     const handleSubmit = e => {
         e.preventDefault();

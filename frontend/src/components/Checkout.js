@@ -33,25 +33,21 @@ const Checkout = () => {
     const [select, setSelect] = useState("InPost");
     const [readOnly, setReadOnly] = useState(false);
 
-    const {setUserData} = useContext(UserContext);
+    const {userData, reloadUserData} = useContext(UserContext);
     const history = useHistory();
 
     useEffect(() => {
-        axios.get("http://localhost:8000/auth/user/", {withCredentials: true})
+        axios.get("http://localhost:8000/shop/order/", {withCredentials: true})
         .then(response => {
-            setUserData(response.data);
-            axios.get("http://localhost:8000/shop/order/", {withCredentials: true})
-            .then(response => {
-                setOrder(response.data);
-            })
-            .catch(error => {
-                setOrder({});
-            })
+            setOrder(response.data);
         })
         .catch(error => {
-            setUserData({});
-            history.push("/login");
-        })
+            if (error.response.status === 401) {
+                reloadUserData();
+                history.push("/login");
+            }
+            console.log(error.response.data);
+        });
     }, []);
 
     useEffect(() => {

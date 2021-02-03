@@ -24,7 +24,17 @@ const ActiveOrder = () => {
     const {reloadUserData} = useContext(UserContext);
 
     useEffect(() => {
-        reloadUserData();
+        axios.get("http://localhost:8000/shop/order/", {withCredentials: true})
+        .then(response => {
+            setOrder(response.data);
+        })
+        .catch(error => {
+            if (error.response.status === 401) {
+                reloadUserData();
+                history.push("/login");
+            }
+            setOrder(error.response.data);
+        });
     }, []);
 
     const changeQuantity = (id, quantity) => {
@@ -37,10 +47,15 @@ const ActiveOrder = () => {
             })
             .catch(error => {
                 setOrder(error.response.data);
+                console.log(error.response.data);
             });
         })
         .catch(error => {
-            history.push("login/");
+            if (error.response.status === 401) {
+                reloadUserData();
+                history.push("/login");
+            }
+            console.log(error.response.data);
         });
     };
 
