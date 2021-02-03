@@ -22,7 +22,6 @@ const App = () => {
     const url = "http://localhost:8000/auth/user/";
     await axios.get(url, {withCredentials: true})
     .then(response => {
-      console.log("authenticated");
       setUserData(response.data);
     })
     .catch(error => {

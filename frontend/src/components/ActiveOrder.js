@@ -20,6 +20,7 @@ const ActiveOrder = () => {
         date_paid: "",
         quantity: 0
     });
+    const [error, setError] = useState({});
     const history = useHistory();
     const {reloadUserData} = useContext(UserContext);
 
@@ -43,11 +44,8 @@ const ActiveOrder = () => {
         .then(response => {
             axios.get("http://localhost:8000/shop/order/", {withCredentials: true})
             .then(response => {
+                setError({});
                 setOrder(response.data);
-            })
-            .catch(error => {
-                setOrder(error.response.data);
-                console.log(error.response.data);
             });
         })
         .catch(error => {
@@ -55,7 +53,7 @@ const ActiveOrder = () => {
                 reloadUserData();
                 history.push("/login");
             }
-            console.log(error.response.data);
+            setError(error.response.data);
         });
     };
 
@@ -81,19 +79,22 @@ const ActiveOrder = () => {
                         <div className="item-description">{cart.item.description}</div>
                         <div className="item-price">{cart.item.price}zł</div>
                         <h3>Total price: {cart.total_price}zł</h3>
-                        <form className="quantity=form">
-                            <div className="quantity-data">
-                                <div className="item-quantity">Quantity: </div>
-                                <div className="quantity-buttons">
-                                    <div className="sign-box" onClick={() => changeQuantity(cart.item.id, -1)}>-</div>
-                                    <span className="cart-quantity">{cart.quantity}</span>
-                                    <div className="sign-box" onClick={() => changeQuantity(cart.item.id, 1)}>+</div>
+                        <form className="quantity-form">
+                            <div>
+                                <div className="quantity-data">
+                                    <div className="item-quantity">Quantity: </div>
+                                    <div className="quantity-buttons">
+                                        <div className="sign-box" onClick={() => changeQuantity(cart.item.id, -1)}>-</div>
+                                        <span className="cart-quantity">{cart.quantity}</span>
+                                        <div className="sign-box" onClick={() => changeQuantity(cart.item.id, 1)}>+</div>
+                                    </div>
                                 </div>
                             </div>
+                            {error.detail && <div className="register-fail">{error.detail}</div>}
                         </form>
                     </div>
                 ))}
-                <Link to="/checkout" className="checkout"><div className="checkout-button">Go to checkout &gt;</div></Link>
+                <div className="checkout"><Link to="/checkout"><div className="checkout-button">Go to checkout &gt;</div></Link></div>
             </div> : null}
         </div>
     );

@@ -14,8 +14,6 @@ const Checkout = () => {
         city: "",
         method: ""
     });
-
-    const [errors, setErrors] = useState({});
     const [order, setOrder] = useState({
         id: "",
         carts: [],
@@ -32,7 +30,6 @@ const Checkout = () => {
 
     const [select, setSelect] = useState("InPost");
     const [readOnly, setReadOnly] = useState(false);
-
     const {userData, reloadUserData} = useContext(UserContext);
     const history = useHistory();
 
@@ -46,12 +43,13 @@ const Checkout = () => {
                 reloadUserData();
                 history.push("/login");
             }
-            console.log(error.response.data);
+            setOrder(error.response.data);
         });
     }, []);
 
     useEffect(() => {
         window.easyPackAsyncInit = () => {
+            console.log("xDDD");
             // eslint-disable-next-line no-undef
             easyPack.init({});
             // eslint-disable-next-line no-undef
@@ -69,6 +67,7 @@ const Checkout = () => {
 
     useEffect(() => {
         const easyPackDiv = document.getElementById("easypack-map");
+        console.log(easyPackDiv);
         if (select === "InPost") {
             easyPackDiv.classList.remove("hidden");
             setReadOnly(true);
@@ -101,7 +100,7 @@ const Checkout = () => {
             <div className="item-details-line"></div>
             <div className="shipping-method">
                 <h1>Shipping method: </h1>
-                <select name="method" id="method" className="shipping-method-select" value={select} onChange={e => setSelect(e.target.value)}>
+                <select name="method" id="method" className="shipping-method-select" onChange={e => setSelect(e.target.value)}>
                     <option value="InPost">InPost</option>
                     <option value="UPS">UPS</option>
                 </select>

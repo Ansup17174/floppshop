@@ -11,7 +11,7 @@ const OrderInfo = ({order}) => {
                     <div className="order-field"><span>Total price: </span><span>{order.total_price}zł</span></div>
                 </div>
             </div> : <div className="order"><h1>No active order</h1></div>}
-            </>
+        </>
     );
 };
 

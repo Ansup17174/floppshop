@@ -365,6 +365,8 @@ a:active {
 
 .quantity-form {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: space-between;
 }
 
@@ -561,7 +563,7 @@ a:active {
     display: flex;
     height: 100%;
     flex-direction: column;
-    justify-content: space-between;  
+    justify-content: space-around;  
     align-items: center;
 }
 

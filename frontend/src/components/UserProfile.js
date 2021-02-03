@@ -9,16 +9,20 @@ const UserProfile = () => {
     const [errors, setErrors] = useState({});
     const [responseOk, setResponseOk] = useState(false);
     const [dateInputType, setDateInputType] = useState("text");
-    const {userData, reloadUserData} = useContext(UserContext);
+    const {reloadUserData} = useContext(UserContext);
     const history = useHistory();
 
     useEffect(() => {
-        reloadUserData();
-        if (!userData.pk) {
+        axios.get("http://localhost:8000/auth/user/", {withCredentials: true})
+        .then(response => {
+            setFormData(response.data);
+        })
+        .catch(error => {
+            reloadUserData();
             history.push("/login");
-        }
+        });
     }, []);
-    
+
     const handleSubmit = e => {
         e.preventDefault();
         reloadUserData();
@@ -29,8 +33,9 @@ const UserProfile = () => {
             setErrors({});
         })
         .catch(error => {
-            if (error.response.status) {
-                
+            if (error.response.status === 401) {
+                reloadUserData();
+                history.push("/login");
             }
             setResponseOk(false);
             setErrors(error.response.data);
