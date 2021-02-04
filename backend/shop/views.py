@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
-from rest_framework.generics import DestroyAPIView
+from rest_framework.generics import DestroyAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -47,6 +47,13 @@ class AdminShippingMethodViewset(ModelViewSet):
     permission_classes = [IsAdminUser]
     serializer_class = ShippingMethodSerializer
     queryset = ShippingMethod.objects.all()
+
+class ShippingMethodView(APIView):
+    
+    def get(self, request):
+        methods = ShippingMethod.objects.filter(is_available=True)
+        serializer = ShippingMethodSerializer(methods, many=True)
+        return Response(serializer.data, status=200)
 
 
 class AdminCategoryViewset(ModelViewSet):

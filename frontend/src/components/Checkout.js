@@ -27,7 +27,9 @@ const Checkout = () => {
         date_paid: "",
         quantity: 0
     });
+    const [methods, setMethods] = useState([]);
 
+    const [errors, setErrors] = useState({});
     const [select, setSelect] = useState("InPost");
     const [readOnly, setReadOnly] = useState(false);
     const {userData, reloadUserData} = useContext(UserContext);
@@ -37,6 +39,7 @@ const Checkout = () => {
         axios.get("http://localhost:8000/shop/order/", {withCredentials: true})
         .then(response => {
             setOrder(response.data);
+            
         })
         .catch(error => {
             if (error.response.status === 401) {
@@ -82,27 +85,35 @@ const Checkout = () => {
         });
     }, [select]);
 
+    const submitOrder = () => {
+
+    };
+
     return (
         <>
         <OrderInfo order={order} />
-        <div className="shipping">
-            <form className="shipping-form">
-                <h1>Address:</h1>
-                <input type="text" placeholder="Street" className="register-input" readOnly={readOnly} value={formData.street} onChange={e => setFormData({...formData, street: e.target.value})}/>
-                <input type="text" placeholder="Number" className="register-input" readOnly={readOnly} value={formData.number} onChange={e => setFormData({...formData, number: e.target.value})}/>
-                <input type="text" placeholder="Post Code" className="register-input" readOnly={readOnly} value={formData.post_code} onChange={e => setFormData({...formData, post_code: e.target.value})}/>
-                <input type="text" placeholder="State" className="register-input" readOnly={readOnly} value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})}/>
-                <input type="text" placeholder="City" className="register-input" readOnly={readOnly} value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})}/>
-            </form>
-            <div className="item-details-line"></div>
-            <div className="shipping-method">
-                <h1>Shipping method: </h1>
-                <select name="method" id="method" className="shipping-method-select" onChange={e => setSelect(e.target.value)}>
-                    <option value="InPost">InPost</option>
-                    <option value="UPS">UPS</option>
-                </select>
-                <div className="inpost-dropdown">
-                    <div id="easypack-map"></div>
+        <div>
+            <div className="shipping">
+                <form className="shipping-form">
+                    <h1>Address:</h1>
+                    <input type="text" placeholder="Street" className="register-input" readOnly={readOnly} value={formData.street} onChange={e => setFormData({...formData, street: e.target.value})}/>
+                    <input type="text" placeholder="Number" className="register-input" readOnly={readOnly} value={formData.number} onChange={e => setFormData({...formData, number: e.target.value})}/>
+                    <input type="text" placeholder="Post Code" className="register-input" readOnly={readOnly} value={formData.post_code} onChange={e => setFormData({...formData, post_code: e.target.value})}/>
+                    <input type="text" placeholder="State" className="register-input" readOnly={readOnly} value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})}/>
+                    <input type="text" placeholder="City" className="register-input" readOnly={readOnly} value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})}/>
+                </form>
+                <div className="item-details-line"></div>
+                <div className="shipping-method">
+                    <h1>Shipping method: </h1>
+                    <div className="inpost-dropdown">
+                        <div id="easypack-map"></div>
+                    </div>
+                    <select name="method" id="method" className="shipping-method-select" value={select} onChange={e => setSelect(e.target.value)}>
+                        <option value="InPost">InPost</option>
+                        <option value="UPS">UPS</option>
+                    </select>
+                    <div className="checkout-button" onClick={submitOrder}>Submit order</div>
+                    {errors.detail && <div className="register-fail">Invalid shipping address data</div>}
                 </div>
             </div>
         </div>

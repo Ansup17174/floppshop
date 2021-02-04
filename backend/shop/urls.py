@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (AdminItemViewset, UserItemView, UserItemDetailView, UserOrderView,
                     AdminDeleteItemImageView, AdminShippingMethodViewset, UserOrderPaymentView,
-                    PayUNotifyView, AdminNotificationView, AdminCategoryViewset)
+                    PayUNotifyView, AdminNotificationView, AdminCategoryViewset, ShippingMethodView)
 
 admin_item_router = DefaultRouter()
 admin_item_router.register(r"items", AdminItemViewset, basename="shop-admin")
@@ -22,6 +22,7 @@ urlpatterns = [
     path("admin/", include(admin_shipping_method_router.urls)),
     path("admin/", include(admin_category_router.urls)),
     path("admin/notifications/", AdminNotificationView.as_view(), name="admin_notification_view"),
+    path("methods/", ShippingMethodView.as_view(), name="shipping_method_view"),
     path("payment/<int:order_pk>/", UserOrderPaymentView.as_view(), name="payment_view"),
     path("admin/items/images/<uuid:image_pk>/", AdminDeleteItemImageView.as_view(), name="delete_image_view"),
     path("items/<uuid:item_pk>/", UserItemDetailView.as_view(), name="item_details_view"),
