@@ -141,6 +141,7 @@ class UserItemDetailView(APIView):
                         order.save()
                     else:
                         order.delete()
+                        return Response(status=204)
                     return Response({"detail": f"Removed {item.name} from cart"})
                 cart.quantity += quantity
                 if cart_is_created:

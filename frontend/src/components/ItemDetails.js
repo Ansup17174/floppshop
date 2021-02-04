@@ -84,7 +84,7 @@ const ItemDetails = () => {
                         <div className="item-quantity">In-stock: {item.quantity}</div>
                         <span className="item-price">{item.price}zl</span>
                     </div>
-                    {item.is_available || item.quantity <= 0 ? <form className="quantity-form" onSubmit={handleSubmit}>
+                    {item.is_available && item.quantity > 0 ? <form className="quantity-form" onSubmit={handleSubmit}>
                         <div className="quantity-data">
                             <div className="item-quantity">Quantity: </div>
                             <div className="quantity-buttons">

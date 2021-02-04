@@ -42,11 +42,15 @@ const ActiveOrder = () => {
         const url = `http://localhost:8000/shop/items/${id}/`;
         axios.post(url, {}, {withCredentials: true, params: {quantity}})
         .then(response => {
-            axios.get("http://localhost:8000/shop/order/", {withCredentials: true})
+            if (response.status === 204) {
+                setOrder({});
+            } else {
+                axios.get("http://localhost:8000/shop/order/", {withCredentials: true})
             .then(response => {
                 setError({});
                 setOrder(response.data);
             });
+            }
         })
         .catch(error => {
             if (error.response.status === 401) {

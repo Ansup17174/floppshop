@@ -60,7 +60,7 @@ const Checkout = () => {
                 reloadUserData();
                 history.push("/login");
             }
-            setOrder(error.response.data);
+            history.push("/not-found");
         });
     }, []);
 
@@ -78,7 +78,6 @@ const Checkout = () => {
     useEffect(() => {
         const easyPackDiv = document.getElementById("easypack-map");
         if (select === "InPost") {
-            console.log("xDDD");
             easyPackDiv.classList.remove("hidden");
             setReadOnly(true);
             setFormData({
@@ -90,7 +89,6 @@ const Checkout = () => {
                 method: ""
             });
         } else {
-            console.log("222");
             easyPackDiv.classList.add("hidden");
             setReadOnly(false);
         }
@@ -99,7 +97,6 @@ const Checkout = () => {
     const submitOrder = () => {
         axios.post("http://localhost:8000/shop/order/", {...formData, method: select}, {withCredentials: true})
         .then(response => {
-            console.log(response.data);
             history.push("/");
         })
         .catch(error => {
@@ -108,7 +105,6 @@ const Checkout = () => {
                 history.push("/login");
             }
             setErrors(error.response.data);
-            console.log(error.response.data);
         });
     };
 
