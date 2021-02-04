@@ -1,8 +1,26 @@
+import {useState} from 'react';
 
-const OrderFinished = ({order}) => {
+
+const HistoryDetails = () => {
+
+    const [order, setOrder] = useState({
+        id: "",
+        carts: [],
+        address: "",
+        method: {},
+        total_price: "",
+        is_finished: false,
+        is_paid: false,
+        date_created: "",
+        date_finished: "",
+        date_paid: "",
+        quantity: 0
+    });
+
+    
+
     return (
-        <>
-        <div className="order order-finished">
+        <div className="order">
             <div className="order-info">
                 <div className="order-field"><span>Order ID: </span><span>{order.id}</span></div>
                 <div className="order-field"><span>Total price: </span><span>{order.total_price}zł</span></div>
@@ -13,8 +31,5 @@ const OrderFinished = ({order}) => {
                 {order.is_paid && <div className="order-field"><span>Date paid: </span><span>{order.date_paid}</span></div>}
             </div>
         </div>
-        </>
     );
-};
-
-export default OrderFinished;
+}

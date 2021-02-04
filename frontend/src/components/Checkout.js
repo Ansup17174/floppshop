@@ -28,7 +28,7 @@ const Checkout = () => {
         quantity: 0
     });
     const [methods, setMethods] = useState([]);
-
+    const [payUUri, setPayUUri] = useState("");
     const [errors, setErrors] = useState({});
     const [select, setSelect] = useState();
     const [readOnly, setReadOnly] = useState(false);
@@ -97,12 +97,21 @@ const Checkout = () => {
     const submitOrder = () => {
         axios.post("http://localhost:8000/shop/order/", {...formData, method: select}, {withCredentials: true})
         .then(response => {
-            history.push("/");
+            axios.post(`http://localhost:8000/shop/payment/${order.id}/`, {}, {withCredentials: true})
+            .then(response => {
+                console.log(response.data);
+                setPayUUri(response.data.redirectUri);
+            })
+            .catch(error => {
+                console.log(error.response.data);
+            })
         })
         .catch(error => {
             if (error.response.status === 401) {
                 reloadUserData();
                 history.push("/login");
+            } else if (error.response.status === 404) {
+                history.push("/order");
             }
             setErrors(error.response.data);
         });
@@ -138,7 +147,8 @@ const Checkout = () => {
                         <option value={method.name} key={index}>{method.name} - {method.price}zł</option>
                         ))}
                     </select>
-                    <div className="checkout-button" onClick={submitOrder}>Submit order</div>
+                    {!payUUri && <div className="checkout-button" onClick={submitOrder}>Submit order</div>}
+                    {payUUri && <a href={payUUri} target="_blank" rel="noreferrer"><div className="order-details">Redirect to payment</div></a>}
                     {errors.detail && <div className="register-fail">Choose shipping method</div>}
                 </div>
             </div>

@@ -604,13 +604,7 @@ a:active {
     cursor: pointer;
 }
 
-.order-details {
-    color: white;
-    font-weight: bold;
-    font-size: 20px;
-    color: white;
-    background-color: rgb(12, 89, 196);
-    padding: 10px 30px;
-    border-radius: 7px;
+.order-finished:hover {
     cursor: pointer;
+    background-color: rgb(200, 200, 200);
 }

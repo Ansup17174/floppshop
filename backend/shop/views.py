@@ -170,7 +170,7 @@ class UserOrderView(APIView):
         #     serializer = OrderSerializer(orders, many=True)
         #     return Response(serializer.data, status=200)
         if 'history' in request.query_params:
-            orders = Order.objects.filter(user=request.user, is_finished=True)
+            orders = Order.objects.filter(user=request.user, is_finished=True).order_by("-date_finished")
             serializer = OrderSerializer(orders, many=True)
             return Response(serializer.data, status=200)
         else:
@@ -272,7 +272,8 @@ class UserOrderPaymentView(APIView):
         )
         if payu_response.status_code != 302:
             raise PayUException()
-        return Response(payu_response.json(), status=200)
+        response = {"redirectUri": payu_response.json()["redirectUri"]}
+        return Response(response, status=200)
 
 
 class PayUNotifyView(APIView):
