@@ -48,21 +48,18 @@ const Checkout = () => {
     }, []);
 
     useEffect(() => {
-        window.easyPackAsyncInit = () => {
-            console.log("xDDD");
-            // eslint-disable-next-line no-undef
-            easyPack.init({});
-            // eslint-disable-next-line no-undef
-            easyPack.dropdownWidget('easypack-map', ({address_details}) => {
-                setFormData({
-                    street: address_details.street,
-                    number: address_details.building_number,
-                    state: address_details.province,
-                    post_code: address_details.post_code,
-                    city: address_details.city
-                });
+        // eslint-disable-next-line no-undef
+        easyPack.init({});
+        // eslint-disable-next-line no-undef
+        easyPack.dropdownWidget('easypack-map', ({address_details}) => {
+            setFormData({
+                street: address_details.street,
+                number: address_details.building_number,
+                state: address_details.province,
+                post_code: address_details.post_code,
+                city: address_details.city
             });
-        };
+        });
     }, []);
 
     useEffect(() => {
