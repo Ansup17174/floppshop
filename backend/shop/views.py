@@ -165,12 +165,12 @@ class UserItemDetailView(APIView):
 class UserOrderView(APIView):
 
     def get(self, request):
-        if 'unpaid' in request.query_params:
-            orders = Order.objects.filter(user=request.user, is_paid=False, is_finished=True)
-            serializer = OrderSerializer(orders, many=True)
-            return Response(serializer.data, status=200)
-        elif 'history' in request.query_params:
-            orders = Order.objects.filter(user=request.user, is_paid=True)
+        # if 'unpaid' in request.query_params:
+        #     orders = Order.objects.filter(user=request.user, is_paid=False, is_finished=True)
+        #     serializer = OrderSerializer(orders, many=True)
+        #     return Response(serializer.data, status=200)
+        if 'history' in request.query_params:
+            orders = Order.objects.filter(user=request.user, is_finished=True)
             serializer = OrderSerializer(orders, many=True)
             return Response(serializer.data, status=200)
         else:

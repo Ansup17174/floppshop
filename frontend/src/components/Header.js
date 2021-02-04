@@ -23,9 +23,9 @@ const Header = () => {
         <nav className="navbar">
             <Link to="/" className="logo"><div>FloppShop</div></Link>
             <ul className="nav-links">
-                {userData.pk ? <Link to="/orders" className="nav-item"><li>Orders</li></Link> : null}
-                {userData.pk ? <Link to="/profile" className="nav-item"><li>Profile</li></Link> : null}
-                <Link to="/contact" className="nav-item"><li>Contact</li></Link>
+                {userData.pk && <Link to="/order-history" className="nav-item"><li>History</li></Link>}
+                {userData.pk && <Link to="/order" className="nav-item"><li>Order</li></Link>}
+                {userData.pk && <Link to="/profile" className="nav-item"><li>Profile</li></Link>}
                 <Link to="/register" className="nav-item"><li>Register</li></Link>
                 {!userData.pk ? <Link to="/login" className="nav-item"><li>Log in</li></Link> : <div className="nav-item" onClick={logout}>Logout</div>}
             </ul>

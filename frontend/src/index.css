@@ -592,3 +592,25 @@ a:active {
 .easypack-dropdown__list {
     height: 15vh;
 }
+
+.pay-button {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: rgb(75, 255, 15);
+    padding: 10px 20px;
+    border-radius: 7px;
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+.order-details {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+    background-color: rgb(12, 89, 196);
+    padding: 10px 30px;
+    border-radius: 7px;
+    cursor: pointer;
+}

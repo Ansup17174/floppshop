@@ -10,6 +10,7 @@ import UserContext from './context/UserContext';
 import ItemDetails from './components/ItemDetails';
 import ActiveOrder from './components/ActiveOrder';
 import Checkout from './components/Checkout';
+import History from './components/History';
 import {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import axios from 'axios';
@@ -43,7 +44,8 @@ const App = () => {
         <Switch>
             <Route path="/" component={FilterForm} exact/>
             <Route path="/item-details/:id" component={ItemDetails} exact />
-            <Route path="/orders" component={ActiveOrder} exact />
+            <Route path="/order" component={ActiveOrder} exact />
+            <Route path="/order-history" component={History} exact />
             <Route path="/checkout" component={Checkout} exact />
             <Route path="/verify-email/:key" component={ConfirmEmail} exact/>
             <Route path="/register" component={Register} exact/>
