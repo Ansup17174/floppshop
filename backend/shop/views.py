@@ -49,6 +49,8 @@ class AdminShippingMethodViewset(ModelViewSet):
     queryset = ShippingMethod.objects.all()
 
 class ShippingMethodView(APIView):
+
+    permission_classes = [AllowAny]
     
     def get(self, request):
         methods = ShippingMethod.objects.filter(is_available=True)
