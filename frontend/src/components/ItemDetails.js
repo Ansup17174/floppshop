@@ -12,7 +12,7 @@ const ItemDetails = () => {
         price: 0,
 
     });
-    const {userData, reloadUserData} = useContext(UserContext);
+    const {reloadUserData} = useContext(UserContext);
     const [quantity, setQuantity] = useState(1);
     const [response, setResponse] = useState(false);
     const [error, setError] = useState({});
@@ -94,9 +94,9 @@ const ItemDetails = () => {
                             </div>
                         </div>
                         <input type="submit" value="Add to cart" className="add-to-cart"/>
+                        {response.detail && <div className="quantity-success">{response.detail}</div>}
+                        {error.detail && <div className="quantity-fail">{error.detail}</div>}
                     </form> : <div className="add-to-cart-unavailable">Item unavailable</div>}
-                    {response.detail ? <div className="quantity-success">{response.detail}</div> : null}
-                    {error.detail ? <div className="quantity-fail">{error.detail}</div> : null}
                 </div>
             </div>
         </div>

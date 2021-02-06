@@ -425,23 +425,13 @@ a:active {
 }
 
 .quantity-fail {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
     color:rgb(212, 8, 8);
-    width: 70%;
-    font-size: 30px;
+    font-size: 20px;
 }
 
 .quantity-success {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
     color: green;
-    width: 70%;
-    font-size: 30px;
+    font-size: 20px;
 }
 
 .item-details-line {
