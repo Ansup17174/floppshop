@@ -74,8 +74,10 @@ class AdminDeleteItemImageView(DestroyAPIView):
 class UserItemView(APIView):
 
     permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = LimitOffsetPagination
 
     def get(self, request):
+        paginator = self.pagination_class()
         items = Item.objects.filter(is_visible=True)
         if "max_price" in request.GET:
                 try:
@@ -93,6 +95,10 @@ class UserItemView(APIView):
             items = items.filter(name__icontains=search_string)
         if "category" in request.GET:
             items = items.filter(category__name=request.GET['category'])
+        page = paginator.paginate_queryset(items, request, view=self)
+        if page is not None:
+            serializer = ItemSerializer(page, many=True)
+            return paginator.get_paginated_response(serializer.data)
         serializer = ItemSerializer(items, many=True)
         return Response(serializer.data, status=200)
 
