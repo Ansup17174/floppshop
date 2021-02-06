@@ -1,8 +1,8 @@
 
-const OrderFinished = ({order}) => {
+const OrderFinished = ({order, selectOrder}) => {
     return (
         <>
-        <div className="order order-finished">
+        <div className="order order-finished" onClick={() => selectOrder(order)}>
             <div className="order-info">
                 <div className="order-field"><span>Order ID: </span><span>{order.id}</span></div>
                 <div className="order-field"><span>Total price: </span><span>{order.total_price}zł</span></div>
