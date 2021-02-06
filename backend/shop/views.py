@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.conf import settings
 from rest_framework.response import Response
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
@@ -27,19 +28,18 @@ class AdminItemViewset(ModelViewSet):
     queryset = Item.objects.all()
     permission_classes = [IsAdminUser]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
+    pagination_class = LimitOffsetPagination
 
     def list(self, request, *args, **kwargs):
-        page = 0
-        if "page" in request.GET:
-            try:
-                page = int(request.GET['page']) if int(request.GET['page']) > 0 else page
-            except ValueError:
-                pass
         if "category" in request.GET:
-            items = Item.objects.filter(category__name=request.GET['category'])[10*page:10*page+10]
+            items = Item.objects.filter(category__name=request.GET['category'])
         else:
-            items = Item.objects.all()[10 * page:10 * page + 10]
-        serializer = ItemSerializer(items, many=True)
+            items = Item.objects.all()
+        page = self.paginate_queryset(items)
+        if page is not None:
+            serializer = ItemSerializer(page, many=True)
+        else:
+            serializer = ItemSerializer(items, many=True)
         return Response(serializer.data, status=200)
 
 
@@ -77,12 +77,6 @@ class UserItemView(APIView):
 
     def get(self, request):
         items = Item.objects.filter(is_visible=True)
-        page = 1
-        if "page" in request.GET:
-            try:
-                page = int(request.GET['page']) if int(request.GET['page']) > 0 else page
-            except ValueError:
-                pass
         if "max_price" in request.GET:
                 try:
                     if float(request.GET['max_price']) > 0:
@@ -99,7 +93,6 @@ class UserItemView(APIView):
             items = items.filter(name__icontains=search_string)
         if "category" in request.GET:
             items = items.filter(category__name=request.GET['category'])
-        items = items[10*(page-1):10*(page-1)+10]
         serializer = ItemSerializer(items, many=True)
         return Response(serializer.data, status=200)
 
