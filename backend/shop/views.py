@@ -38,8 +38,8 @@ class AdminItemViewset(ModelViewSet):
         page = self.paginate_queryset(items)
         if page is not None:
             serializer = ItemSerializer(page, many=True)
-        else:
-            serializer = ItemSerializer(items, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = ItemSerializer(items, many=True)
         return Response(serializer.data, status=200)
 
 

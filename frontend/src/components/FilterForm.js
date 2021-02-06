@@ -34,9 +34,9 @@ const FilterForm = () => {
         return price1 - price2;
     };
 
-    const changePage = e => {
-        if (e.target.value > 0 && e.target.value <= maxPage) {
-            setPage(Number.parseInt(e.target.value));
+    const changePage = number => {
+        if (number > 0 && number <= maxPage) {
+            setPage(Number.parseInt(number));
         } else {
             setPage(1);
         }
@@ -57,7 +57,7 @@ const FilterForm = () => {
     };
 
     useEffect(() => {
-        const url = "http://localhost:8000/shop/items/?limit=10";
+        const url = `http://localhost:8000/shop/items/?limit=10&offset=${(page-1)*10}`;
         axios.get(url)
         .then(response => {
             setItems(response.data.results);
@@ -67,7 +67,7 @@ const FilterForm = () => {
             console.log(error.response);
             console.log(error.status);
         });
-    }, []);
+    }, [page]);
 
     useEffect(() => {
         if (orderBy) {
@@ -106,10 +106,10 @@ const FilterForm = () => {
                         <label htmlFor="price2">Descending</label> 
                     </div>
                 </div>
-                    <h3>Page: <input type="number" value={page} onChange={changePage}/> of {maxPage}</h3>
+                    <h3>Page: <input type="number" value={page} onChange={e => changePage(e.target.value)}/> of {maxPage}</h3>
                     <div>
-                        <span className="pay-button">&lt;</span>
-                        <span className="pay-button">&gt;</span>
+                        {page !== 1 && <span className="pay-button" onClick={() => changePage(page-1)}>&lt;</span>}
+                        {page !== maxPage && <span className="pay-button" onClick={() => changePage(page+1)}>&gt;</span>}
                     </div>
             </form>
         </div>
