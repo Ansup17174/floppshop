@@ -2,7 +2,6 @@ import {Link} from 'react-router-dom';
 
 const ItemList = ({items}) => {
 
-
     return (
         <div className="item-list">
             {items.length ? items.map((item, index) => (
