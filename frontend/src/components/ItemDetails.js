@@ -10,7 +10,6 @@ const ItemDetails = () => {
         description: "",
         quantity: "",
         price: 0,
-
     });
     const {reloadUserData} = useContext(UserContext);
     const [quantity, setQuantity] = useState(1);
@@ -82,7 +81,9 @@ const ItemDetails = () => {
                     <div className="item-details-description">{item.description}</div>
                     <div className="item-details-bottom">
                         <div className="item-quantity">In-stock: {item.quantity}</div>
-                        <span className="item-price">{item.price}zl</span>
+                        <span className={item.is_discount ? "item-old-price" : "item-price"}>{item.price}zl</span>
+                        {item.is_discount && <span className="item-discount-price">{item.discount_price}zl</span>}
+                        {item.is_discount && <h4 className="on-discount">ON DISCOUNT!</h4>}
                     </div>
                     {item.is_available && item.quantity > 0 ? <form className="quantity-form" onSubmit={handleSubmit}>
                         <div className="quantity-data">

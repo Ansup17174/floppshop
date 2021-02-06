@@ -168,9 +168,38 @@ a:active {
     font-size: 20px;
     color: white;
     background-color: rgb(12, 89, 196);
+    margin: 10px 0;
     padding: 10px 30px;
     border-radius: 7px;
 }
+
+.item-old-price {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+    text-decoration: line-through;
+    background-color: rgb(197, 197, 197);
+    margin: 10px 0;
+    padding: 10px 30px;
+    border-radius: 7px;
+}
+
+.item-discount-price {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+    background-color: rgb(255, 208, 0);
+    margin: 10px 0;
+    padding: 10px 30px;
+    border-radius: 7px;
+}
+
+.on-discount {
+    color: black;
+}
+
 
 .filter {
     position: fixed;

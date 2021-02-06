@@ -13,7 +13,11 @@ const ItemList = ({items}) => {
                         <div className="item-quantity">In-stock: {item.quantity}</div>
                         {item.is_available && item.quantity > 0 ? <div className="item-is-available">Available</div> : <div className="item-not-available">Not available</div>}
                     </div>
-                    <div className="item-price">{item.price}zł</div>
+                    <div>
+                        <div className={item.is_discount ? "item-old-price" : "item-price"}>{item.price}zł</div>
+                        {item.is_discount && <div className="item-discount-price">{item.discount_price}zł</div>}
+                        {item.is_discount && <h6 className="on-discount">ON DISCOUNT!</h6>}
+                    </div>
                 </div></Link>
             )) : <div className="item-error">No items found</div>}
         </div>
