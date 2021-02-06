@@ -200,7 +200,6 @@ a:active {
     color: black;
 }
 
-
 .filter {
     position: fixed;
     display: flex;
@@ -614,12 +613,12 @@ a:active {
 
 .pay-button {
     color: white;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: bold;
     background-color: rgb(12, 89, 196);
     padding: 10px 20px;
     border-radius: 7px;
-    margin: 5px 0;
+    margin: 5px 5px;
     cursor: pointer;
 }
 

@@ -118,18 +118,20 @@ class UserItemDetailView(APIView):
         try:
             quantity = int(request.query_params.get('quantity', " "))
         except ValueError:
-            raise ValidationError({"detail": "Invalid quantity"})
+            raise ValidationError({"detail": "Invalid quantity, must be a positive integer"})
 
         if quantity == 0:
-            raise ValidationError({"detail": "Invalid quantity"})
+            raise ValidationError({"detail": "Invalid quantity, must be a positive integer"})
         if quantity > item.quantity:
-            raise ValidationError({"detail": "Invalid quantity"})
+            raise ValidationError({"detail": f"Invalid quantity ({item.quantity} available)"})
         with transaction.atomic():
             order, order_is_created = Order.objects.get_or_create(user=user, is_finished=False)
             if not order_is_created:
                 cart, cart_is_created = Cart.objects.get_or_create(order=order, item=item)
                 if cart.quantity + quantity > item.quantity or cart.quantity + quantity < 0:
-                    raise ValidationError({"detail": "Invalid quantity"})
+                    raise ValidationError(
+                        {"detail": f"Invalid quantity, {item.quantity-cart.quantity} left available (In cart: {cart.quantity}, in-stock: {item.quantity})"}
+                    )
                 if cart.quantity + quantity == 0:  # removing item from cart
                     order.quantity -= 1
                     cart.delete()
@@ -144,7 +146,7 @@ class UserItemDetailView(APIView):
                     order.quantity += 1
             else:
                 if quantity < 0:
-                    raise ValidationError({"detail": "Invalid quantity"})
+                    raise ValidationError({"detail": "Invalid quantity, must be a positive integer"})
                 cart = Cart.objects.create(order=order, item=item)
                 cart.quantity += quantity
                 order.quantity += 1
@@ -152,19 +154,15 @@ class UserItemDetailView(APIView):
             order.save()
             item_price = quantity * (item.discount_price if item.is_discount else item.price)
             if quantity < 0:
-                message = f"{-quantity} items were removed from cart for total price of {-item_price}"
+                message = f"{-quantity} items were removed from cart for total price of {-item_price}zł"
             else:
-                message = f"{quantity} items were added to cart for total price of {item_price}"
+                message = f"{quantity} items were added to cart for total price of {item_price}zł"
             return Response({"detail": message}, status=200)
 
 
 class UserOrderView(APIView):
 
     def get(self, request):
-        # if 'unpaid' in request.query_params:
-        #     orders = Order.objects.filter(user=request.user, is_paid=False, is_finished=True)
-        #     serializer = OrderSerializer(orders, many=True)
-        #     return Response(serializer.data, status=200)
         if 'history' in request.query_params:
             orders = Order.objects.filter(user=request.user, is_finished=True).order_by("-date_finished")
             serializer = OrderSerializer(orders, many=True)

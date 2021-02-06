@@ -81,7 +81,10 @@ const ActiveOrder = () => {
                         <img src={cart.item.images.length ? cart.item.images[0] : "https://i.stack.imgur.com/y9DpT.jpg"} alt="" className="item-image"></img>
                         <h2 className="item-header">{cart.item.name}</h2>
                         <div className="item-description">{cart.item.description}</div>
-                        <div className="item-price">{cart.item.price}zł</div>
+                        <div>
+                            <div className={cart.item.is_discount ? "item-old-price" : "item-price"}>{cart.item.price}zł</div>
+                            {cart.item.is_discount && <div className="item-discount-price">{cart.item.discount_price}zł</div>}
+                        </div>
                         <h3>Total price: {cart.total_price}zł</h3>
                         <form className="quantity-form">
                             <div>
@@ -94,10 +97,10 @@ const ActiveOrder = () => {
                                     </div>
                                 </div>
                             </div>
-                            {error.detail && <div className="register-fail">{error.detail}</div>}
                         </form>
                     </div>
                 ))}
+                {error.detail && <div className="register-fail">{error.detail}</div>}
                 <div className="checkout"><Link to="/checkout"><div className="checkout-button">Go to checkout &gt;</div></Link></div>
             </div> : null}
         </div>
