@@ -12,15 +12,41 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ItemImageSerializer(serializers.ModelSerializer):
+
+    def get_image_url(self, image):
+        return image.image.url if os.path.isfile(image.image.path) else None
+
+    url = serializers.SerializerMethodField('get_image_url', read_only=True)
+
+    class Meta:
+        model = ItemImage
+        fields = ('id', 'url', 'ordering')
+
+
 class ItemSerializer(serializers.ModelSerializer):
 
     def get_images_urls(self, item):
         images = ItemImage.objects.filter(item=item)
-        image_list = [{"url": image.image.url, "id": image.pk} for image in images if os.path.isfile(image.image.path)]
+        image_list = [{
+            "id": image.pk,
+            "url": image.image.url,
+            "ordering": image.ordering
+        } for image in images if os.path.isfile(image.image.path)]
         return image_list
 
     def get_category_name(self, item):
         return None if item.category is None else item.category.name
+
+    def upload_images(self, images_data, item):
+        if images_data:
+            ordering = 1
+            last_image = ItemImage.objects.filter(item=item).last()
+            if last_image is not None:
+                ordering = last_image.ordering + 1
+            for image_data in images_data:
+                ItemImage.objects.create(item=item, image=image_data, ordering=ordering)
+                ordering += 1
 
     images = serializers.SerializerMethodField("get_images_urls", read_only=True)
     category_name = serializers.CharField(max_length=70, required=False, write_only=True)
@@ -38,8 +64,7 @@ class ItemSerializer(serializers.ModelSerializer):
             category = get_object_or_404(Category, name=category_name)
             item.category = category
             item.save()
-        for image_data in images_data:
-            ItemImage.objects.create(item=item, image=image_data)
+        self.upload_images(images_data, item)
         return item
 
     def update(self, item, validated_data):
@@ -49,8 +74,7 @@ class ItemSerializer(serializers.ModelSerializer):
             category = get_object_or_404(Category, name=category_name)
             item.category = category
             item.save()
-        for image_data in images_data:
-            ItemImage.objects.create(item=item, image=image_data)
+        self.upload_images(images_data, item)
         item = super().update(item, validated_data)
         return item
 

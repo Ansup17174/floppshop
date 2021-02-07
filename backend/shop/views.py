@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
-from rest_framework.generics import DestroyAPIView, RetrieveAPIView
+from rest_framework.generics import DestroyAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -12,7 +12,7 @@ from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.db import transaction
 from .serializers import (ItemSerializer, OrderSerializer, ShippingMethodSerializer, PayUOrderSerializer,
-                          PayUNotificationSerializer, CategorySerializer)
+                          PayUNotificationSerializer, CategorySerializer, ItemImageSerializer)
 from .models import Item, Order, Cart, ItemImage, ShippingMethod, PayUNotification, Category
 from .exceptions import PayUException
 from users.models import ShippingAddress
@@ -65,11 +65,12 @@ class AdminCategoryViewset(ModelViewSet):
     queryset = Category.objects.all()
 
 
-class AdminDeleteItemImageView(DestroyAPIView):
+class AdminItemImageView(RetrieveUpdateDestroyAPIView):
 
     permission_classes = [IsAdminUser]
     queryset = ItemImage.objects.all()
     lookup_url_kwarg = "image_pk"
+    serializer_class = ItemImageSerializer
 
 
 class UserItemView(APIView):
