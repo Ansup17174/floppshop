@@ -6,6 +6,7 @@ import Login from './components/Login';
 import Logout from './components/Logout';
 import ConfirmEmail from './components/ConfirmEmail';
 import UserProfile from './components/UserProfile'
+import ChangePassword from './components/ChangePassword';
 import UserContext from './context/UserContext';
 import ItemDetails from './components/ItemDetails';
 import ActiveOrder from './components/ActiveOrder';
@@ -53,6 +54,7 @@ const App = () => {
             <Route path="/login" component={Login} exact/>
             <Route path="/logout" component={Logout} exact/>
             <Route path="/profile" component={UserProfile} exact />
+            <Route path="/change-password" component={ChangePassword} exact />
             <Route path="*" component={NotFound}/>
         </Switch>
         </div>

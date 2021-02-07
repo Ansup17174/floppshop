@@ -46,7 +46,7 @@ const UserProfile = () => {
     <div className="register">
         <form className="register-form" onSubmit={handleSubmit}>
             <h1>Profile info</h1>
-            {responseOk ? <div className="register-success">Profile saved</div> : null}
+            {responseOk && <div className="register-success">Profile saved</div>}
             <div className="register-field">
                 <div className="register-input" id="pk">Id: {formData.pk}</div>
             </div>
@@ -55,15 +55,15 @@ const UserProfile = () => {
             </div>
             <div className="register-field">
                 First name: <input type="text" className="register-input" value={formData.first_name} placeholder="First name" onChange={e => setFormData({...formData, first_name: e.target.value})}/>
-                {errors.first_name ? errors.first_name.map((message, index) => <div className="register-fail" key={index}>{message}</div>) : null}
+                {errors.first_name && errors.first_name.map((message, index) => <div className="register-fail" key={index}>{message}</div>) }
             </div>
             <div className="register-field">
                 Last name: <input type="text" className="register-input" value={formData.last_name} placeholder="Last name" onChange={e => setFormData({...formData, last_name: e.target.value})}/>
-                {errors.last_name ? errors.last_name.map((message, index) => <div className="register-fail" key={index}>{message}</div>) : null}
+                {errors.last_name && errors.last_name.map((message, index) => <div className="register-fail" key={index}>{message}</div>)}
             </div>
             <div className="register-field">
                 Phone: <input type="text" className="register-input" value={formData.phone} placeholder="Phone number" onChange={e => setFormData({...formData, phone: e.target.value})}/>
-                {errors.phone ? errors.phone.map((message, index) => <div className="register-fail" key={index}>{message}</div>) : null}
+                {errors.phone && errors.phone.map((message, index) => <div className="register-fail" key={index}>{message}</div>)}
             </div>
             <div className="register-field">
                 Date of birth: <input type={dateInputType}
@@ -73,10 +73,10 @@ const UserProfile = () => {
                 onFocus={() => setDateInputType("date")}
                     onBlur={() => setDateInputType("text")}
                     onChange={e => setFormData({...formData, date_of_birth: e.target.value})}/>
-                {errors.date_of_birth ? errors.date_of_birth.map((message, index) => <div className="register-fail" key={index}>{message}</div>) : null}
+                {errors.date_of_birth && errors.date_of_birth.map((message, index) => <div className="register-fail" key={index}>{message}</div>)}
             </div>
             <div className="register-field">
-                {errors.non_field_errors ? errors.non_field_errors.map((message, index) => <div className="register-fail" key={index}>{message}</div>) : null}
+                {errors.non_field_errors && errors.non_field_errors.map((message, index) => <div className="register-fail" key={index}>{message}</div>)}
             </div>
             <input className="register-button register-input" type="submit" value="Save profile"/>
         </form>
