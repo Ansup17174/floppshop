@@ -36,22 +36,7 @@ const FilterForm = () => {
         }
     };
 
-    const handleSubmit = async e => {
-        e.preventDefault();
-        const url = `http://localhost:8000/shop/items/?limit=10&offset=${(page-1)*10}`;
-        let params = {
-            search: search.text,
-            min_price: search.minPrice,
-            max_price: search.maxPrice,
-            order_by: search.orderBy
-        };
-        await axios.get(url, {params})
-        .then(response => {
-            setItems(response.data.results);
-        });
-    };
-
-    useEffect(() => {
+    const getItems = () => {
         const url = `http://localhost:8000/shop/items/?limit=10&offset=${(page-1)*10}`;
         let params = {
             search: search.text,
@@ -68,6 +53,15 @@ const FilterForm = () => {
             console.log(error.response);
             console.log(error.status);
         });
+    };
+
+    const handleSubmit = async e => {
+        e.preventDefault();
+        getItems();
+    };
+
+    useEffect(() => {
+        getItems();
     }, [page]);
 
     return (
