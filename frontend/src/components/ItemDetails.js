@@ -12,6 +12,7 @@ const ItemDetails = () => {
         price: 0,
         images: []
     });
+    const [selectedImage, setSelectedImage] = useState("https://i.stack.imgur.com/y9DpT.jpg")
     const {reloadUserData} = useContext(UserContext);
     const [quantity, setQuantity] = useState(1);
     const [response, setResponse] = useState(false);
@@ -24,6 +25,9 @@ const ItemDetails = () => {
         axios.get(url)
         .then(response => {
             setItem(response.data);
+            if (response.data.images.length > 0) {
+                setSelectedImage(response.data.images[0].url);
+            }
         })
         .catch(error => {
             history.push("/not-found");
@@ -74,7 +78,13 @@ const ItemDetails = () => {
         <div className="item-details-container">
             <div className="item-details">
                 <div className="item-details-images">
-                    <img src={item.images.length > 0 ? item.images[0].url : "https://i.stack.imgur.com/y9DpT.jpg"} alt="item" className="item-details-image"/>
+                    <img src={selectedImage} alt="item" className="item-details-image"/>
+                    <div className="item-details-small-images">
+                        {item.images.map((image, index) => (
+                            <img src={image.url} alt="item-small" key={index} className="item-details-small-image"
+                            onClick={e => setSelectedImage(e.target.src)}/>
+                        ))}
+                    </div>
                 </div>
                 <div className="item-details-line"></div>
                 <div className="item-details-info">

@@ -389,6 +389,24 @@ a:active {
     border-radius: 20%;
 }
 
+.small-details-small-images {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.item-details-small-image {
+    margin: 20px 10px;
+    width: 10vh;
+    height: 10vh;
+    border-radius: 20%;
+    cursor: pointer;
+}
+
+.item-details-small-image:hover {
+    opacity: 0.5;
+}
+
 .item-details-name {
     font-weight: bold;
     font-size: 40px;
