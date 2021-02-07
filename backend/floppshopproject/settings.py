@@ -157,7 +157,8 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 
 
 REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'security.serializers.CustomUserDetailsSerializer'
+    'USER_DETAILS_SERIALIZER': 'security.serializers.CustomUserDetailsSerializer',
+    'PASSWORD_RESET_SERIALIZER': 'security.serializers.CustomPasswordResetSerializer'
 }
 
 
@@ -187,7 +188,7 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = 'floppshop'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_ADAPTER = 'users.adapters.CustomAccountAdapter'
-ACCOUNT_EMAIL_SUBJECT_PREFIX=""
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
 
 # email settings
 

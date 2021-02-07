@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from dj_rest_auth.serializers import UserDetailsSerializer
+from dj_rest_auth.serializers import UserDetailsSerializer, PasswordResetSerializer
 from django.contrib.auth import get_user_model
 from dj_rest_auth.registration.serializers import RegisterSerializer
+from allauth.account.models import EmailAddress
 from django.utils import timezone
 from datetime import date
 import re
@@ -69,4 +70,14 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
         model = UserModel
         fields = ('pk', *extra_fields, 'first_name', 'last_name', 'date_of_birth', 'phone')
         read_only_fields = ('email',)
+
+
+class CustomPasswordResetSerializer(PasswordResetSerializer):
+
+    def validate_email(self, value):
+        if not EmailAddress.objects.filter(verified=True, email=value).exists():
+            raise ValidationError("No user found with this e-mail address")
+        self.reset_form = self.password_reset_form_class(data=self.initial_data)
+        if not self.reset_form.is_valid():
+            raise serializers.ValidationError(self.reset_form.errors)
 

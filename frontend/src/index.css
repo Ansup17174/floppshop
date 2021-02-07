@@ -361,6 +361,15 @@ a:active {
     justify-content: space-around;
 }
 
+.login-form-button {
+    padding: 5px 40px;
+    width: 100%;
+    background-color: rgb(200, 200, 200);
+    color: black;
+    font-size: 15px;
+    border-radius: 20px;
+}
+
 .item-details {
     display: flex;
     justify-content: space-around;

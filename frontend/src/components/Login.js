@@ -1,5 +1,5 @@
 import {useState, useContext} from 'react';
-import {useHistory} from 'react-router-dom';
+import {useHistory, Link} from 'react-router-dom';
 import UserContext from "../context/UserContext";
 import axios from 'axios';
 
@@ -42,6 +42,7 @@ const Login = () => {
                     {errors.password && errors.password.map((message, index) => <div className="register-fail" key={index}>{message}</div>)}
                     {errors.non_field_errors && errors.non_field_errors.map((message, index) => <div className="register-fail" key={index}>{message}</div>)}
                 </div>
+                <Link to="reset-password"><div className="login-form-button">Forgot password?</div></Link>
                 <input type="submit" className="register-button register-input" value="Log in"/>
             </form>
         </div>

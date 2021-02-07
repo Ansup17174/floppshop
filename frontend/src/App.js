@@ -12,9 +12,11 @@ import ItemDetails from './components/ItemDetails';
 import ActiveOrder from './components/ActiveOrder';
 import Checkout from './components/Checkout';
 import History from './components/History';
+import PasswordReset from './components/PasswordReset';
 import {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import axios from 'axios';
+import PasswordResetConfirm from './components/PasswordResetConfirm';
 
 
 const App = () => {
@@ -55,6 +57,8 @@ const App = () => {
             <Route path="/logout" component={Logout} exact/>
             <Route path="/profile" component={UserProfile} exact />
             <Route path="/change-password" component={ChangePassword} exact />
+            <Route path="/reset-password" component={PasswordReset} exact />
+            <Route path="/reset/:uid/:token/" component={PasswordResetConfirm} exact />
             <Route path="*" component={NotFound}/>
         </Switch>
         </div>
