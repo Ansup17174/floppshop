@@ -95,6 +95,10 @@ class UserItemView(APIView):
             items = items.filter(name__icontains=search_string)
         if "category" in request.GET:
             items = items.filter(category__name=request.GET['category'])
+        if "order_by" in request.GET and request.GET['order_by'] in ("+", "-"):
+            order_by = request.GET['order_by']
+            sign = "" if order_by == "+" else "-"
+            items = items.order_by(f"{sign}price")
         page = paginator.paginate_queryset(items, request, view=self)
         if page is not None:
             serializer = ItemSerializer(page, many=True)

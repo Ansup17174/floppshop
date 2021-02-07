@@ -28,10 +28,10 @@ const History = () => {
     return (
         <div className="order-page">
             {!selectedOrder.id && <div className="order">
-                {orders.length && <h1>Order history</h1>}
-                {!orders.length && <h1>No orders</h1>}
+                {orders.length > 0 && <h1>Order history</h1>}
+                {!orders.length > 0 && <h1>No orders</h1>}
             </div>}
-            {orders.length && !selectedOrder.id && orders.map((order, index) => (<OrderFinished order={order} key={index} selectOrder={setSelectedOrder}/>))}
+            {orders.length > 0 && !selectedOrder.id && orders.map((order, index) => <OrderFinished order={order} key={index} selectOrder={setSelectedOrder}/>)}
             {selectedOrder.id && <HistoryDetails order={selectedOrder} selectOrder={setSelectedOrder}/>}
         </div>
     );

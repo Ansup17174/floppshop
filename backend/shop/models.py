@@ -60,9 +60,14 @@ class Category(models.Model):
 class Item(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     name = models.CharField(max_length=200)
-    price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(0)],
+        default=Decimal("0.00")
+        )
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=True, blank=True)
-    discount_price = models.DecimalField(
+    old_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         validators=[MinValueValidator(0)],

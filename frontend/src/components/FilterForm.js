@@ -9,12 +9,12 @@ const FilterForm = () => {
         text: "",
         minPrice: 0,
         maxPrice: 0,
+        orderBy: ""
     });
 
     const [page, setPage] = useState(1);
     const [maxPage, setMaxPage] = useState(1);
     const [items, setItems] = useState([]);
-    const [orderBy, setOrderBy] = useState("");
 
     const changeText = e => {
         setSearch({...search, text: e.target.value});
@@ -28,12 +28,6 @@ const FilterForm = () => {
         setSearch({...search, maxPrice: e.target.value});
     };
 
-    const comparePrices = (item1, item2) => {
-        const price1 = item1.is_discount ? item1.discount_price : item1.price;
-        const price2 = item2.is_discount ? item2.discount_price : item2.price;
-        return price1 - price2;
-    };
-
     const changePage = number => {
         if (number > 0 && number <= maxPage) {
             setPage(Number.parseInt(number));
@@ -44,21 +38,28 @@ const FilterForm = () => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        const url = "http://localhost:8000/shop/items/";
+        const url = `http://localhost:8000/shop/items/?limit=10&offset=${(page-1)*10}`;
         let params = {
             search: search.text,
             min_price: search.minPrice,
             max_price: search.maxPrice,
+            order_by: search.orderBy
         };
         await axios.get(url, {params})
         .then(response => {
-            setItems(response.data);
+            setItems(response.data.results);
         });
     };
 
     useEffect(() => {
         const url = `http://localhost:8000/shop/items/?limit=10&offset=${(page-1)*10}`;
-        axios.get(url)
+        let params = {
+            search: search.text,
+            min_price: search.minPrice,
+            max_price: search.maxPrice,
+            order_by: search.orderBy
+        };
+        axios.get(url, {params})
         .then(response => {
             setItems(response.data.results);
             setMaxPage(Math.floor((response.data.count - 1) / 10) + 1);
@@ -68,16 +69,6 @@ const FilterForm = () => {
             console.log(error.status);
         });
     }, [page]);
-
-    useEffect(() => {
-        if (orderBy) {
-            if (orderBy === "ascending") {
-                setItems([...items].sort(comparePrices));
-            } else {
-                setItems([...items].sort(comparePrices).reverse());
-            }
-        }
-    }, [orderBy]);
 
     return (
         <>
@@ -100,9 +91,9 @@ const FilterForm = () => {
                     <h4>Order by</h4>
                     <label>Price:</label>
                     <div>
-                        <input type="radio" name="price" id="price1" value="ascending" onChange={() => setOrderBy("ascending")}/>
+                        <input type="radio" name="price" id="price1" value="+" onChange={e => setSearch({...search, orderBy: e.target.value})}/>
                         <label htmlFor="price1">Ascending</label>
-                        <input type="radio" name="price" id="price2" value="descending" onChange={() => setOrderBy("descending")}/>
+                        <input type="radio" name="price" id="price2" value="-" onChange={e => setSearch({...search, orderBy: e.target.value})}/>
                         <label htmlFor="price2">Descending</label> 
                     </div>
                 </div>
