@@ -37,9 +37,9 @@ class AdminItemViewset(ModelViewSet):
             items = Item.objects.all()
         page = self.paginate_queryset(items)
         if page is not None:
-            serializer = ItemSerializer(page, many=True)
+            serializer = ItemSerializer(page, many=True, context={"request": self.request})
             return self.get_paginated_response(serializer.data)
-        serializer = ItemSerializer(items, many=True)
+        serializer = ItemSerializer(items, many=True, context={"request": self.request})
         return Response(serializer.data, status=200)
 
 
@@ -176,13 +176,13 @@ class UserOrderView(APIView):
             paginator = LimitOffsetPagination()
             page = paginator.paginate_queryset(orders, request, view=self)
             if page:
-                serializer = OrderSerializer(page, many=True)
+                serializer = OrderSerializer(page, many=True, context={"request": self.request})
                 return paginator.get_paginated_response(serializer.data)
-            serializer = OrderSerializer(orders, many=True)
+            serializer = OrderSerializer(orders, many=True, context={"request": self.request})
             return Response(serializer.data, status=200)
         else:
             order = get_object_or_404(Order, user=request.user, is_finished=False, is_paid=False)
-            serializer = OrderSerializer(order)
+            serializer = OrderSerializer(order, context={"request": self.request})
             return Response(serializer.data, status=200)
 
     def post(self, request):
@@ -218,7 +218,7 @@ class UserOrderView(APIView):
                 cart.item.save()
             order.total_price = OrderSerializer().get_order_total_price(order)
             order.save()
-        order_serializer = OrderSerializer(order)
+        order_serializer = OrderSerializer(order, context={"request": self.request})
         return Response(order_serializer.data, status=200)
 
 

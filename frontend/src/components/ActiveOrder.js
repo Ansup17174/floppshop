@@ -78,7 +78,7 @@ const ActiveOrder = () => {
                 <h1>Items</h1>
                 {order.carts.sort(compareCarts).map((cart, index) => (
                     <div className="order-item" key={index}>
-                        <img src={cart.item.images.length ? cart.item.images[0] : "https://i.stack.imgur.com/y9DpT.jpg"} alt="" className="item-image"></img>
+                        <img src={cart.item.images.length ? cart.item.images[0].url : "https://i.stack.imgur.com/y9DpT.jpg"} alt="" className="item-image"></img>
                         <h2 className="item-header">{cart.item.name}</h2>
                         <div className="item-description">{cart.item.description}</div>
                         <div>
