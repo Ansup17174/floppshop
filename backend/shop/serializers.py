@@ -15,7 +15,8 @@ class CategorySerializer(serializers.ModelSerializer):
 class ItemImageSerializer(serializers.ModelSerializer):
 
     def get_image_url(self, image):
-        return image.image.url if os.path.isfile(image.image.path) else None
+        request = self.context.get('request')
+        return request.build_absolute_uri(image.image.url) if os.path.isfile(image.image.path) else None
 
     url = serializers.SerializerMethodField('get_image_url', read_only=True)
 
@@ -26,11 +27,12 @@ class ItemImageSerializer(serializers.ModelSerializer):
 
 class ItemSerializer(serializers.ModelSerializer):
 
-    def get_images_urls(self, item):
+    def get_images(self, item):
+        request = self.context.get('request')
         images = ItemImage.objects.filter(item=item)
         image_list = [{
             "id": image.pk,
-            "url": image.image.url,
+            "url": request.build_absolute_uri(image.image.url),
             "ordering": image.ordering
         } for image in images if os.path.isfile(image.image.path)]
         return image_list
@@ -48,7 +50,7 @@ class ItemSerializer(serializers.ModelSerializer):
                 ItemImage.objects.create(item=item, image=image_data, ordering=ordering)
                 ordering += 1
 
-    images = serializers.SerializerMethodField("get_images_urls", read_only=True)
+    images = serializers.SerializerMethodField("get_images", read_only=True)
     category_name = serializers.CharField(max_length=70, required=False, write_only=True)
     category = serializers.SerializerMethodField("get_category_name", read_only=True)
 

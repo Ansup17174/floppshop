@@ -103,9 +103,9 @@ class UserItemView(APIView):
             items = items.order_by(f"{sign}price")
         page = paginator.paginate_queryset(items, request, view=self)
         if page is not None:
-            serializer = ItemSerializer(page, many=True)
+            serializer = ItemSerializer(page, many=True, context={'request': self.request})
             return paginator.get_paginated_response(serializer.data)
-        serializer = ItemSerializer(items, many=True)
+        serializer = ItemSerializer(items, many=True, context={'request': self.request})
         return Response(serializer.data, status=200)
 
 
@@ -115,7 +115,7 @@ class UserItemDetailView(APIView):
 
     def get(self, request, item_pk):
         item = get_object_or_404(Item, pk=item_pk, is_visible=True)
-        serializer = ItemSerializer(item)
+        serializer = ItemSerializer(item, context={'request': self.request})
         return Response(serializer.data, status=200)
 
     def post(self, request, item_pk):

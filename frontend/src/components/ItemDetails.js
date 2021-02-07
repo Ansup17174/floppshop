@@ -10,6 +10,7 @@ const ItemDetails = () => {
         description: "",
         quantity: "",
         price: 0,
+        images: []
     });
     const {reloadUserData} = useContext(UserContext);
     const [quantity, setQuantity] = useState(1);
@@ -73,7 +74,7 @@ const ItemDetails = () => {
         <div className="item-details-container">
             <div className="item-details">
                 <div className="item-details-images">
-                    <img src="https://i.stack.imgur.com/y9DpT.jpg" alt="item" className="item-details-image"/>
+                    <img src={item.images.length > 0 ? item.images[0].url : "https://i.stack.imgur.com/y9DpT.jpg"} alt="item" className="item-details-image"/>
                 </div>
                 <div className="item-details-line"></div>
                 <div className="item-details-info">

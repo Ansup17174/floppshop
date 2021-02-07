@@ -6,7 +6,7 @@ const ItemList = ({items}) => {
         <div className="item-list">
             {items.length ? items.map((item, index) => (
                 <Link to={`/item-details/${item.id}`}><div className="item" key={index}>
-                    <img src={item.images[0] ? item.images[0] : "https://i.stack.imgur.com/y9DpT.jpg"} alt=""/>
+                    <img src={item.images.length > 0 ? item.images[0].url : "https://i.stack.imgur.com/y9DpT.jpg"} alt=""/>
                     <div className="item-info" key={index}>
                         <div className="item-name">{item.name}</div>
                         <div className="item-quantity">In-stock: {item.quantity}</div>
