@@ -167,9 +167,16 @@ class UserItemDetailView(APIView):
 
 class UserOrderView(APIView):
 
+    pagination_class = LimitOffsetPagination
+
     def get(self, request):
         if 'history' in request.query_params:
             orders = Order.objects.filter(user=request.user, is_finished=True).order_by("-date_finished")
+            paginator = LimitOffsetPagination()
+            page = paginator.paginate_queryset(orders, request, view=self)
+            if page:
+                serializer = OrderSerializer(page, many=True)
+                return paginator.get_paginated_response(serializer.data)
             serializer = OrderSerializer(orders, many=True)
             return Response(serializer.data, status=200)
         else:

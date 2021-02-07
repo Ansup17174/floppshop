@@ -225,6 +225,15 @@ a:active {
     background-color: rgb(230, 230, 230);
 }
 
+.page-input {
+    outline: none;
+    appearance: none;
+    border: none;
+    border-radius: 5px;
+    margin: 7px;
+    padding: 5px;
+}
+
 .filter-form input[type="text"], .filter-form input[type="number"] {
     outline: none;
     appearance: none;
@@ -609,6 +618,10 @@ a:active {
 
 .easypack-dropdown__list {
     height: 15vh;
+}
+
+.page-buttons {
+    margin: 15px 0;
 }
 
 .pay-button {
