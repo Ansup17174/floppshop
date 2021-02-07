@@ -82,8 +82,8 @@ const ActiveOrder = () => {
                         <h2 className="item-header">{cart.item.name}</h2>
                         <div className="item-description">{cart.item.description}</div>
                         <div>
-                            <div className={cart.item.is_discount ? "item-old-price" : "item-price"}>{cart.item.price}zł</div>
-                            {cart.item.is_discount && <div className="item-discount-price">{cart.item.discount_price}zł</div>}
+                            {cart.item.is_discount && <div className="item-old-price">{cart.item.old_price}zł</div>}
+                            <div className={cart.item.is_discount ? "item-discount-price" : "item-price"}>{cart.item.price}zł</div>
                         </div>
                         <h3>Total price: {cart.total_price}zł</h3>
                         <form className="quantity-form">
