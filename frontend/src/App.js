@@ -21,6 +21,8 @@ import AdminPanel from './components/AdminPanel';
 import AdminFilterForm from './components/AdminFilterForm';
 import AdminItemDetails from './components/AdminItemDetails';
 import AdminEditItem from './components/AdminEditItem';
+import AdminCreateItem from './components/AdminCreateItem';
+import AdminDeleteItem from './components/AdminDeleteItem';
 
 
 const App = () => {
@@ -66,7 +68,9 @@ const App = () => {
             <Route path="/admin-panel" component={AdminPanel} exact />
             <Route path="/admin-items" component={AdminFilterForm} exact />
             <Route path="/admin-item-details/:id" component={AdminItemDetails} exact />
+            <Route path="/admin-item-create" component={AdminCreateItem} exact />
             <Route path="/admin-edit-item/:id" component={AdminEditItem} exact />
+            <Route path="/admin-delete-item/:id" component={AdminDeleteItem} exact />
             <Route path="*" component={NotFound}/>
         </Switch>
         </div>

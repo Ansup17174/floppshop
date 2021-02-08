@@ -26,7 +26,7 @@ const AdminPanel = () => {
             <div className="admin-panel">
                 <h1>Items:</h1>
                 <Link to="/admin-items"><div className="pay-button">View items</div></Link>
-                <div className="pay-button">Add item</div>
+                <Link to="/admin-item-create"><div className="pay-button">Add item</div></Link>
             </div>
             <div className="admin-panel">
                 <h1>Shipping methods:</h1>

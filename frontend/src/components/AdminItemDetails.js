@@ -111,7 +111,7 @@ const AdminItemDetails = () => {
                     </form> : <div className="add-to-cart-unavailable">Item unavailable</div>}
                     <div className="container">
                         <Link to={`/admin-edit-item/${id}`}><div className="pay-button">Edit item</div></Link>
-                        <div className="delete-button">Delete item</div>
+                        <Link to={`/admin-delete-item/${id}`}><div className="delete-button">Delete item</div></Link>
                     </div>
                 </div>
             </div>
