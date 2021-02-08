@@ -21,18 +21,21 @@ const AdminDeleteItem = () => {
             } else if (error.response.status === 401) {
                 reloadUserData();
                 history.push("/login");
-            } else {
+            } else if (error.response.status === 404) {
                 history.push("/not-found");
+            } else {
+                setResponseOk(false);
             }
         });
     }, []);
 
     return (
         <div className="main-text">
-            {responseOk && <div>
-                <h2>Item deleted succsefully</h2>
+            <div>
+                {responseOk ? <h2>Item deleted succesfully</h2>
+                : <h3>Cannot delete item (Item is linked to other models such as users' orders)</h3>}
                 <Link to="/admin-items"><div className="pay-button">Go back to items</div></Link>
-            </div>}
+            </div>
         </div>
     );
 };
