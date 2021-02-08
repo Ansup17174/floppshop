@@ -499,7 +499,7 @@ a:active {
 }
 
 .item-details-line {
-    background-color: black;
+    background-color: rgb(200, 200, 200);
     width: 1px;
     height: 90%;   
 }
@@ -655,10 +655,11 @@ a:active {
     color: white;
     font-size: 15px;
     font-weight: bold;
+    text-align: center;
     background-color: rgb(12, 89, 196);
     padding: 10px 20px;
     border-radius: 7px;
-    margin: 5px 5px;
+    margin: 10px 10px;
     cursor: pointer;
 }
 
@@ -675,4 +676,26 @@ a:active {
 .container {
     display: flex;
     justify-content: center;
+}
+
+.admin-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(230, 230, 230);
+    border-radius: 30px;
+    margin: 30px;
+    padding: 50px;
+}
+
+.delete-button {
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    background-color: rgb(212, 8, 8);
+    padding: 10px 20px;
+    border-radius: 7px;
+    margin: 10px 10px;
+    cursor: pointer;
 }

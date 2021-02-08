@@ -17,6 +17,10 @@ import {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import axios from 'axios';
 import PasswordResetConfirm from './components/PasswordResetConfirm';
+import AdminPanel from './components/AdminPanel';
+import AdminFilterForm from './components/AdminFilterForm';
+import AdminItemDetails from './components/AdminItemDetails';
+import AdminEditItem from './components/AdminEditItem';
 
 
 const App = () => {
@@ -59,6 +63,10 @@ const App = () => {
             <Route path="/change-password" component={ChangePassword} exact />
             <Route path="/reset-password" component={PasswordReset} exact />
             <Route path="/reset/:uid/:token/" component={PasswordResetConfirm} exact />
+            <Route path="/admin-panel" component={AdminPanel} exact />
+            <Route path="/admin-items" component={AdminFilterForm} exact />
+            <Route path="/admin-item-details/:id" component={AdminItemDetails} exact />
+            <Route path="/admin-edit-item/:id" component={AdminEditItem} exact />
             <Route path="*" component={NotFound}/>
         </Switch>
         </div>

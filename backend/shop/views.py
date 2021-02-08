@@ -35,6 +35,26 @@ class AdminItemViewset(ModelViewSet):
             items = Item.objects.filter(category__name=request.GET['category'])
         else:
             items = Item.objects.all()
+        if "max_price" in request.GET:
+                try:
+                    if float(request.GET['max_price']) > 0:
+                        items = items.filter(price__lte=request.GET['max_price'])
+                except (InvalidOperation, ValueError):
+                    pass
+        if "min_price" in request.GET:
+            try:
+                items = items.filter(price__gte=request.GET['min_price'])
+            except InvalidOperation:
+                pass
+        if "search" in request.GET:
+            search_string = request.GET['search'].lower()
+            items = items.filter(name__icontains=search_string)
+        if "category" in request.GET:
+            items = items.filter(category__name=request.GET['category'])
+        if "order_by" in request.GET and request.GET['order_by'] in ("+", "-"):
+            order_by = request.GET['order_by']
+            sign = "" if order_by == "+" else "-"
+            items = items.order_by(f"{sign}price")
         page = self.paginate_queryset(items)
         if page is not None:
             serializer = ItemSerializer(page, many=True, context={"request": self.request})

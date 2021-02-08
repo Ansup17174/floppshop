@@ -51,7 +51,7 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
         if not first_name:
             raise ValidationError("This field may not be blank")
         return first_name
-    
+
     def validate_last_name(self, last_name):
         if not last_name:
             raise ValidationError("This field may not be blank")

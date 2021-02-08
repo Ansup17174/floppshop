@@ -9,7 +9,7 @@ const UserProfile = () => {
     const [errors, setErrors] = useState({});
     const [responseOk, setResponseOk] = useState(false);
     const [dateInputType, setDateInputType] = useState("text");
-    const {reloadUserData} = useContext(UserContext);
+    const {userData, reloadUserData} = useContext(UserContext);
     const history = useHistory();
 
     useEffect(() => {
@@ -53,6 +53,9 @@ const UserProfile = () => {
             <div className="register-field">
                 <div className="register-input" id="email">E-mail: {formData.email}</div>
             </div>
+            {userData.is_staff && <div className="register-field">
+                <div className="register-input" id="isStaff">Is Admin: True</div>
+            </div>}
             <div className="register-field">
                 First name: <input type="text" className="register-input" value={formData.first_name} placeholder="First name" onChange={e => setFormData({...formData, first_name: e.target.value})}/>
                 {errors.first_name && errors.first_name.map((message, index) => <div className="register-fail" key={index}>{message}</div>) }
