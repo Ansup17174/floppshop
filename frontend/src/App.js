@@ -23,6 +23,7 @@ import AdminItemDetails from './components/AdminItemDetails';
 import AdminEditItem from './components/AdminEditItem';
 import AdminCreateItem from './components/AdminCreateItem';
 import AdminDeleteItem from './components/AdminDeleteItem';
+import AdminEditImages from './components/AdminEditImages';
 
 
 const App = () => {
@@ -70,6 +71,7 @@ const App = () => {
             <Route path="/admin-item-details/:id" component={AdminItemDetails} exact />
             <Route path="/admin-item-create" component={AdminCreateItem} exact />
             <Route path="/admin-edit-item/:id" component={AdminEditItem} exact />
+            <Route path="/admin-edit-item-images/:id" component={AdminEditImages} exact />
             <Route path="/admin-delete-item/:id" component={AdminDeleteItem} exact />
             <Route path="*" component={NotFound}/>
         </Switch>

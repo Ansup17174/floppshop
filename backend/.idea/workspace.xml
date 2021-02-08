@@ -20,10 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1c48a8b-05f0-409b-b879-a455dc510edd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/AdminCreateItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/AdminCreateItem.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/AdminItemDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/AdminItemDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/AdminPanel.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/AdminPanel.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

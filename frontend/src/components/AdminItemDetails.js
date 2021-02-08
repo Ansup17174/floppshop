@@ -84,7 +84,7 @@ const AdminItemDetails = () => {
                             onClick={e => setSelectedImage(e.target.src)}/>
                         ))}
                     </div>
-                    <div className="pay-button">Edit images</div>
+                    <Link to={`/admin-edit-item-images/${id}`}><div className="pay-button">Edit images</div></Link>
                 </div>
                 <div className="item-details-line"></div>
                 <div className="item-details-info">

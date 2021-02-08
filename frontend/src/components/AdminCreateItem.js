@@ -1,4 +1,4 @@
-import {useState, useEffect, useContext} from 'react';
+import {useState, useEffect, useContext, useRef} from 'react';
 import {useHistory} from 'react-router-dom';
 import UserContext from '../context/UserContext';
 import ItemForm from './ItemForm';
@@ -14,7 +14,6 @@ const AdminCreateItem = () => {
         old_price: 0,
         is_visible: false,
         is_available: false,
-        images: []
     });
     const [errors, setErrors] = useState({});
     const [responseOk, setResponseOk] = useState(false);
