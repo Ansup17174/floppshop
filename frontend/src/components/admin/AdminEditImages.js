@@ -1,6 +1,6 @@
 import {useState, useEffect, useContext, useRef} from 'react';
 import {useParams, useHistory} from 'react-router-dom';
-import UserContext from '../context/UserContext';
+import UserContext from '../../context/UserContext';
 import axios from 'axios';
 
 const AdminEditImages = () => {

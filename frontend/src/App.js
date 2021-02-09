@@ -1,29 +1,29 @@
 import Header from './components/Header';
-import FilterForm from './components/FilterForm';
+import FilterForm from './components/items/FilterForm';
 import NotFound from './components/NotFound';
-import Register from './components/Register';
-import Login from './components/Login';
-import Logout from './components/Logout';
-import ConfirmEmail from './components/ConfirmEmail';
-import UserProfile from './components/UserProfile'
-import ChangePassword from './components/ChangePassword';
+import Register from './components/user/Register';
+import Login from './components/user/Login';
+import Logout from './components/user/Logout';
+import ConfirmEmail from './components/user/ConfirmEmail';
+import UserProfile from './components/user/UserProfile'
+import ChangePassword from './components/user/ChangePassword';
 import UserContext from './context/UserContext';
-import ItemDetails from './components/ItemDetails';
-import ActiveOrder from './components/ActiveOrder';
-import Checkout from './components/Checkout';
-import History from './components/History';
-import PasswordReset from './components/PasswordReset';
+import ItemDetails from './components/items/ItemDetails';
+import ActiveOrder from './components/order/ActiveOrder';
+import Checkout from './components/order/Checkout';
+import History from './components/order/History';
+import PasswordReset from './components/user/PasswordReset';
 import {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import axios from 'axios';
-import PasswordResetConfirm from './components/PasswordResetConfirm';
-import AdminPanel from './components/AdminPanel';
-import AdminFilterForm from './components/AdminFilterForm';
-import AdminItemDetails from './components/AdminItemDetails';
-import AdminEditItem from './components/AdminEditItem';
-import AdminCreateItem from './components/AdminCreateItem';
-import AdminDeleteItem from './components/AdminDeleteItem';
-import AdminEditImages from './components/AdminEditImages';
+import PasswordResetConfirm from './components/user/PasswordResetConfirm';
+import AdminPanel from './components/admin/AdminPanel';
+import AdminFilterForm from './components/admin/AdminFilterForm';
+import AdminItemDetails from './components/admin/AdminItemDetails';
+import AdminEditItem from './components/admin/AdminEditItem';
+import AdminCreateItem from './components/admin/AdminCreateItem';
+import AdminDeleteItem from './components/admin/AdminDeleteItem';
+import AdminEditImages from './components/admin/AdminEditImages';
 
 
 const App = () => {

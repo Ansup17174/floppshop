@@ -1,6 +1,6 @@
 import {useEffect, useContext} from 'react';
 import {useHistory, Link} from 'react-router-dom';
-import UserContext from '../context/UserContext';
+import UserContext from '../../context/UserContext';
 import axios from 'axios';
 
 const AdminPanel = () => {

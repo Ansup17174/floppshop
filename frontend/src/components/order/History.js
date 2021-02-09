@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {useState, useEffect, useContext} from 'react';
 import {useHistory} from 'react-router-dom';
-import UserContext from '../context/UserContext';
+import UserContext from '../../context/UserContext';
 import OrderFinished from './OrderFinished';
 import HistoryDetails from './HistoryDetails';
 
