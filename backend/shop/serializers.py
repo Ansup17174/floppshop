@@ -107,7 +107,7 @@ class CartSerializer(serializers.ModelSerializer):
 class ShippingMethodSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShippingMethod
-        exclude = ('id',)
+        fields = "__all__"
 
 
 class OrderSerializer(serializers.ModelSerializer):

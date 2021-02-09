@@ -24,6 +24,9 @@ import AdminEditItem from './components/admin/AdminEditItem';
 import AdminCreateItem from './components/admin/AdminCreateItem';
 import AdminDeleteItem from './components/admin/AdminDeleteItem';
 import AdminEditImages from './components/admin/AdminEditImages';
+import AdminCreateShipping from './components/admin/AdminCreateShipping';
+import AdminShippingList from './components/admin/AdminShippingList';
+import AdminEditShipping from './components/admin/AdminEditShipping';
 
 
 const App = () => {
@@ -73,6 +76,9 @@ const App = () => {
             <Route path="/admin-edit-item/:id" component={AdminEditItem} exact />
             <Route path="/admin-edit-item-images/:id" component={AdminEditImages} exact />
             <Route path="/admin-delete-item/:id" component={AdminDeleteItem} exact />
+            <Route path="/admin-create-shipping" component={AdminCreateShipping} exact />
+            <Route path="/admin/edit-shipping/:id" component={AdminEditShipping} exact />
+            <Route path="/admin-shippings" component={AdminShippingList} exact />
             <Route path="*" component={NotFound}/>
         </Switch>
         </div>

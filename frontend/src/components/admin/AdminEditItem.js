@@ -1,4 +1,4 @@
-import ItemForm from '../items/ItemForm';
+import ItemForm from './ItemForm';
 import {useState, useEffect, useContext} from 'react';
 import UserContext from '../../context/UserContext';
 import {useHistory, useParams} from 'react-router-dom';

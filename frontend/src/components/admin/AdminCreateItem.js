@@ -1,7 +1,7 @@
 import {useState, useEffect, useContext} from 'react';
 import {useHistory} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
-import ItemForm from '../items/ItemForm';
+import ItemForm from './ItemForm';
 import axios from 'axios';
 
 const AdminCreateItem = () => {

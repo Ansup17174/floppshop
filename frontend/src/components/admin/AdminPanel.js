@@ -30,8 +30,8 @@ const AdminPanel = () => {
             </div>
             <div className="admin-panel">
                 <h1>Shipping methods:</h1>
-                <div className="pay-button">View shipping methods</div>
-                <div className="pay-button">Add shipping method</div>
+                <Link to="/admin-shippings"><div className="pay-button">View shipping methods</div></Link>
+                <Link to="/admin-create-shipping"><div className="pay-button">Add shipping method</div></Link>
             </div>
             <div className="admin-panel">
                 <h1>PayU notifications:</h1>
