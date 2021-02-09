@@ -92,8 +92,8 @@ const AdminEditImages = () => {
                             <img src={image.url} alt="item" key={index} className="edit-image"/>
                             <div>
                                 <div className="quantity-buttons">
-                                    <span className="pay-button">&lt;</span>
-                                    <span className="pay-button">&gt;</span>
+                                    {index !== 0 && <span className="pay-button">&lt;</span>}
+                                    {index !== images.length - 1 && <span className="pay-button">&gt;</span>}
                                 </div>
                                 <div className="delete-button" onClick={() => deleteImage(image.id)}>Delete</div>
                             </div>

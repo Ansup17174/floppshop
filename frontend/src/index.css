@@ -321,6 +321,7 @@ a:active {
     align-items: center;
     justify-content: center;
     color: white;
+    padding: 10px;
     background-color: rgb(75, 255, 15);
     max-width: 60%;
     height: 6vh;
@@ -459,6 +460,7 @@ a:active {
 .quantity-buttons {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .sign-box {
