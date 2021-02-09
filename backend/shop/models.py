@@ -92,7 +92,7 @@ def get_upload_path(instance, filename):
 
 class ItemImage(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="images")
+    item = models.ForeignKey(Item, on_delete=models.DO_NOTHING, related_name="images")
     image = models.FileField(blank=True, null=True, upload_to=get_upload_path)
     ordering = models.PositiveIntegerField(blank=True, null=True)
 

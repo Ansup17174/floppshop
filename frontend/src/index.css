@@ -322,7 +322,7 @@ a:active {
     justify-content: center;
     color: white;
     background-color: rgb(75, 255, 15);
-    width: 60%;
+    max-width: 60%;
     height: 6vh;
     border-radius: 10px;
     font-size: 25px;
@@ -346,7 +346,6 @@ a:active {
     justify-content: center;
     text-align: center;
     color:rgb(212, 8, 8);
-    width: 70%;
 }
 
 .login-form {
@@ -372,10 +371,10 @@ a:active {
 
 .item-details {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
-    height: 80vh;
-    width: 80vw;
+    min-height: 80vh;
+    min-width: 80vw;
     background-color: rgb(230, 230, 230);
     border-radius: 30px;
 }
@@ -384,8 +383,8 @@ a:active {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 500px;
-    height: 500px;
+    width: 70vh;
+    height: 70vh;
 }
 
 .item-details-description {
@@ -393,21 +392,33 @@ a:active {
 }
 
 .item-details-image {
-    width: 50vh;
-    height: 50vh;
+    width: 200px;
+    height: 200px;
     border-radius: 20%;
+    text-align: center;
+}
+
+.item-details-images {
+    max-width: 35vw;    
+}
+
+.item-details-big-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
 }
 
 .small-details-small-images {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 20%;
+    flex-wrap: wrap;
 }
 
 .item-details-small-image {
     margin: 20px 10px;
-    width: 10vh;
-    height: 10vh;
+    width: 50px;
+    height: 50px;
     border-radius: 20%;
     cursor: pointer;
 }
@@ -501,7 +512,7 @@ a:active {
 .item-details-line {
     background-color: rgb(200, 200, 200);
     width: 1px;
-    height: 90%;   
+    height: 70vh;
 }
 
 .item-details-container {
@@ -707,3 +718,36 @@ a:active {
     justify-content: space-evenly;
 }
 
+.images {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.image-save {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.image-form {
+    margin: 20px 0;
+}
+
+.edit-image {
+    width: 20vh;
+    height: 20vh;
+    border-radius: 20%;
+}
+
+.image-ordering {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
