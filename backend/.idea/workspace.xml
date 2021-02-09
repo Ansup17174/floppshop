@@ -24,6 +24,7 @@
       <change beforePath="$PROJECT_DIR$/shop/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shop/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/serializers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/AdminEditImages.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/AdminEditImages.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/index.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +91,7 @@
       <workItem from="1612692198413" duration="5353000" />
       <workItem from="1612699838067" duration="11459000" />
       <workItem from="1612778932752" duration="11758000" />
-      <workItem from="1612857428503" duration="8211000" />
+      <workItem from="1612857428503" duration="12395000" />
     </task>
     <servers />
   </component>

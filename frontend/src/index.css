@@ -753,3 +753,14 @@ a:active {
     align-items: center;
     justify-content: space-evenly;
 }
+
+.main-image-info {
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    background-color: rgb(75, 255, 15);
+    padding: 10px 20px;
+    border-radius: 7px;
+    margin: 10px 10px;
+}

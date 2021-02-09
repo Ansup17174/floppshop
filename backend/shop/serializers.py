@@ -24,6 +24,12 @@ class ItemImageSerializer(serializers.ModelSerializer):
         model = ItemImage
         fields = ('id', 'url', 'is_main')
 
+    def update(self, instance, validated_data):
+        ItemImage.objects.update(is_main=False)
+        instance.is_main = True
+        instance.save()
+        return instance
+
 
 class ItemSerializer(serializers.ModelSerializer):
 

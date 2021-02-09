@@ -64,10 +64,29 @@ const AdminEditImages = () => {
         }
     };
 
+    const setAsMain = imageId => {
+        axios.put(`http://localhost:8000/shop/admin/items/images/${imageId}/`, {}, {withCredentials: true})
+        .then(response => {
+            getImages(id);
+        })
+        .catch(error => {
+            if (error.response.status === 403) {
+                reloadUserData();
+                history.push("/not-found");
+            } else if (error.response.status === 401) {
+                reloadUserData();
+                history.push("/login");
+            } else {
+                setErrors(error.response.data);
+            }
+        });
+    };
+
     const deleteImage = imageId => {
         axios.delete(`http://localhost:8000/shop/admin/items/images/${imageId}/`, {withCredentials: true})
         .then(response => {
             getImages(id);
+            setResponseOk(false);
         })
         .catch(error => {
             if (error.response.status === 403) {
@@ -91,6 +110,8 @@ const AdminEditImages = () => {
                         <div className="image-ordering" key={index}>
                             <img src={image.url} alt="item" key={index} className="edit-image"/>
                             <div>
+                                {!image.is_main && <div className="pay-button" onClick={() => setAsMain(image.id)}>Set as main</div>}
+                                {image.is_main && <div className="main-image-info">Main</div>}
                                 <div className="delete-button" onClick={() => deleteImage(image.id)}>Delete</div>
                             </div>
                         </div>

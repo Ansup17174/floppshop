@@ -102,14 +102,16 @@ class ItemImage(models.Model):
 
 @receiver(pre_save, sender=ItemImage)
 def pre_save_image(sender, instance, *args, **kwargs):
-    if not ItemImage.objects.all().count():
+    if not ItemImage.objects.filter(item=instance.item).count():
         instance.is_main = True
-    elif instance.is_main:
-        ItemImage.objects.update(is_main=False)
 
 
 @receiver(pre_delete, sender=ItemImage)
 def pre_delete_image(sender, instance, *args, **kwargs):
+    if instance.is_main and ItemImage.objects.filter(item=instance.item).count() - 1:
+        first = ItemImage.objects.filter(item=instance.item).exclude(pk=instance.pk).first()
+        first.is_main = True
+        first.save()
     instance.image.delete()
 
 
@@ -127,6 +129,3 @@ class Cart(models.Model):
 class PayUNotification(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     content = models.CharField(max_length=2000)
-
-
-
