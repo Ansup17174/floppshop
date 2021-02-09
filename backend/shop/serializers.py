@@ -1,9 +1,11 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 from .models import Item, Order, Cart, ItemImage, ShippingMethod, Category
 from users.serializers import ShippingAddressSerializer
 from decimal import Decimal
 import os
+import filetype
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -48,6 +50,9 @@ class ItemSerializer(serializers.ModelSerializer):
 
     def upload_images(self, images_data, item):
         if images_data:
+            for image_data in images_data:
+                if not filetype.is_image(image_data):
+                    raise ValidationError({"detail": "All files have to be valid images"})
             for image_data in images_data:
                 ItemImage.objects.create(item=item, image=image_data)
 
