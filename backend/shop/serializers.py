@@ -22,7 +22,7 @@ class ItemImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ItemImage
-        fields = ('id', 'url', 'ordering')
+        fields = ('id', 'url', 'is_main')
 
 
 class ItemSerializer(serializers.ModelSerializer):
@@ -33,7 +33,7 @@ class ItemSerializer(serializers.ModelSerializer):
         image_list = [{
             "id": image.pk,
             "url": request.build_absolute_uri(image.image.url),
-            "ordering": image.ordering
+            "is_main": image.is_main
         } for image in images if os.path.isfile(image.image.path)]
         return image_list
 
@@ -42,13 +42,8 @@ class ItemSerializer(serializers.ModelSerializer):
 
     def upload_images(self, images_data, item):
         if images_data:
-            ordering = 1
-            last_image = ItemImage.objects.filter(item=item).last()
-            if last_image is not None:
-                ordering = last_image.ordering + 1
             for image_data in images_data:
-                ItemImage.objects.create(item=item, image=image_data, ordering=ordering)
-                ordering += 1
+                ItemImage.objects.create(item=item, image=image_data)
 
     images = serializers.SerializerMethodField("get_images", read_only=True)
     category_name = serializers.CharField(max_length=70, required=False, write_only=True)

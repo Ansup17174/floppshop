@@ -94,10 +94,18 @@ class ItemImage(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     item = models.ForeignKey(Item, on_delete=models.DO_NOTHING, related_name="images")
     image = models.FileField(blank=True, null=True, upload_to=get_upload_path)
-    ordering = models.PositiveIntegerField(blank=True, null=True)
+    is_main = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ['ordering']
+        ordering = ['-is_main']
+
+
+@receiver(pre_save, sender=ItemImage)
+def pre_save_image(sender, instance, *args, **kwargs):
+    if not ItemImage.objects.all().count():
+        instance.is_main = True
+    elif instance.is_main:
+        ItemImage.objects.update(is_main=False)
 
 
 @receiver(pre_delete, sender=ItemImage)
