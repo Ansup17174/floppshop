@@ -21,9 +21,9 @@
     cursor: pointer;
 }
 
-.item img {
-    width: 20vh;
-    height: 20vh;
+.item-image {
+    max-width: 100%;
+    max-height: 100%;
     margin: 10px 0;
     border-radius: 20%;
 }
@@ -66,20 +66,6 @@
     width: 40%;
 }
 
-.item-name {
-    font-size: 30px;
-    font-weight: bold;
-}
-
-.item-quantity {
-    font-size: 20px;
-    margin: 10px;
-}
-
-.item-info div {
-    padding: 5px 30px;
-}
-
 .item-price {
     color: white;
     font-weight: bold;
@@ -116,6 +102,20 @@
 
 .on-discount {
     color: black;
+}
+
+.item-name {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.item-quantity {
+    font-size: 20px;
+    margin: 10px;
+}
+
+.item-info div {
+    padding: 5px 30px;
 }
 
 .filter {
@@ -335,4 +335,46 @@
     justify-content: center;
     align-items: center;
     height: 90vh;
+}
+
+@media only screen and (max-width: 1000px) {
+    .filter {
+        display: none;
+    }
+
+    .item-list {
+        position: static;
+        width: 100%;
+        height: 90vh;
+        overflow-y: scroll;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .item {
+        padding: 0 15px;
+    }
+
+    .item-image {
+        max-width: 20%;
+        max-height: 20%;
+    }
+
+    .item-price {
+        font-size: 15px;
+        margin: 5px 0;
+        padding: 5px 10px;
+    }
+
+    .item-is-available {
+        font-size: 15px;
+        margin: 5px;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .item-not-available {
+        text-align: center;
+        font-size: 15px;
+    }
 }

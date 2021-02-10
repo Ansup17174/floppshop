@@ -2,7 +2,7 @@ import {Link, useHistory} from 'react-router-dom';
 import UserContext from '../context/UserContext';
 import {useState, useContext} from 'react';
 import axios from 'axios';
-import {FiAlignJustify} from 'react-icons/fi';
+import {FiAlignJustify, FiX} from 'react-icons/fi';
 import './header.css'
 
 const Header = () => {
@@ -24,17 +24,17 @@ const Header = () => {
     return (
     <div className="nav-wrapper">
         <nav className="navbar">
-            <Link to="/" className="logo"><div>FloppShop</div></Link>
+            <Link to="/" className="logo" onClick={() => setNavbarToggled(false)}><div>FloppShop</div></Link>
             <ul className={`nav-links${navbarToggled ? "" : " not-displayed"}`}>
-                {userData.is_staff && <Link to="/admin-panel" className="nav-item"><li>Admin panel</li></Link>}
-                {userData.pk && <Link to="/order-history" className="nav-item"><li>History</li></Link>}
-                {userData.pk && <Link to="/order" className="nav-item"><li>Order</li></Link>}
-                {userData.pk && <Link to="/profile" className="nav-item"><li>Profile</li></Link>}
-                {userData.pk && <Link to="/change-password" className="nav-item"><li>Change password</li></Link>}
-                <Link to="/register" className="nav-item"><li>Register</li></Link>
-                {!userData.pk ? <Link to="/login" className="nav-item"><li>Log in</li></Link> : <div className="nav-item" onClick={logout}>Logout</div>}
+                {userData.is_staff && <Link to="/admin-panel" className="nav-item" onClick={() => setNavbarToggled(false)}><li>Admin panel</li></Link>}
+                {userData.pk && <Link to="/order-history" className="nav-item" onClick={() => setNavbarToggled(false)}><li>History</li></Link>}
+                {userData.pk && <Link to="/order" className="nav-item" onClick={() => setNavbarToggled(false)}><li>Order</li></Link>}
+                {userData.pk && <Link to="/profile" className="nav-item" onClick={() => setNavbarToggled(false)}><li>Profile</li></Link>}
+                {userData.pk && <Link to="/change-password" className="nav-item" onClick={() => setNavbarToggled(false)}><li>Change password</li></Link>}
+                <Link to="/register" className="nav-item" onClick={() => setNavbarToggled(false)}><li>Register</li></Link>
+                {!userData.pk ? <Link to="/login" className="nav-item" onClick={() => setNavbarToggled(false)}><li>Log in</li></Link> : <div className="nav-item" onClick={logout}>Logout</div>}
             </ul>
-            <div className="nav-button" onClick={() => setNavbarToggled(!navbarToggled)}><FiAlignJustify /></div>
+            <div className="nav-button" onClick={() => setNavbarToggled(!navbarToggled)}>{navbarToggled ? <FiX /> : <FiAlignJustify />}</div>
         </nav>
     </div>
     );
