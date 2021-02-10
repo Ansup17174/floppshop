@@ -148,7 +148,7 @@ const Checkout = () => {
                         ))}
                     </select>
                     {!payUUri && <div className="checkout-button" onClick={submitOrder}>Submit order</div>}
-                    {payUUri && <a href={payUUri} target="_blank" rel="noreferrer"><div className="order-details pay-button">Redirect to payment</div></a>}
+                    {payUUri && <a href={payUUri} target="_blank" rel="noreferrer"><div className="order-details blue-button">Redirect to payment</div></a>}
                     {errors.detail && <div className="register-fail">Choose shipping method</div>}
                 </div>
             </div>

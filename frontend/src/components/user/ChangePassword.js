@@ -1,4 +1,4 @@
-import {useState, useEffect, useContext} from 'react';
+import {useState, useContext} from 'react';
 import {useHistory} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
 import axios from 'axios';
@@ -37,24 +37,24 @@ const ChangePassword = () => {
     };
 
     return (
-        <div className="register">
-            <form className="login-form" onSubmit={handleSubmit}>
+        <div className="form-container">
+            <form className="small-form" onSubmit={handleSubmit}>
                 <h1>Change password</h1>
-                {responseOk && <div className="register-success">Password changed</div>}
-                <div className="register-field">
-                    <input type="password" className="register-input" placeholder="Old password" value={oldPassword} onChange={e => setOldPassword(e.target.value)}/>
-                    {errors.old_password && errors.old_password.map((message, index) => <div className="register-fail" key={index}>{message}</div>)}
+                {responseOk && <div className="form-success">Password changed</div>}
+                <div className="form-field">
+                    <input type="password" className="form-input" placeholder="Old password" value={oldPassword} onChange={e => setOldPassword(e.target.value)}/>
+                    {errors.old_password && errors.old_password.map((message, index) => <div className="form-error" key={index}>{message}</div>)}
                 </div>
-                <div className="register-field">
-                    <input type="password" className="register-input" placeholder="New Password" value={newPassword1} onChange={e => setNewPassword1(e.target.value)}/>
-                    {errors.new_password1 && errors.new_password1.map((message, index) => <div className="register-fail" key={index}>{message}</div>)}
+                <div className="form-field">
+                    <input type="password" className="form-input" placeholder="New Password" value={newPassword1} onChange={e => setNewPassword1(e.target.value)}/>
+                    {errors.new_password1 && errors.new_password1.map((message, index) => <div className="form-error" key={index}>{message}</div>)}
                 </div>
-                <div className="register-field">
-                    <input type="password" className="register-input" placeholder="New password again" value={newPassword2} onChange={e => setNewPassword2(e.target.value)}/>
-                    {errors.new_password2 && errors.new_password2.map((message, index) => <div className="register-fail" key={index}>{message}</div>)}
-                    {errors.non_field_errors && errors.non_field_errors.map((message, index) => <div className="register-fail" key={index}>{message}</div>)}
+                <div className="form-field">
+                    <input type="password" className="form-input" placeholder="New password again" value={newPassword2} onChange={e => setNewPassword2(e.target.value)}/>
+                    {errors.new_password2 && errors.new_password2.map((message, index) => <div className="form-error" key={index}>{message}</div>)}
+                    {errors.non_field_errors && errors.non_field_errors.map((message, index) => <div className="form-error" key={index}>{message}</div>)}
                 </div>
-                <input type="submit" className="register-button register-input" value="Change password"/>
+                <input type="submit" className="form-button form-input" value="Change password"/>
             </form>
         </div>
     );

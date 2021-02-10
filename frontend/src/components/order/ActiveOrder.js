@@ -3,7 +3,7 @@ import {useState, useEffect, useContext} from 'react';
 import {useHistory, Link} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
 import OrderInfo from './OrderInfo';
-
+import './order.css';
 
 const ActiveOrder = () => {
 
@@ -72,9 +72,9 @@ const ActiveOrder = () => {
     };
 
     return (
-        <div className="order-page">
+        <div className="scrollable-page">
             <OrderInfo order={order} />
-            {order.id ? <div className="order">
+            {order.id ? <div className="gray-container">
                 <h1>Items</h1>
                 {order.carts.sort(compareCarts).map((cart, index) => (
                     <div className="order-item" key={index}>
@@ -100,7 +100,7 @@ const ActiveOrder = () => {
                         </form>
                     </div>
                 ))}
-                {error.detail && <div className="register-fail">{error.detail}</div>}
+                {error.detail && <div className="form-error">{error.detail}</div>}
                 <div className="checkout"><Link to="/checkout"><div className="checkout-button">Go to checkout &gt;</div></Link></div>
             </div> : null}
         </div>

@@ -2,6 +2,7 @@ import axios from 'axios';
 import {useState, useEffect, useContext} from 'react';
 import {useParams, useHistory, Link} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
+import './admin.css';
 
 const AdminItemDetails = () => {
 
@@ -87,7 +88,7 @@ const AdminItemDetails = () => {
                                 onClick={e => setSelectedImage(e.target.src)}/>
                             ))}
                         </div>
-                        <Link to={`/admin-edit-item-images/${id}`}><div className="pay-button">Edit images</div></Link>
+                        <Link to={`/admin-edit-item-images/${id}`}><div className="blue-button">Edit images</div></Link>
                     </div>
                     <div className="item-details-line"></div>
                     <div className="item-details-info">
@@ -113,7 +114,7 @@ const AdminItemDetails = () => {
                             {error.detail && <div className="quantity-fail">{error.detail}</div>}
                         </form> : <div className="add-to-cart-unavailable">Item unavailable</div>}
                         <div className="container">
-                            <Link to={`/admin-edit-item/${id}`}><div className="pay-button">Edit item</div></Link>
+                            <Link to={`/admin-edit-item/${id}`}><div className="blue-button">Edit item</div></Link>
                             <Link to={`/admin-delete-item/${id}`}><div className="delete-button">Delete item</div></Link>
                         </div>
                     </div>

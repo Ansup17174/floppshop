@@ -2,6 +2,7 @@ import {Link, useHistory} from 'react-router-dom';
 import UserContext from '../context/UserContext';
 import {useContext} from 'react';
 import axios from 'axios';
+import './header.css'
 
 const Header = () => {
 

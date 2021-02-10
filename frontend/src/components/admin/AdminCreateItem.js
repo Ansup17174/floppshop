@@ -3,6 +3,7 @@ import {useHistory} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
 import ItemForm from './ItemForm';
 import axios from 'axios';
+import './admin.css';
 
 const AdminCreateItem = () => {
     const [item, setItem] = useState({

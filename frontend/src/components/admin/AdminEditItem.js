@@ -3,6 +3,7 @@ import {useState, useEffect, useContext} from 'react';
 import UserContext from '../../context/UserContext';
 import {useHistory, useParams} from 'react-router-dom';
 import axios from 'axios';
+import './admin.css';
 
 const AdminEditItem = () => {
     const { id } = useParams();

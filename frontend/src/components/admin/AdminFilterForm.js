@@ -3,6 +3,7 @@ import axios from 'axios';
 import AdminItemList from './AdminItemList';
 import {useHistory} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
+import './admin.css';
 
 
 const AdminFilterForm = () => {
@@ -101,8 +102,8 @@ const AdminFilterForm = () => {
                 </div>
                     <h3>Page: <input type="number" value={page} onChange={e => changePage(e.target.value)}/> of {maxPage}</h3>
                     <div>
-                        {page !== 1 && <span className="pay-button" onClick={() => changePage(page-1)}>&lt;</span>}
-                        {page !== maxPage && <span className="pay-button" onClick={() => changePage(page+1)}>&gt;</span>}
+                        {page !== 1 && <span className="blue-button" onClick={() => changePage(page-1)}>&lt;</span>}
+                        {page !== maxPage && <span className="blue-button" onClick={() => changePage(page+1)}>&gt;</span>}
                     </div>
             </form>
         </div>

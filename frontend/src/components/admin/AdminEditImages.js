@@ -2,6 +2,7 @@ import {useState, useEffect, useContext, useRef} from 'react';
 import {useParams, useHistory} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
 import axios from 'axios';
+import './admin.css';
 
 const AdminEditImages = () => {
     const { id } = useParams();
@@ -102,15 +103,15 @@ const AdminEditImages = () => {
     };
 
     return (
-        <div className="order-page">
-            <div className="order">
+        <div className="scrollable-page">
+            <div className="gray-container">
                 <h1>Edit images</h1>
                 <div className="images">
                     {images.map((image, index) => (
                         <div className="image-ordering" key={index}>
                             <img src={image.url} alt="item" key={index} className="edit-image"/>
                             <div>
-                                {!image.is_main && <div className="pay-button" onClick={() => setAsMain(image.id)}>Set as main</div>}
+                                {!image.is_main && <div className="blue-button" onClick={() => setAsMain(image.id)}>Set as main</div>}
                                 {image.is_main && <div className="main-image-info">Main</div>}
                                 <div className="delete-button" onClick={() => deleteImage(image.id)}>Delete</div>
                             </div>
@@ -118,12 +119,12 @@ const AdminEditImages = () => {
                     ))}
                 </div>
                 <div className="image-save">
-                    {responseOk && <div className="register-success">{imagesInput.current.files.length} images saved</div>}
+                    {responseOk && <div className="form-success">{imagesInput.current.files.length} images saved</div>}
                     <div className="image-form">
                         Add images:
                         <input type="file" multiple ref={imagesInput}/>
-                        <div className="pay-button" onClick={saveImages}>Save images</div>
-                        {errors.detail && <div className="register-fail">{errors.detail}</div>}
+                        <div className="blue-button" onClick={saveImages}>Save images</div>
+                        {errors.detail && <div className="form-error">{errors.detail}</div>}
                     </div>
                 </div>
             </div>

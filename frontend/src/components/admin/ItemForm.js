@@ -2,34 +2,34 @@
 
 const ItemForm = ({item, setItem, errors, responseOk, handleSubmit}) => {
     return (
-        <div className="register">
-            <form className="register-form" onSubmit={handleSubmit}>
+        <div className="form-container">
+            <form className="form" onSubmit={handleSubmit}>
                 <h1>Item form</h1>
-                {responseOk && <div className="register-success">Item saved</div>}
-                <div className="register-field">
+                {responseOk && <div className="form-success">Item saved</div>}
+                <div className="form-field">
                     Name:
-                    <input type="text" className="register-input" placeholder="Name" value={item.name} onChange={e => setItem({...item, name: e.target.value})}/>
-                    {errors.name && errors.name.map((message, index) => <div className="register-fail" key={index}>{message}</div>)}
+                    <input type="text" className="form-input" placeholder="Name" value={item.name} onChange={e => setItem({...item, name: e.target.value})}/>
+                    {errors.name && errors.name.map((message, index) => <div className="form-error" key={index}>{message}</div>)}
                 </div>
-                <div className="register-field">
+                <div className="form-field">
                     Description:
-                    <input type="text" className="register-input" placeholder="Description" value={item.description} onChange={e => setItem({...item, description: e.target.value})}/>
-                    {errors.description && errors.description.map((message, index) => <div className="register-fail" key={index}>{message}</div>)}
+                    <input type="text" className="form-input" placeholder="Description" value={item.description} onChange={e => setItem({...item, description: e.target.value})}/>
+                    {errors.description && errors.description.map((message, index) => <div className="form-error" key={index}>{message}</div>)}
                 </div>
-                <div className="register-field">
+                <div className="form-field">
                     Quantity:
-                    <input type="number" className="register-input" placeholder="Quantity" value={item.quantity} onChange={e => setItem({...item, quantity: e.target.value})}/>
-                    {errors.quantity && errors.quantity.map((message, index) => <div className="register-fail" key={index}>{message}</div>)}
+                    <input type="number" className="form-input" placeholder="Quantity" value={item.quantity} onChange={e => setItem({...item, quantity: e.target.value})}/>
+                    {errors.quantity && errors.quantity.map((message, index) => <div className="form-error" key={index}>{message}</div>)}
                 </div>
-                <div className="register-field">
+                <div className="form-field">
                     Price:
-                    <input type="number" step="0.01" className="register-input" placeholder="Price" value={item.price} onChange={e => setItem({...item, price: e.target.value})}/>
-                    {errors.price && errors.price.map((message, index) => <div className="register-fail" key={index}>{message}</div>)}
+                    <input type="number" step="0.01" className="form-input" placeholder="Price" value={item.price} onChange={e => setItem({...item, price: e.target.value})}/>
+                    {errors.price && errors.price.map((message, index) => <div className="form-error" key={index}>{message}</div>)}
                 </div>
-                <div className="register-field">
+                <div className="form-field">
                     Old price (shown as old price when item is on discount):
-                    <input type="number" step="0.01" className="register-input" placeholder="Old price (shown as old when on discount)" value={item.old_price} onChange={e => setItem({...item, old_price: e.target.value})}/>
-                    {errors.old_price && errors.old_price.map((message, index) => <div className="register-fail" key={index}>{message}</div>)}
+                    <input type="number" step="0.01" className="form-input" placeholder="Old price (shown as old when on discount)" value={item.old_price} onChange={e => setItem({...item, old_price: e.target.value})}/>
+                    {errors.old_price && errors.old_price.map((message, index) => <div className="form-error" key={index}>{message}</div>)}
                 </div>
                 <div className="checkbox-field">
                     <div>
@@ -45,7 +45,7 @@ const ItemForm = ({item, setItem, errors, responseOk, handleSubmit}) => {
                         <span> Is visible</span>
                     </div>
                 </div>
-                <input type="submit" className="register-button register-input" value="Save"/>
+                <input type="submit" className="form-button form-input" value="Save"/>
             </form>
         </div>
     );

@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import ItemList from './ItemList';
-
+import './items.css';
 
 const FilterForm = () => {
 
@@ -93,8 +93,8 @@ const FilterForm = () => {
                 </div>
                     <h3>Page: <input type="number" value={page} onChange={e => changePage(e.target.value)}/> of {maxPage}</h3>
                     <div>
-                        {page !== 1 && <span className="pay-button" onClick={() => changePage(page-1)}>&lt;</span>}
-                        {page !== maxPage && <span className="pay-button" onClick={() => changePage(page+1)}>&gt;</span>}
+                        {page !== 1 && <span className="blue-button" onClick={() => changePage(page-1)}>&lt;</span>}
+                        {page !== maxPage && <span className="blue-button" onClick={() => changePage(page+1)}>&gt;</span>}
                     </div>
             </form>
         </div>

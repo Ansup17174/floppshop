@@ -21,16 +21,16 @@ const PasswordReset = () => {
     };
 
     return (
-        <div className="register">
-            <form className="login-form" onSubmit={handleSubmit}>
+        <div className="form-container">
+            <form className="small-form" onSubmit={handleSubmit}>
                 <h1>Reset password</h1>
-                {responseOk && <div className="register-success">Password reset e-mail sent</div>}
-                <div className="register-field">
-                    <input type="email" className="register-input" placeholder="E-mail" value={email} onChange={e => setEmail(e.target.value)}/>
-                    {errors.email && errors.email.map((message, index) => <div className="register-fail" key={index}>{message}</div>)}
-                    {errors.non_field_errors && errors.non_field_errors.map((message, index) => <div className="register-fail" key={index}>{message}</div>)}
+                {responseOk && <div className="form-success">Password reset e-mail sent</div>}
+                <div className="form-field">
+                    <input type="email" className="form-input" placeholder="E-mail" value={email} onChange={e => setEmail(e.target.value)}/>
+                    {errors.email && errors.email.map((message, index) => <div className="form-error" key={index}>{message}</div>)}
+                    {errors.non_field_errors && errors.non_field_errors.map((message, index) => <div className="form-error" key={index}>{message}</div>)}
                 </div>
-                <input type="submit" className="register-button register-input" value="Reset"/>
+                <input type="submit" className="form-button form-input" value="Reset"/>
             </form>
         </div>
     );

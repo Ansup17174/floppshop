@@ -4,6 +4,7 @@ import {useHistory} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
 import OrderFinished from './OrderFinished';
 import HistoryDetails from './HistoryDetails';
+import './order.css';
 
 const History = () => {
     const [selectedOrder, setSelectedOrder] = useState({});
@@ -41,13 +42,13 @@ const History = () => {
     }, [page]);
 
     return (
-        <div className="order-page">
-            {!selectedOrder.id && <div className="order">
+        <div className="scrollable-page">
+            {!selectedOrder.id && <div className="gray-container">
                 {orders.length > 0 && <><h1>Order history</h1>
                 <h3>Page: <input type="number" className="page-input" value={page} onChange={e => changePage(e.target.value)}/> of {maxPage}</h3>
                 <div className="page-buttons">
-                    {page !== 1 && <span className="pay-button" onClick={() => changePage(page-1)}>&lt;</span>}
-                    {page !== maxPage && <span className="pay-button" onClick={() => changePage(page+1)}>&gt;</span>}
+                    {page !== 1 && <span className="blue-button" onClick={() => changePage(page-1)}>&lt;</span>}
+                    {page !== maxPage && <span className="blue-button" onClick={() => changePage(page+1)}>&gt;</span>}
                 </div>
                 </>}
                 {!orders.length > 0 && <h1>No orders</h1>}

@@ -2,6 +2,7 @@ import axios from 'axios';
 import {useState, useEffect, useContext} from 'react';
 import {useParams, useHistory} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
+import './items.css';
 
 const ItemDetails = () => {
 
