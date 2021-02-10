@@ -77,7 +77,7 @@ const App = () => {
             <Route path="/admin-edit-item-images/:id" component={AdminEditImages} exact />
             <Route path="/admin-delete-item/:id" component={AdminDeleteItem} exact />
             <Route path="/admin-create-shipping" component={AdminCreateShipping} exact />
-            <Route path="/admin/edit-shipping/:id" component={AdminEditShipping} exact />
+            <Route path="/admin-edit-shipping/:id" component={AdminEditShipping} exact />
             <Route path="/admin-shippings" component={AdminShippingList} exact />
             <Route path="*" component={NotFound}/>
         </Switch>
