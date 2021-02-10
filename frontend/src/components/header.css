@@ -1,18 +1,21 @@
 .nav-wrapper {
     position: fixed;
-    width: 100%;
+    width: 100vw;
+    z-index: 3;
 }
 
 .logo {
     height: 100%;
     display: flex;
     align-items: center;
+    padding: 0 50px;    
 }
 
 .navbar {
+    position: fixed;
     display: flex;
+    width: 100%;
     justify-content: space-between;
-    padding: 0 100px;
     height: 10vh;
     align-items: center;
     background-color: rgb(12, 89, 196);
@@ -25,6 +28,11 @@
     display: flex;
     align-items: center;
     height: 100%;
+    padding: 0 50px;
+}
+
+.nav-button {
+    display: none;
 }
 
 .nav-links:hover {
@@ -37,4 +45,57 @@
     display: flex;
     align-items: center;
     height: 100%;
+}
+
+@media only screen and (max-width: 1000px) { 
+
+    .navbar {
+        display: flex;
+        position: fixed;
+        justify-content: space-between;
+        width: 100%;
+        height: 10vh;
+        align-items: center;
+        background-color: rgb(12, 89, 196);
+        color: white;
+        font-size: 20px;
+    }
+
+    .nav-links {
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        top: 10vh;
+        width: 100%;
+        height: 90vh;
+        background-color: white;
+    }
+
+    .nav-item{
+        color: black;
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        font-weight: bold;
+        align-items: center;
+        cursor: pointer;
+        border-bottom: 1px solid rgb(220, 220, 220  );
+    }
+
+    .nav-item:active {
+        color: black;
+    }
+
+    .nav-button {
+        height: 100%;
+        padding: 0 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .not-displayed {
+        display: none
+    }
 }
