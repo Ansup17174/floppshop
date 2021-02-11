@@ -28,7 +28,6 @@ import AdminCreateShipping from './components/admin/AdminCreateShipping';
 import AdminShippingList from './components/admin/AdminShippingList';
 import AdminEditShipping from './components/admin/AdminEditShipping';
 
-
 const App = () => {
 
   const [userData, setUserData] = useState({});
