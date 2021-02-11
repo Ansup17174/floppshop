@@ -27,8 +27,8 @@ const ItemForm = ({item, setItem, errors, responseOk, handleSubmit}) => {
                     {errors.price && errors.price.map((message, index) => <div className="form-error" key={index}>{message}</div>)}
                 </div>
                 <div className="form-field">
-                    Old price (shown as old price when item is on discount):
-                    <input type="number" step="0.01" className="form-input" placeholder="Old price (shown as old when on discount)" value={item.old_price} onChange={e => setItem({...item, old_price: e.target.value})}/>
+                    Old price (shown on discount):
+                    <input type="number" step="0.01" className="form-input" placeholder="Old price (shown on discount)" value={item.old_price} onChange={e => setItem({...item, old_price: e.target.value})}/>
                     {errors.old_price && errors.old_price.map((message, index) => <div className="form-error" key={index}>{message}</div>)}
                 </div>
                 <div className="checkbox-field">

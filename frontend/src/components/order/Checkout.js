@@ -118,24 +118,23 @@ const Checkout = () => {
     };
 
     return (
-        <>
+        <div className="scrollable-page">
         <OrderInfo order={order} />
         <div>
             <div className="shipping">
-                <form className="shipping-form">
-                    <h1>Address:</h1>
-                    <input type="text" placeholder="Street" className="register-input" readOnly={readOnly} value={formData.street} onChange={e => setFormData({...formData, street: e.target.value})}/>
-                    {errors.street && <div className="register-fail">{errors.street[0]}</div>}
-                    <input type="text" placeholder="Number" className="register-input" readOnly={readOnly} value={formData.number} onChange={e => setFormData({...formData, number: e.target.value})}/>
-                    {errors.number && <div className="register-fail">{errors.number[0]}</div>}
-                    <input type="text" placeholder="Post Code" className="register-input" readOnly={readOnly} value={formData.post_code} onChange={e => setFormData({...formData, post_code: e.target.value})}/>
-                    {errors.post_code && <div className="register-fail">{errors.post_code[0]}</div>}
-                    <input type="text" placeholder="State" className="register-input" readOnly={readOnly} value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})}/>
-                    {errors.state && <div className="register-fail">{errors.state[0]}</div>}
-                    <input type="text" placeholder="City" className="register-input" readOnly={readOnly} value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})}/>
-                    {errors.city && <div className="register-fail">{errors.city[0]}</div>}
-                </form>
-                <div className="item-details-line"></div>
+                    <form className="shipping-form">
+                        <h1>Address:</h1>
+                        <input type="text" placeholder="Street" className="form-input" readOnly={readOnly} value={formData.street} onChange={e => setFormData({...formData, street: e.target.value})}/>
+                        {errors.street && <div className="form-error">{errors.street[0]}</div>}
+                        <input type="text" placeholder="Number" className="form-input" readOnly={readOnly} value={formData.number} onChange={e => setFormData({...formData, number: e.target.value})}/>
+                        {errors.number && <div className="form-error">{errors.number[0]}</div>}
+                        <input type="text" placeholder="Post Code" className="form-input" readOnly={readOnly} value={formData.post_code} onChange={e => setFormData({...formData, post_code: e.target.value})}/>
+                        {errors.post_code && <div className="form-error">{errors.post_code[0]}</div>}
+                        <input type="text" placeholder="State" className="form-input" readOnly={readOnly} value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})}/>
+                        {errors.state && <div className="form-error">{errors.state[0]}</div>}
+                        <input type="text" placeholder="City" className="form-input" readOnly={readOnly} value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})}/>
+                        {errors.city && <div className="form-error">{errors.city[0]}</div>}
+                    </form>
                 <div className="shipping-method">
                     <h1>Shipping method: </h1>
                     <div className="inpost-dropdown">
@@ -149,11 +148,11 @@ const Checkout = () => {
                     </select>
                     {!payUUri && <div className="checkout-button" onClick={submitOrder}>Submit order</div>}
                     {payUUri && <a href={payUUri} target="_blank" rel="noreferrer"><div className="order-details blue-button">Redirect to payment</div></a>}
-                    {errors.detail && <div className="register-fail">Choose shipping method</div>}
+                    {errors.detail && <div className="form-error">Choose shipping method</div>}
                 </div>
             </div>
         </div>
-        </>
+        </div>
     );
 };
 

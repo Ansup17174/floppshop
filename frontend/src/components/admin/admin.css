@@ -1,6 +1,7 @@
 .admin-panel {
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     align-items: center;
     background-color: rgb(230, 230, 230);
     border-radius: 30px;
@@ -70,4 +71,10 @@
     padding: 10px 20px;
     border-radius: 7px;
     margin: 10px 10px;
+}
+
+@media only screen and (max-width: 1000px) {
+    .admin-panel {
+        font-size: 10px;
+    }
 }

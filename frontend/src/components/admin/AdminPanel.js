@@ -23,22 +23,26 @@ const AdminPanel = () => {
     }, []);
 
     return (
-        <div className="container">
+        <>
             <div className="admin-panel">
                 <h1>Items:</h1>
-                <Link to="/admin-items"><div className="blue-button">View items</div></Link>
-                <Link to="/admin-item-create"><div className="blue-button">Add item</div></Link>
+                <div>
+                    <Link to="/admin-items"><div className="blue-button">View items</div></Link>
+                    <Link to="/admin-item-create"><div className="blue-button">Add item</div></Link>
+                </div>
             </div>
             <div className="admin-panel">
                 <h1>Shipping methods:</h1>
-                <Link to="/admin-shippings"><div className="blue-button">View shipping methods</div></Link>
-                <Link to="/admin-create-shipping"><div className="blue-button">Add shipping method</div></Link>
+                <div>
+                    <Link to="/admin-shippings"><div className="blue-button">View shipping methods</div></Link>
+                    <Link to="/admin-create-shipping"><div className="blue-button">Add shipping method</div></Link>
+                </div>
             </div>
             <div className="admin-panel">
                 <h1>PayU notifications:</h1>
                 <div className="blue-button">View notifications</div>
             </div>
-        </div>
+        </>
     );
 };
 

@@ -76,11 +76,12 @@ const ItemDetails = () => {
     };
 
     return (
+        <div className="scrollable-page">
             <div className="item-details">
                 <div className="item-details-images">
                     <img src={selectedImage} alt="item" className="item-details-image"/>
                     <div className="item-details-small-images">
-                        {item.images.lenth > 1 && item.images.map((image, index) => (
+                        {item.images.length > 1 && item.images.map((image, index) => (
                             <img src={image.url} alt="item-small" key={index} className="item-details-small-image"
                             onClick={e => setSelectedImage(e.target.src)}/>
                         ))}
@@ -111,6 +112,7 @@ const ItemDetails = () => {
                     </form> : <div className="add-to-cart-unavailable">Item unavailable</div>}
                 </div>
             </div>
+        </div>
     );
 };
 
