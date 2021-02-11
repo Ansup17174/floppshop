@@ -75,48 +75,44 @@ const AdminItemDetails = () => {
     };
 
     return (
-        <div className="order-page">
-            <div className="item-details-container">
-                <div className="item-details">
-                    <div className="item-details-images">
-                        <div className="item-details-big-image">
-                            <img src={selectedImage} alt="item" className="item-details-image"/>
-                        </div>
-                        <div className="item-details-small-images">
-                            {item.images.length > 1 && item.images.map((image, index) => (
-                                <img src={image.url} alt="item-small" key={index} className="item-details-small-image"
-                                onClick={e => setSelectedImage(e.target.src)}/>
-                            ))}
-                        </div>
-                        <Link to={`/admin-edit-item-images/${id}`}><div className="blue-button">Edit images</div></Link>
+        <div className="scrollable-page">
+            <div className="item-details">
+                <div className="item-details-images">
+                    <img src={selectedImage} alt="item" className="item-details-image"/>
+                    <div className="item-details-small-images">
+                        {item.images.length > 1 && item.images.map((image, index) => (
+                            <img src={image.url} alt="item-small" key={index} className="item-details-small-image"
+                            onClick={e => setSelectedImage(e.target.src)}/>
+                        ))}
                     </div>
-                    <div className="item-details-line"></div>
-                    <div className="item-details-info">
-                        <div className="item-details-name">{item.name}</div>
-                        <div className="item-details-description">{item.description}</div>
-                        <div className="item-details-bottom">
-                            <div className="item-quantity">In-stock: {item.quantity}</div>
-                            {item.is_discount && <span className="item-old-price">{item.old_price}zl</span>}
-                            <span className={item.is_discount ? "item-discount-price" : "item-price"}>{item.price}zl</span>
-                            {item.is_discount && <h4 className="on-discount">ON DISCOUNT!</h4>}
-                        </div>
-                        {item.is_available && item.quantity > 0 ? <form className="quantity-form" onSubmit={handleSubmit}>
-                            <div className="quantity-data">
-                                <div className="item-quantity">Quantity: </div>
-                                <div className="quantity-buttons">
-                                    <div onClick={decreaseQuantity} className="sign-box">-</div>
-                                    <input type="number" className="quantity-input" value={quantity} onChange={changeQuantity}/>
-                                    <div onClick={increaseQuantity} className="sign-box">+</div>
-                                </div>
+                    <Link to={`/admin-edit-item-images/${id}`}><div className="blue-button">Edit images</div></Link>
+                </div>
+                <div className="item-details-line not-displayed"></div>
+                <div className="item-details-info">
+                    <div className="item-details-name">{item.name}</div>
+                    <div className="item-details-description">{item.description}</div>
+                    <div className="item-details-bottom">
+                        <div className="item-quantity">In-stock: {item.quantity}</div>
+                        {item.is_discount && <span className="item-old-price">{item.old_price}zl</span>}
+                        <span className={item.is_discount ? "item-discount-price" : "item-price"}>{item.price}zl</span>
+                        {item.is_discount && <h4 className="on-discount">ON DISCOUNT!</h4>}
+                    </div>
+                    {item.is_available && item.quantity > 0 ? <form className="quantity-form" onSubmit={handleSubmit}>
+                        <div className="quantity-data">
+                            <div className="item-quantity">Quantity: </div>
+                            <div className="quantity-buttons">
+                                <div onClick={decreaseQuantity} className="sign-box">-</div>
+                                <input type="number" className="quantity-input" value={quantity} onChange={changeQuantity}/>
+                                <div onClick={increaseQuantity} className="sign-box">+</div>
                             </div>
-                            <input type="submit" value="Add to cart" className="add-to-cart"/>
-                            {response.detail && <div className="quantity-success">{response.detail}</div>}
-                            {error.detail && <div className="quantity-fail">{error.detail}</div>}
-                        </form> : <div className="add-to-cart-unavailable">Item unavailable</div>}
-                        <div className="container">
+                        </div>
+                        <input type="submit" value="Add to cart" className="add-to-cart"/>
+                        {response.detail && <div className="quantity-success">{response.detail}</div>}
+                        {error.detail && <div className="quantity-fail">{error.detail}</div>}
+                    </form> : <div className="add-to-cart-unavailable">Item unavailable</div>}
+                    <div className="container">
                             <Link to={`/admin-edit-item/${id}`}><div className="blue-button">Edit item</div></Link>
                             <Link to={`/admin-delete-item/${id}`}><div className="delete-button">Delete item</div></Link>
-                        </div>
                     </div>
                 </div>
             </div>

@@ -45,7 +45,7 @@ const History = () => {
         <div className="scrollable-page">
             {!selectedOrder.id && <div className="gray-container">
                 {orders.length > 0 && <><h1>Order history</h1>
-                <h3>Page: <input type="number" className="page-input" value={page} onChange={e => changePage(e.target.value)}/> of {maxPage}</h3>
+                <h3>Page: <input type="number" className="filter-form-input page-input white" value={page} onChange={e => changePage(e.target.value)}/> of {maxPage}</h3>
                 <div className="page-buttons">
                     {page !== 1 && <span className="blue-button" onClick={() => changePage(page-1)}>&lt;</span>}
                     {page !== maxPage && <span className="blue-button" onClick={() => changePage(page+1)}>&gt;</span>}
