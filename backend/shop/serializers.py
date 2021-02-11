@@ -27,7 +27,7 @@ class ItemImageSerializer(serializers.ModelSerializer):
         fields = ('id', 'url', 'is_main')
 
     def update(self, instance, validated_data):
-        ItemImage.objects.update(is_main=False)
+        ItemImage.objects.filter(item=instance.item).update(is_main=False)
         instance.is_main = True
         instance.save()
         return instance

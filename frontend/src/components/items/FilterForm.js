@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 import ItemList from './ItemList';
 import './items.css';
-import {FiChevronRight} from 'react-icons/fi';
+import {FiChevronRight, FiChevronLeft} from 'react-icons/fi';
 
 const FilterForm = () => {
 
@@ -78,7 +78,7 @@ const FilterForm = () => {
                         <input id="max-price" className="filter-form-input filter-form-number" type="number" size="2" min="0" value={search.maxPrice} onChange={changeMaxPrice}/>
                     </div>
                 </div>
-                <input className="filter-form-submit" type="submit" value="Filter"/>
+                <input className="filter-form-submit" type="submit" value="Filter" onClick={() => setFilterToggled(false)}/>
                 <div>
                     <h4>Order by</h4>
                     <label>Price:</label>
@@ -89,14 +89,23 @@ const FilterForm = () => {
                         <label htmlFor="price2">Descending</label> 
                     </div>
                 </div>
-                    <h3>Page: <input type="number" className="filter-form-input filter-form-number" value={page} onChange={e => changePage(e.target.value)}/> of {maxPage}</h3>
+                <div className="not-displayed">
+                    <div>
+                    <h3>Page: <input type="number" className="filter-form-input filter-form-number" value={page} onFocus={e => e.target.select()} onBlur={e => changePage(e.target.value)}/> of {maxPage}</h3>
+                    </div>
                     <div>
                         {page !== 1 && <span className="blue-button" onClick={() => changePage(page-1)}>&lt;</span>}
                         {page !== maxPage && <span className="blue-button" onClick={() => changePage(page+1)}>&gt;</span>}
                     </div>
+                </div>
             </form>
         </div>
-        <div className="filter-arrow" onClick={() => setFilterToggled(!filterToggled)}><FiChevronRight /></div>
+        <div className="filter-arrow" onClick={() => setFilterToggled(!filterToggled)}>{filterToggled ? <FiChevronLeft /> : <FiChevronRight />}</div>
+        <div className="pages">
+                <span className={`blue-button${page !== 1 ? "" : " hidden"}`} onClick={() => changePage(page-1)}>&lt;</span>
+                <h4><input type="number" className="filter-form-input page-input" value={page} onFocus={e => e.target.select()} onChange={e => changePage(e.target.value)}/> of {maxPage}</h4>
+                <span className={`blue-button${page !== maxPage ? "" : " hidden"}`} onClick={() => changePage(page+1)}>&gt;</span>
+        </div>
         <ItemList items={items}/>
         </>
     );

@@ -47,10 +47,6 @@ input::-webkit-inner-spin-button {
     font-size: 40px;
 }
 
-.hidden {
-    visibility: hidden;
-}
-
 .page-buttons {
     margin: 15px 0;
 }
@@ -208,8 +204,18 @@ input::-webkit-inner-spin-button {
     background-color: rgb(200, 200, 200);
 }
 
+.hidden {
+    visibility: hidden;
+}
+
 @media only screen and (max-width: 1000px) {
     .not-displayed {
         display: none;
+    }
+
+    .blue-button {
+        padding: 5px 10px;
+        margin: 5px;
+        font-size: 10px;
     }
 }

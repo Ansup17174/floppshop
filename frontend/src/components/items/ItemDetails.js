@@ -76,7 +76,6 @@ const ItemDetails = () => {
     };
 
     return (
-        <div className="item-details-container">
             <div className="item-details">
                 <div className="item-details-images">
                     <img src={selectedImage} alt="item" className="item-details-image"/>
@@ -87,7 +86,7 @@ const ItemDetails = () => {
                         ))}
                     </div>
                 </div>
-                <div className="item-details-line"></div>
+                <div className="item-details-line not-displayed"></div>
                 <div className="item-details-info">
                     <div className="item-details-name">{item.name}</div>
                     <div className="item-details-description">{item.description}</div>
@@ -112,7 +111,6 @@ const ItemDetails = () => {
                     </form> : <div className="add-to-cart-unavailable">Item unavailable</div>}
                 </div>
             </div>
-        </div>
     );
 };
 
