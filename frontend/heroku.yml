@@ -1,3 +1,4 @@
 build:
     docker:
         backend: /backend/Dockerfile
+        frontend: /backend/Dockerfile
