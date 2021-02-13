@@ -30,4 +30,4 @@ COPY . .
 
 RUN python manage.py collectstatic
 
-CMD ["gunicorn", "wsgi", "--bind", "0.0.0.0:8000", "--reload"]
+CMD ["gunicorn", "floppshopproject.wsgi", "--bind", "0.0.0.0:8000", "--reload"]
