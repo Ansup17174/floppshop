@@ -1,4 +1,4 @@
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 import {useState, useEffect, useContext} from 'react';
 import {useHistory, Link} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
@@ -25,7 +25,7 @@ const ActiveOrder = () => {
     const {reloadUserData} = useContext(UserContext);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/shop/order/", {withCredentials: true})
+        apiInstance.get("shop/order/", {withCredentials: true})
         .then(response => {
             setOrder(response.data);
         })
@@ -39,13 +39,13 @@ const ActiveOrder = () => {
     }, []);
 
     const changeQuantity = (id, quantity) => {
-        const url = `http://localhost:8000/shop/items/${id}/`;
-        axios.post(url, {}, {withCredentials: true, params: {quantity}})
+        const url = `shop/items/${id}/`;
+        apiInstance.post(url, {}, {withCredentials: true, params: {quantity}})
         .then(response => {
             if (response.status === 204) {
                 setOrder({});
             } else {
-                axios.get("http://localhost:8000/shop/order/", {withCredentials: true})
+                apiInstance.get("shop/order/", {withCredentials: true})
             .then(response => {
                 setError({});
                 setOrder(response.data);

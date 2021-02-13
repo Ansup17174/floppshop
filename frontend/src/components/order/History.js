@@ -1,4 +1,4 @@
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 import {useState, useEffect, useContext} from 'react';
 import {useHistory} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
@@ -23,7 +23,7 @@ const History = () => {
     };
 
     const getOrderHistory = () => {
-        axios.get(`http://localhost:8000/shop/order/?history&limit=10&offset=${(page-1)*10}`, {withCredentials: true})
+        apiInstance.get(`shop/order/?history&limit=10&offset=${(page-1)*10}`, {withCredentials: true})
         .then(response => {
             setOrders(response.data.results);
             setMaxPage(Math.floor((response.data.count-1) / 10) + 1);

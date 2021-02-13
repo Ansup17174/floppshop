@@ -1,7 +1,7 @@
 import {useState, useContext} from 'react';
 import {useHistory, Link} from 'react-router-dom';
 import UserContext from "../../context/UserContext";
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 
 
 const Login = () => {
@@ -17,8 +17,8 @@ const Login = () => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        const url = "http://localhost:8000/auth/login/";
-        await axios.post(url, {email: formState.email, password: formState.password}, {withCredentials: true})
+        const url = "auth/login/";
+        await apiInstance.post(url, {email: formState.email, password: formState.password}, {withCredentials: true})
         .then(response => {
             setErrors({});
             reloadUserData();

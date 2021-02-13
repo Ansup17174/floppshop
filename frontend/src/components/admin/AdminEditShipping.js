@@ -2,7 +2,7 @@ import ShippingMethodForm from './ShippingMethodForm';
 import {useState, useContext, useEffect} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 import './admin.css';
 
 
@@ -20,7 +20,7 @@ const AdminCreateShipping = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/shop/admin/shipping-method/${id}/`, {withCredentials: true})
+        apiInstance.get(`shop/admin/shipping-method/${id}/`, {withCredentials: true})
         .then(response => {
             setShipping(response.data);
         })
@@ -39,7 +39,7 @@ const AdminCreateShipping = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        axios.put(`http://localhost:8000/shop/admin/shipping-method/${id}/`, shipping, {withCredentials: true})
+        apiInstance.put(`shop/admin/shipping-method/${id}/`, shipping, {withCredentials: true})
         .then(response => {
             setErrors({});
             setResponseOk(true);

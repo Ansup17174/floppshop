@@ -1,7 +1,7 @@
 import {useEffect, useContext} from 'react';
 import {useHistory, Link} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 import './admin.css';
 
 const AdminPanel = () => {
@@ -9,7 +9,7 @@ const AdminPanel = () => {
     const history = useHistory();
 
     useEffect(() => {
-        axios.get("http://localhost:8000/auth/user/", {withCredentials: true})
+        apiInstance.get("auth/user/", {withCredentials: true})
         .then(response => {
             if (!response.data.is_staff) {
                 reloadUserData();

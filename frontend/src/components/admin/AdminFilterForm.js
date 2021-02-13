@@ -1,5 +1,5 @@
 import {useState, useEffect, useContext} from 'react';
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 import AdminItemList from './AdminItemList';
 import {useHistory} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
@@ -44,14 +44,14 @@ const AdminFilterForm = () => {
     };
 
     const getItems = () => {
-        const url = `http://localhost:8000/shop/admin/items/?limit=10&offset=${(page-1)*10}`;
+        const url = `shop/admin/items/?limit=10&offset=${(page-1)*10}`;
         let params = {
             search: search.text,
             min_price: search.minPrice,
             max_price: search.maxPrice,
             order_by: search.orderBy
         };
-        axios.get(url, {withCredentials: true, params: params})
+        apiInstance.get(url, {withCredentials: true, params: params})
         .then(response => {
             setItems(response.data.results);
             setMaxPage(Math.floor((response.data.count - 1) / 10) + 1);

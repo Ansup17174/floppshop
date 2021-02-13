@@ -1,7 +1,7 @@
 import {Link, useHistory} from 'react-router-dom';
 import UserContext from '../context/UserContext';
 import {useState, useContext} from 'react';
-import axios from 'axios';
+import apiInstance from '../utils/api';
 import {FiAlignJustify, FiX} from 'react-icons/fi';
 import './header.css'
 
@@ -13,8 +13,8 @@ const Header = () => {
     const history = useHistory();
 
     const logout = async () => {
-        const url = "http://localhost:8000/auth/logout/"
-        await axios.post(url, {}, {withCredentials: true})
+        const url = "auth/logout/"
+        await apiInstance.post(url, {}, {withCredentials: true})
         .then(response => {
             reloadUserData();
             history.push("/logout");

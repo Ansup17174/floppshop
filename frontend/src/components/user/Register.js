@@ -1,4 +1,4 @@
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 import {useState} from 'react';
 
 const Register = () => {
@@ -22,8 +22,8 @@ const Register = () => {
         e.preventDefault();
         setFormState({...formState, responseOk: false, responseLoading: true})
         setErrors({})
-        const url = "http://localhost:8000/auth/registration/";
-        axios.post(url, {
+        const url = "auth/registration/";
+        apiInstance.post(url, {
             email: formState.email,
             first_name: formState.firstName,
             last_name: formState.lastName,

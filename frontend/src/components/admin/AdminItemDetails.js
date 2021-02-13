@@ -1,4 +1,4 @@
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 import {useState, useEffect, useContext} from 'react';
 import {useParams, useHistory, Link} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
@@ -22,8 +22,8 @@ const AdminItemDetails = () => {
     const history = useHistory();
 
     useEffect(() => {
-        const url = `http://localhost:8000/shop/admin/items/${id}/`;
-        axios.get(url, {withCredentials: true})
+        const url = `shop/admin/items/${id}/`;
+        apiInstance.get(url, {withCredentials: true})
         .then(response => {
             setItem(response.data);
             if (response.data.images.length > 0) {
@@ -59,8 +59,8 @@ const AdminItemDetails = () => {
     const handleSubmit = e => {
         e.preventDefault();
         reloadUserData();
-        const url = `http://localhost:8000/shop/items/${id}/`;
-        axios.post(url, {}, {withCredentials: true, params: {quantity}})
+        const url = `shop/items/${id}/`;
+        apiInstance.post(url, {}, {withCredentials: true, params: {quantity}})
         .then(response => {
             setResponse(response.data);
             setError({});

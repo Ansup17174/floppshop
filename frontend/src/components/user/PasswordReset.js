@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 
 const PasswordReset = () => {
 
@@ -9,7 +9,7 @@ const PasswordReset = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        axios.post("http://localhost:8000/auth/password/reset/", {email})
+        apiInstance.post("auth/password/reset/", {email})
         .then(response => {
             setErrors({});
             setResponseOk(true);

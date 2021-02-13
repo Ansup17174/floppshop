@@ -1,7 +1,7 @@
 import {useState, useEffect, useContext, useRef} from 'react';
 import {useParams, useHistory} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 import './admin.css';
 
 const AdminEditImages = () => {
@@ -14,7 +14,7 @@ const AdminEditImages = () => {
     const [errors, setErrors] = useState({});
 
     const getImages = id => {
-        axios.get(`http://localhost:8000/shop/admin/items/${id}/`, {withCredentials: true})
+        apiInstance.get(`shop/admin/items/${id}/`, {withCredentials: true})
         .then(response => {
             setImages(response.data.images);
         })
@@ -41,7 +41,7 @@ const AdminEditImages = () => {
         if (images.length) {
             const formData = new FormData();
             [...images].forEach(image => formData.append("images", image));
-            axios.patch(`http://localhost:8000/shop/admin/items/${id}/`, formData,
+            apiInstance.patch(`shop/admin/items/${id}/`, formData,
             {withCredentials: true, headers: {"content-type": "multipart/form-data"}})
             .then(response => {
                 setResponseOk(true);
@@ -66,7 +66,7 @@ const AdminEditImages = () => {
     };
 
     const setAsMain = imageId => {
-        axios.put(`http://localhost:8000/shop/admin/items/images/${imageId}/`, {}, {withCredentials: true})
+        apiInstance.put(`shop/admin/items/images/${imageId}/`, {}, {withCredentials: true})
         .then(response => {
             getImages(id);
         })
@@ -84,7 +84,7 @@ const AdminEditImages = () => {
     };
 
     const deleteImage = imageId => {
-        axios.delete(`http://localhost:8000/shop/admin/items/images/${imageId}/`, {withCredentials: true})
+        apiInstance.delete(`shop/admin/items/images/${imageId}/`, {withCredentials: true})
         .then(response => {
             getImages(id);
             setResponseOk(false);

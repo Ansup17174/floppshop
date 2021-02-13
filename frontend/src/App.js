@@ -15,7 +15,7 @@ import History from './components/order/History';
 import PasswordReset from './components/user/PasswordReset';
 import {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import axios from 'axios';
+import apiInstance from './utils/api';
 import PasswordResetConfirm from './components/user/PasswordResetConfirm';
 import AdminPanel from './components/admin/AdminPanel';
 import AdminFilterForm from './components/admin/AdminFilterForm';
@@ -33,15 +33,14 @@ const App = () => {
   const [userData, setUserData] = useState({});
 
   const reloadUserData = async () => {
-    const url = "http://localhost:8000/auth/user/";
-    await axios.get(url, {withCredentials: true})
+    await apiInstance.get('auth/user/', {withCredentials: true})
     .then(response => {
       setUserData(response.data);
     })
     .catch(error => {
       setUserData({});
     });
-  };
+  }; 
 
   useEffect(() => {
     reloadUserData();

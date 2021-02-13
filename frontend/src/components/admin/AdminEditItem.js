@@ -2,7 +2,7 @@ import ItemForm from './ItemForm';
 import {useState, useEffect, useContext} from 'react';
 import UserContext from '../../context/UserContext';
 import {useHistory, useParams} from 'react-router-dom';
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 import './admin.css';
 
 const AdminEditItem = () => {
@@ -23,7 +23,7 @@ const AdminEditItem = () => {
     const history = useHistory();
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/shop/admin/items/${id}/`, {withCredentials: true})
+        apiInstance.get(`shop/admin/items/${id}/`, {withCredentials: true})
         .then(response => {
             setItem(response.data);
         })
@@ -43,7 +43,7 @@ const AdminEditItem = () => {
     const handleSubmit = e => {
         e.preventDefault();
         console.log();
-        axios.put(`http://localhost:8000/shop/admin/items/${id}/`, item, {withCredentials: true})
+        apiInstance.put(`shop/admin/items/${id}/`, item, {withCredentials: true})
         .then(response => {
             setResponseOk(true);
             setErrors({});

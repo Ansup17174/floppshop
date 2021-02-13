@@ -1,7 +1,7 @@
 import {useState, useEffect, useContext} from 'react';
 import {useHistory, Link} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 import './admin.css';
 
 const AdminShippingList = () => {
@@ -11,7 +11,7 @@ const AdminShippingList = () => {
     const history = useHistory();
 
     useEffect(() => {
-        axios.get("http://localhost:8000/shop/admin/shipping-method", {withCredentials: true})
+        apiInstance.get("shop/admin/shipping-method", {withCredentials: true})
         .then(response => {
             setShippings(response.data);
         })

@@ -1,6 +1,6 @@
 import {useParams} from 'react-router-dom';
 import {useState} from 'react';
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 
 const PasswordResetConfirm = () => {
     const [responseOk, setResponseOk] = useState(false);
@@ -11,8 +11,8 @@ const PasswordResetConfirm = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        const url = "http://localhost:8000/auth/password/reset/confirm/";
-        axios.post(url, {uid, token, new_password1: newPassword1, new_password2: newPassword2})
+        const url = "auth/password/reset/confirm/";
+        apiInstance.post(url, {uid, token, new_password1: newPassword1, new_password2: newPassword2})
         .then(response => {
             setResponseOk(true);
             setErrors({});

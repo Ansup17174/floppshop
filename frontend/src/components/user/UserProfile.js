@@ -1,7 +1,7 @@
 import {useState, useEffect, useContext} from 'react';
 import {useHistory} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 
 const UserProfile = () => {
 
@@ -13,7 +13,7 @@ const UserProfile = () => {
     const history = useHistory();
 
     useEffect(() => {
-        axios.get("http://localhost:8000/auth/user/", {withCredentials: true})
+        apiInstance.get("auth/user/", {withCredentials: true})
         .then(response => {
             setFormData(response.data);
         })
@@ -26,8 +26,8 @@ const UserProfile = () => {
     const handleSubmit = e => {
         e.preventDefault();
         reloadUserData();
-        const url = "http://localhost:8000/auth/user/";
-        axios.put(url, formData, {withCredentials: true})
+        const url = "auth/user/";
+        apiInstance.put(url, formData, {withCredentials: true})
         .then(response => {
             setResponseOk(true);
             setErrors({});

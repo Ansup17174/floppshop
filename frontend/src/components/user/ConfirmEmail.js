@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 
 const ConfirmEmail = () => {
 
@@ -8,8 +8,8 @@ const ConfirmEmail = () => {
     const { key } = useParams();
 
     useEffect(() => {
-        const url = "http://localhost:8000/auth/registration/verify-email/";
-        axios.post(url, {key: key})
+        const url = "auth/registration/verify-email/";
+        apiInstance.post(url, {key: key})
         .then(response => {
             console.log(response.data);
             setIsConfirmed(true);

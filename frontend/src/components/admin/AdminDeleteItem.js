@@ -1,7 +1,7 @@
 import {useState, useEffect, useContext} from 'react';
 import {useHistory, useParams, Link} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 import './admin.css';
 
 const AdminDeleteItem = () => {
@@ -11,7 +11,7 @@ const AdminDeleteItem = () => {
     const [responseOk, setResponseOk] = useState(false);
 
     useEffect(() => {
-        axios.delete(`http://localhost:8000/shop/admin/items/${id}/`, {withCredentials: true})
+        apiInstance.delete(`shop/admin/items/${id}/`, {withCredentials: true})
         .then(response => {
             setResponseOk(true);
         })

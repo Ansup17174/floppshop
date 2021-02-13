@@ -2,7 +2,7 @@ import {useState, useEffect, useContext} from 'react';
 import {useHistory} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
 import ItemForm from './ItemForm';
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 import './admin.css';
 
 const AdminCreateItem = () => {
@@ -22,7 +22,7 @@ const AdminCreateItem = () => {
     const {reloadUserData} = useContext(UserContext);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/auth/user/", {withCredentials: true})
+        apiInstance.get("auth/user/", {withCredentials: true})
         .then(response => {
             if (!response.data.is_staff) {
                 reloadUserData();
@@ -39,7 +39,7 @@ const AdminCreateItem = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        axios.post("http://localhost:8000/shop/admin/items/", item, {withCredentials: true})
+        apiInstance.post("shop/admin/items/", item, {withCredentials: true})
         .then(response => {
             const { id } = response.data;
             setErrors({});

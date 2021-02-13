@@ -2,7 +2,7 @@ import OrderInfo from './OrderInfo';
 import {useState, useEffect, useContext} from 'react';
 import {useHistory} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 
 
 const Checkout = () => {
@@ -51,7 +51,7 @@ const Checkout = () => {
     };
 
     useEffect(() => {
-        axios.get("http://localhost:8000/shop/order/", {withCredentials: true})
+        apiInstance.get("shop/order/", {withCredentials: true})
         .then(response => {
             setOrder(response.data);
         })
@@ -65,7 +65,7 @@ const Checkout = () => {
     }, []);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/shop/methods/")
+        apiInstance.get("shop/methods/")
         .then(response => {
             setMethods(response.data);
         });
@@ -95,9 +95,9 @@ const Checkout = () => {
     }, [select]);
 
     const submitOrder = () => {
-        axios.post("http://localhost:8000/shop/order/", {...formData, method: select}, {withCredentials: true})
+        apiInstance.post("shop/order/", {...formData, method: select}, {withCredentials: true})
         .then(response => {
-            axios.post(`http://localhost:8000/shop/payment/${order.id}/`, {}, {withCredentials: true})
+            apiInstance.post(`shop/payment/${order.id}/`, {}, {withCredentials: true})
             .then(response => {
                 console.log(response.data);
                 setPayUUri(response.data.redirectUri);

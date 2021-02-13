@@ -2,7 +2,7 @@ import ShippingMethodForm from './ShippingMethodForm';
 import {useState, useContext} from 'react';
 import {useHistory} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 import './admin.css';
 
 const AdminCreateShipping = () => {
@@ -19,7 +19,7 @@ const AdminCreateShipping = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        axios.post("http://localhost:8000/shop/admin/shipping-method/", shipping, {withCredentials: true})
+        apiInstance.post("shop/admin/shipping-method/", shipping, {withCredentials: true})
         .then(response => {
             setErrors({});
             setResponseOk(true);

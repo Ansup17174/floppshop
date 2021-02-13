@@ -1,7 +1,7 @@
 import {useState, useContext} from 'react';
 import {useHistory} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 
 const ChangePassword = () => {
 
@@ -21,7 +21,7 @@ const ChangePassword = () => {
             new_password1: newPassword1,
             new_password2: newPassword2
         };
-        axios.post("http://localhost:8000/auth/password/change/", requestData, {withCredentials: true})
+        apiInstance.post("auth/password/change/", requestData, {withCredentials: true})
         .then(response => {
             setResponseOk(true);
             setErrors({});

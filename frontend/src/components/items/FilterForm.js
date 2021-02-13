@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import axios from 'axios';
+import apiInstance from '../../utils/api';
 import ItemList from './ItemList';
 import './items.css';
 import {FiChevronRight, FiChevronLeft} from 'react-icons/fi';
@@ -39,14 +39,14 @@ const FilterForm = () => {
     };
 
     const getItems = () => {
-        const url = `http://localhost:8000/shop/items/?limit=10&offset=${(page-1)*10}`;
+        const url = `shop/items/?limit=10&offset=${(page-1)*10}`;
         let params = {
             search: search.text,
             min_price: search.minPrice,
             max_price: search.maxPrice,
             order_by: search.orderBy
         };
-        axios.get(url, {params})
+        apiInstance.get(url, {params})
         .then(response => {
             setItems(response.data.results);
             setMaxPage(Math.floor((response.data.count - 1) / 10) + 1);
