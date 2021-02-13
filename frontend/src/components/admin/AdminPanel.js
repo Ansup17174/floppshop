@@ -23,7 +23,7 @@ const AdminPanel = () => {
     }, []);
 
     return (
-        <>
+        <div className="scrollable-page">
             <div className="admin-panel">
                 <h1>Items:</h1>
                 <div>
@@ -42,7 +42,7 @@ const AdminPanel = () => {
                 <h1>PayU notifications:</h1>
                 <div className="blue-button">View notifications</div>
             </div>
-        </>
+        </div>
     );
 };
 

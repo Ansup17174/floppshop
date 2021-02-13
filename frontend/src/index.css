@@ -29,7 +29,7 @@ input::-webkit-inner-spin-button {
     top: 10vh;
     width: 100%;
     z-index: 1;
-    min-height: 90vh
+    min-height: 90vh;
 }
 
 .main-page {
