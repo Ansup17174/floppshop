@@ -28,6 +28,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-RUN python manage.py collectstatic --input
+RUN python manage.py collectstatic --noinput
 
 CMD ["gunicorn", "floppshoppproject.wsgi:application", "--bind", "0.0.0.0:8000", "--reload"]
