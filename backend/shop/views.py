@@ -1,13 +1,13 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
-from rest_framework.generics import DestroyAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.conf import settings
 from rest_framework.response import Response
 from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError, PermissionDenied
 from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.db import transaction
@@ -23,7 +23,6 @@ import json
 
 
 class AdminItemViewset(ModelViewSet):
-
     serializer_class = ItemSerializer
     queryset = Item.objects.all()
     permission_classes = [IsAdminUser]
@@ -36,11 +35,11 @@ class AdminItemViewset(ModelViewSet):
         else:
             items = Item.objects.all()
         if "max_price" in request.GET:
-                try:
-                    if float(request.GET['max_price']) > 0:
-                        items = items.filter(price__lte=request.GET['max_price'])
-                except (InvalidOperation, ValueError):
-                    pass
+            try:
+                if float(request.GET['max_price']) > 0:
+                    items = items.filter(price__lte=request.GET['max_price'])
+            except (InvalidOperation, ValueError):
+                pass
         if "min_price" in request.GET:
             try:
                 items = items.filter(price__gte=request.GET['min_price'])
@@ -70,9 +69,8 @@ class AdminShippingMethodViewset(ModelViewSet):
 
 
 class ShippingMethodView(APIView):
-
     permission_classes = [AllowAny]
-    
+
     def get(self, request):
         methods = ShippingMethod.objects.filter(is_available=True)
         serializer = ShippingMethodSerializer(methods, many=True)
@@ -86,7 +84,6 @@ class AdminCategoryViewset(ModelViewSet):
 
 
 class AdminItemImageView(RetrieveUpdateDestroyAPIView):
-
     permission_classes = [IsAdminUser]
     queryset = ItemImage.objects.all()
     lookup_url_kwarg = "image_pk"
@@ -94,7 +91,6 @@ class AdminItemImageView(RetrieveUpdateDestroyAPIView):
 
 
 class UserItemView(APIView):
-
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = LimitOffsetPagination
 
@@ -102,11 +98,11 @@ class UserItemView(APIView):
         paginator = self.pagination_class()
         items = Item.objects.filter(is_visible=True)
         if "max_price" in request.GET:
-                try:
-                    if float(request.GET['max_price']) > 0:
-                        items = items.filter(price__lte=request.GET['max_price'])
-                except (InvalidOperation, ValueError):
-                    pass
+            try:
+                if float(request.GET['max_price']) > 0:
+                    items = items.filter(price__lte=request.GET['max_price'])
+            except (InvalidOperation, ValueError):
+                pass
         if "min_price" in request.GET:
             try:
                 items = items.filter(price__gte=request.GET['min_price'])
@@ -130,7 +126,6 @@ class UserItemView(APIView):
 
 
 class UserItemDetailView(APIView):
-
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request, item_pk):
@@ -156,7 +151,8 @@ class UserItemDetailView(APIView):
                 cart, cart_is_created = Cart.objects.get_or_create(order=order, item=item)
                 if cart.quantity + quantity > item.quantity or cart.quantity + quantity < 0:
                     raise ValidationError(
-                        {"detail": f"Invalid quantity, {item.quantity-cart.quantity} left available (In cart: {cart.quantity}, in-stock: {item.quantity})"}
+                        {
+                            "detail": f"Invalid quantity, {item.quantity - cart.quantity} left available (In cart: {cart.quantity}, in-stock: {item.quantity})"}
                     )
                 if cart.quantity + quantity == 0:  # removing item from cart
                     order.quantity -= 1
@@ -187,7 +183,6 @@ class UserItemDetailView(APIView):
 
 
 class UserOrderView(APIView):
-
     pagination_class = LimitOffsetPagination
 
     def get(self, request):
@@ -304,10 +299,18 @@ class UserOrderPaymentView(APIView):
 
 
 class PayUNotifyView(APIView):
-
     permission_classes = [AllowAny]
 
     def post(self, request):
+        allowed_ip_list = [
+            "185.68.14.10", "185.68.14.11",
+            "185.68.14.12", "185.68.14.26",
+            "185.68.14.27", "185.68.14.28"
+        ]
+        ip = request.META.get("REMOTE_ADDR")
+        print(ip)
+        if ip not in allowed_ip_list:
+            raise PermissionDenied()
         notification_serializer = PayUNotificationSerializer(data=request.data)
         notification_serializer.is_valid(raise_exception=True)
         PayUNotification.objects.create(content=json.dumps(request.data))
@@ -325,7 +328,6 @@ class PayUNotifyView(APIView):
 
 
 class AdminNotificationView(APIView):
-
     permission_classes = [IsAdminUser]
     pagination_class = LimitOffsetPagination
 
