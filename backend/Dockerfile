@@ -29,4 +29,6 @@ COPY . .
 
 RUN python manage.py collectstatic
 
-CMD ["gunicorn", "floppshopproject.wsgi:application"]
+EXPOSE 8000
+
+CMD ["gunicorn", "floppshopproject.wsgi:application", "--bind", "0.0.0.0:8000"]
