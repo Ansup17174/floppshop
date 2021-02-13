@@ -49,6 +49,10 @@
 
 @media only screen and (max-width: 1000px) { 
 
+    .logo {
+        padding: 0 30px;
+    }
+
     .navbar {
         display: flex;
         position: fixed;

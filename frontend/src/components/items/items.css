@@ -216,6 +216,7 @@
     flex-direction: column;
     align-items: center;  
     justify-content: center;
+    margin: 0 30px;
 }
 
 .item-details-big-image {
@@ -458,5 +459,9 @@
     .add-to-cart, .add-to-cart-unavailable {
         width: 100%;
         margin: 10px 0;
+    }
+
+    .quantity-success, .quantity-fail {
+        font-size: 15px;
     }
 }
