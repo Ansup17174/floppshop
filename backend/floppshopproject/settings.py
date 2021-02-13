@@ -142,6 +142,14 @@ REST_FRAMEWORK = {
     ],
     'EXCEPTION_HANDLER': "shop.exceptions.custom_exception_handler",
     'DEFAULT_PAGINATION_CLASS': "rest_framework.pagination.LimitOffsetPagination",
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '10/min',
+        'user': '10/min'
+    }
 }
 
 AUTHENTICATION_BACKENDS = [
