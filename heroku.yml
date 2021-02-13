@@ -1,4 +1,4 @@
 build:
     docker:
-        web: /backend/Dockerfile
-        web: /frontend/Dockerfile
+        web_server: /backend/Dockerfile
+        web_client: /frontend/Dockerfile
