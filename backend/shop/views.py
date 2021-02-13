@@ -327,7 +327,12 @@ class PayUNotifyView(APIView):
 class AdminNotificationView(APIView):
 
     permission_classes = [IsAdminUser]
+    pagination_class = LimitOffsetPagination
 
     def get(self, request):
+        paginator = self.pagination_class()
         notifications = [json.loads(notification.content) for notification in PayUNotification.objects.all()]
+        page = paginator.paginate_queryset(notifications, request, view=self)
+        if page is not None:
+            return paginator.get_paginated_response(page)
         return Response(notifications, status=200)

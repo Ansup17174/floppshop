@@ -40,7 +40,7 @@ const AdminPanel = () => {
             </div>
             <div className="admin-panel">
                 <h1>PayU notifications:</h1>
-                <div className="blue-button">View notifications</div>
+                <Link to="/admin-notification-list"><div className="blue-button">View notifications</div></Link>
             </div>
         </div>
     );

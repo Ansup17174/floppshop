@@ -128,4 +128,4 @@ class Cart(models.Model):
 
 class PayUNotification(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    content = models.CharField(max_length=2000)
+    content = models.CharField(max_length=5000)

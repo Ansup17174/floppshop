@@ -27,6 +27,7 @@ import AdminEditImages from './components/admin/AdminEditImages';
 import AdminCreateShipping from './components/admin/AdminCreateShipping';
 import AdminShippingList from './components/admin/AdminShippingList';
 import AdminEditShipping from './components/admin/AdminEditShipping';
+import AdminNotifications from './components/admin/AdminNotifications';
 
 const App = () => {
 
@@ -77,6 +78,7 @@ const App = () => {
             <Route path="/admin-create-shipping" component={AdminCreateShipping} exact />
             <Route path="/admin-edit-shipping/:id" component={AdminEditShipping} exact />
             <Route path="/admin-shippings" component={AdminShippingList} exact />
+            <Route path="/admin-notification-list" component={AdminNotifications} exact />
             <Route path="*" component={NotFound}/>
         </Switch>
         </div>

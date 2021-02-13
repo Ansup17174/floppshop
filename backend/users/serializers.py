@@ -15,6 +15,6 @@ class ShippingAddressSerializer(serializers.ModelSerializer):
         return post_code
 
     def validate_number(self, number):
-        if not re.match(r"\d+/?\d+", number):
+        if not re.match(r"(\d+/?\d+)|(\d+)", number):
             raise ValidationError("Invalid number")
         return number

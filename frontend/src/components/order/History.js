@@ -33,7 +33,6 @@ const History = () => {
                 reloadUserData();
                 history.push("/login");
             }
-            console.log(error.response.data);
         });
     };
 
