@@ -5,7 +5,7 @@ WORKDIR /usr/src/frontend/
 COPY package.json .
 COPY package-lock.json .
 
-ENV BACKEND_HOST=https://floppshopp.herokuapp.com
+ENV BACKEND_HOST=https://localhost:8000/
 ENV PORT=3000
 
 RUN npm install 
