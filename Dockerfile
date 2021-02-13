@@ -27,11 +27,11 @@ RUN pip install -r requirements.txt
 
 COPY ./backend/ .
 
-RUN python backend/manage.py collectstatic
+RUN python manage.py collectstatic
 
 EXPOSE 8000
 
-CMD ["gunicorn", "backend.floppshopproject.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "floppshopproject.wsgi:application", "--bind", "0.0.0.0:8000"]
 
 WORKDIR /usr/src/frontend/
 
