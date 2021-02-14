@@ -11,7 +11,7 @@ ENV ALLOWED_HOSTS=floppshopbackend.herokuapp.com
 ENV EMAIL_HOST_USER=floppshop.confirmation@gmail.com
 ENV EMAIL_HOST_PASSWORD=FloppShop123
 ENV DEFAULT_FROM_EMAIL=sellmmo.confirmation@gmail.com
-ENV FRONTEND_HOST=http://floppshop.herokuapp.com
+ENV FRONTEND_HOST=https://floppshop.herokuapp.com
 
 ENV MERCHANT_POS_ID=402260
 ENV CLIENT_SECRET=8c68ebf4951fa46b8951ef1d3609ffdb
