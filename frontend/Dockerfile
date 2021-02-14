@@ -5,7 +5,7 @@ WORKDIR /usr/src/frontend/
 COPY package.json .
 COPY package-lock.json .
 
-ENV BACKEND_HOST=https://floppshopbackend.herokuapp.com/
+ENV REACT_APP_BACKEND_HOST=https://floppshopbackend.herokuapp.com/
 ENV PORT=3000
 
 RUN npm install 
