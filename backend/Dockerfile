@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV SECRET_KEY=n3(ks_o_i2^911y16a)v11f#=j@=eof(3^6o$a6k^f%n_*83ug
 ENV DEBUG=1
-ENV ALLOWED_HOSTS=floppshop.herokuapp.com
+ENV ALLOWED_HOSTS=floppshopbackend.herokuapp.com
 
 ENV EMAIL_HOST_USER=floppshop.confirmation@gmail.com
 ENV EMAIL_HOST_PASSWOR =FloppShop123
