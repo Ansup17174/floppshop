@@ -5,9 +5,9 @@ import os
 
 class CustomAccountAdapter(DefaultAccountAdapter):
 
-    # def get_email_confirmation_url(self, request, emailconfirmation):
-    #     url = f"http://{os.environ.get('FRONTEND_HOST')}/verify-email/{emailconfirmation.key}/"
-    #     return url
+    def get_email_confirmation_url(self, request, emailconfirmation):
+        url = f"http://{os.environ.get('FRONTEND_HOST')}/verify-email/{emailconfirmation.key}/"
+        return url
 
     def save_user(self, request, user, form, commit=True):
         data = form.cleaned_data
