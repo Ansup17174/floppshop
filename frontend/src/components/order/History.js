@@ -7,7 +7,19 @@ import HistoryDetails from './HistoryDetails';
 import './order.css';
 
 const History = () => {
-    const [selectedOrder, setSelectedOrder] = useState({});
+    const [selectedOrder, setSelectedOrder] = useState({
+        id: "",
+        carts: [],
+        address: "",
+        method: {},
+        total_price: "",
+        is_finished: false,
+        is_paid: false,
+        date_created: "",
+        date_finished: "",
+        date_paid: "",
+        quantity: 0
+    });
     const [orders, setOrders] = useState([]);
     const {reloadUserData} = useContext(UserContext);
     const [page, setPage] = useState(1);
