@@ -177,7 +177,7 @@ JWT_AUTH_COOKIE = 'floppauth'
 OLD_PASSWORD_FIELD_ENABLED = True
 JWT_AUTH_SAMESITE = 'None'
 LOGOUT_ON_PASSWORD_CHANGE = False
-JWT_AUTH_SECURE = False
+JWT_AUTH_SECURE = True
 
 
 # rest_framework_simplejwt
