@@ -261,7 +261,6 @@ class UserOrderPaymentView(APIView):
         payu_order = {
             "customerIp": "127.0.0.1",
             "merchantPosId": settings.MERCHANT_POS_ID,
-            "extOrderId": str(order.pk),
             "description": "Floppshop order",
             "currencyCode": "PLN",
             "totalAmount": str(int(order.total_price * 100)),

@@ -21,7 +21,9 @@
   <component name="ChangeListManager">
     <list default="true" id="b1c48a8b-05f0-409b-b879-a455dc510edd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/floppshopproject/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/floppshopproject/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shop/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +101,7 @@
       <workItem from="1613213723178" duration="15554000" />
       <workItem from="1613297070944" duration="836000" />
       <workItem from="1613300074165" duration="641000" />
-      <workItem from="1613300974424" duration="2954000" />
+      <workItem from="1613300974424" duration="5808000" />
     </task>
     <servers />
   </component>
