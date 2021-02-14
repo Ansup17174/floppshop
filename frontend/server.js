@@ -13,7 +13,4 @@ app.get("/*", (request, response) => {
     response.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.listen(port, () => {
-    console.log(`Node runs on port ${port}`);
-    console.log(__dirname);
-});
+app.listen(port);
