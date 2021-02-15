@@ -1,7 +1,6 @@
 import {Link, useHistory} from 'react-router-dom';
 import UserContext from '../context/UserContext';
 import {useState, useContext} from 'react';
-import apiInstance from '../utils/api';
 import {FiAlignJustify, FiX} from 'react-icons/fi';
 import './header.css'
 
@@ -12,13 +11,11 @@ const Header = () => {
 
     const history = useHistory();
 
-    const logout = async () => {
-        const url = "auth/logout/"
-        await apiInstance.post(url, {}, {withCredentials: true})
-        .then(response => {
-            reloadUserData();
-            history.push("/logout");
-        })
+    const logout = () => {
+        localStorage.removeItem("floppauth");
+        reloadUserData();
+        setNavbarToggled(false);
+        history.push("/logout");
     };
 
     return (
