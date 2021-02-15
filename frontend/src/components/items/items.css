@@ -386,7 +386,7 @@
     }
 
     .item-list {
-        left: 0px;
+        position: static;
         width: 100%;
         height: 90vh;
         overflow-y: scroll;

@@ -302,15 +302,6 @@ class PayUNotifyView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        allowed_ip_list = [
-            "185.68.14.10", "185.68.14.11",
-            "185.68.14.12", "185.68.14.26",
-            "185.68.14.27", "185.68.14.28"
-        ]
-        ip = request.META.get("REMOTE_ADDR")
-        print(ip)
-        if ip not in allowed_ip_list:
-            raise PermissionDenied()
         notification_serializer = PayUNotificationSerializer(data=request.data)
         notification_serializer.is_valid(raise_exception=True)
         PayUNotification.objects.create(content=json.dumps(request.data))
