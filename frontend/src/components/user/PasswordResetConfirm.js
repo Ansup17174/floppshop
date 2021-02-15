@@ -14,11 +14,13 @@ const PasswordResetConfirm = () => {
         const url = "auth/password/reset/confirm/";
         apiInstance.post(url, {uid, token, new_password1: newPassword1, new_password2: newPassword2})
         .then(response => {
+            console.log(response.data);
             setResponseOk(true);
             setErrors({});
         })
         .catch(error => {
             setResponseOk(false);
+            console.log(error.response.data);
             setErrors(error.response.data);
         });
     };

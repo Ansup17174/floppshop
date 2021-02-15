@@ -42,7 +42,7 @@ const Login = () => {
                     {errors.password && errors.password.map((message, index) => <div className="form-error" key={index}>{message}</div>)}
                     {errors.non_field_errors && errors.non_field_errors.map((message, index) => <div className="form-error" key={index}>{message}</div>)}
                 </div>
-                <Link to="reset-password"><div className="form-link">Forgot password?</div></Link>
+                <Link to="/reset-password"><div className="form-link">Forgot password?</div></Link>
                 <input type="submit" className="form-button form-input" value="Log in"/>
             </form>
         </div>
