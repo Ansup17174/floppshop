@@ -75,7 +75,6 @@ const AdminItemDetails = () => {
     };
 
     return (
-        <div className="scrollable-page">
             <div className="item-details">
                 <div className="item-details-images">
                     <img src={selectedImage} alt="item" className="item-details-image"/>
@@ -116,7 +115,6 @@ const AdminItemDetails = () => {
                     </div>
                 </div>
             </div>
-        </div>
     );
 };
 

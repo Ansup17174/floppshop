@@ -72,7 +72,7 @@ const ActiveOrder = () => {
     };
 
     return (
-        <div className="scrollable-page">
+        <div className="wide">
             <OrderInfo order={order} />
             {order.id ? <div className="gray-container">
                 <h1>Items</h1>

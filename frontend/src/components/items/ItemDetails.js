@@ -76,7 +76,6 @@ const ItemDetails = () => {
     };
 
     return (
-        <div className="scrollable-page">
             <div className="item-details">
                 <div className="item-details-images">
                     <img src={selectedImage} alt="item" className="item-details-image"/>
@@ -112,7 +111,6 @@ const ItemDetails = () => {
                     </form> : <div className="add-to-cart-unavailable">Item unavailable</div>}
                 </div>
             </div>
-        </div>
     );
 };
 

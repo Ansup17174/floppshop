@@ -23,7 +23,7 @@ const AdminPanel = () => {
     }, []);
 
     return (
-        <div className="scrollable-page">
+        <div className="wide">
             <div className="admin-panel">
                 <h1>Items:</h1>
                 <div>

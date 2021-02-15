@@ -41,7 +41,7 @@ const AdminNotifications = () => {
     };
 
     return (
-        <div className="scrollable-page">
+        <div className="wide">
             <div className="gray-container">
                 {notifications.length > 0 && <><h1>Notifications</h1>
                 <h3>Page: <input type="number" className="filter-form-input page-input white" value={page} onChange={e => changePage(e.target.value)}/> of {maxPage}</h3>

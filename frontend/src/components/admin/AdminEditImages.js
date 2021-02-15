@@ -103,7 +103,7 @@ const AdminEditImages = () => {
     };
 
     return (
-        <div className="scrollable-page">
+        <div className="wide">
             <div className="gray-container">
                 <h1>Edit images</h1>
                 <div className="images">

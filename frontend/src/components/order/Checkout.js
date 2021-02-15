@@ -118,40 +118,40 @@ const Checkout = () => {
     };
 
     return (
-        <div className="scrollable-page">
-        <OrderInfo order={order} />
-        <div>
-            <div className="shipping">
-                    <form className="shipping-form">
-                        <h1>Address:</h1>
-                        <input type="text" placeholder="Street" className="form-input" readOnly={readOnly} value={formData.street} onChange={e => setFormData({...formData, street: e.target.value})}/>
-                        {errors.street && <div className="form-error">{errors.street[0]}</div>}
-                        <input type="text" placeholder="Number" className="form-input" readOnly={readOnly} value={formData.number} onChange={e => setFormData({...formData, number: e.target.value})}/>
-                        {errors.number && <div className="form-error">{errors.number[0]}</div>}
-                        <input type="text" placeholder="Post Code" className="form-input" readOnly={readOnly} value={formData.post_code} onChange={e => setFormData({...formData, post_code: e.target.value})}/>
-                        {errors.post_code && <div className="form-error">{errors.post_code[0]}</div>}
-                        <input type="text" placeholder="State" className="form-input" readOnly={readOnly} value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})}/>
-                        {errors.state && <div className="form-error">{errors.state[0]}</div>}
-                        <input type="text" placeholder="City" className="form-input" readOnly={readOnly} value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})}/>
-                        {errors.city && <div className="form-error">{errors.city[0]}</div>}
-                    </form>
-                <div className="shipping-method">
-                    <h1>Shipping method: </h1>
-                    <div className="inpost-dropdown">
-                        <div id="easypack-map"></div>
+        <div className="wide">
+            <OrderInfo order={order} />
+            <div>
+                <div className="shipping">
+                        <form className="shipping-form">
+                            <h1>Address:</h1>
+                            <input type="text" placeholder="Street" className="form-input" readOnly={readOnly} value={formData.street} onChange={e => setFormData({...formData, street: e.target.value})}/>
+                            {errors.street && <div className="form-error">{errors.street[0]}</div>}
+                            <input type="text" placeholder="Number" className="form-input" readOnly={readOnly} value={formData.number} onChange={e => setFormData({...formData, number: e.target.value})}/>
+                            {errors.number && <div className="form-error">{errors.number[0]}</div>}
+                            <input type="text" placeholder="Post Code" className="form-input" readOnly={readOnly} value={formData.post_code} onChange={e => setFormData({...formData, post_code: e.target.value})}/>
+                            {errors.post_code && <div className="form-error">{errors.post_code[0]}</div>}
+                            <input type="text" placeholder="State" className="form-input" readOnly={readOnly} value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})}/>
+                            {errors.state && <div className="form-error">{errors.state[0]}</div>}
+                            <input type="text" placeholder="City" className="form-input" readOnly={readOnly} value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})}/>
+                            {errors.city && <div className="form-error">{errors.city[0]}</div>}
+                        </form>
+                    <div className="shipping-method">
+                        <h1>Shipping method: </h1>
+                        <div className="inpost-dropdown">
+                            <div id="easypack-map"></div>
+                        </div>
+                        <select name="method" id="method" className="shipping-method-select" value={select} onChange={e => setSelect(e.target.value)}>
+                            <option value={null} selected="true" disabled>-</option>
+                            {methods.length && methods.map((method, index) => (
+                            <option value={method.name} key={index}>{method.name} - {method.price}zł</option>
+                            ))}
+                        </select>
+                        {!payUUri && <div className="checkout-button" onClick={submitOrder}>Submit order</div>}
+                        {payUUri && <a href={payUUri} target="_blank" rel="noreferrer"><div className="order-details blue-button">Redirect to payment</div></a>}
+                        {errors.detail && <div className="form-error">Choose shipping method</div>}
                     </div>
-                    <select name="method" id="method" className="shipping-method-select" value={select} onChange={e => setSelect(e.target.value)}>
-                        <option value={null} selected="true" disabled>-</option>
-                        {methods.length && methods.map((method, index) => (
-                        <option value={method.name} key={index}>{method.name} - {method.price}zł</option>
-                        ))}
-                    </select>
-                    {!payUUri && <div className="checkout-button" onClick={submitOrder}>Submit order</div>}
-                    {payUUri && <a href={payUUri} target="_blank" rel="noreferrer"><div className="order-details blue-button">Redirect to payment</div></a>}
-                    {errors.detail && <div className="form-error">Choose shipping method</div>}
                 </div>
             </div>
-        </div>
         </div>
     );
 };

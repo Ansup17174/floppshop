@@ -2,7 +2,6 @@
 
 const ItemForm = ({item, setItem, errors, responseOk, handleSubmit}) => {
     return (
-        <div className="scrollable-page">
             <div className="form-container">
                 <form className="form" onSubmit={handleSubmit}>
                     <h1>Item form</h1>
@@ -49,7 +48,6 @@ const ItemForm = ({item, setItem, errors, responseOk, handleSubmit}) => {
                     <input type="submit" className="form-button form-input" value="Save"/>
                 </form>
             </div>
-        </div>
     );
 };
 

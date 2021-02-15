@@ -27,7 +27,7 @@ const AdminShippingList = () => {
     }, []);
 
     return (
-        <div className="scrollable-page">
+        <div className="wide">
             <div className="gray-container">
                 {shippings.length ? <h1>Shipping methods</h1> : <h1>No shipping methods</h1>}
             </div>
