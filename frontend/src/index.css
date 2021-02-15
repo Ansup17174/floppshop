@@ -7,14 +7,6 @@
     box-sizing: border-box;
 }
 
-html {
-    min-height: 100%;
-}
-
-body {
-    min-height: calc(100vh+56px);
-}
-
 a {
     text-decoration: none;
     color: white;
@@ -52,7 +44,6 @@ input::-webkit-inner-spin-button {
 .main-text {
     display: flex;
     justify-content: center;
-    text-align: center;
     padding-top: 100px;
     font-size: 40px;
 }
