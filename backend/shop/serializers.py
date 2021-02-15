@@ -150,7 +150,7 @@ class PayUMethodSerializer(serializers.Serializer):
 
 class PayUOrderSerializer(serializers.Serializer):
     notifyUrl = serializers.CharField(max_length=100, required=False)
-    extOrderId = serializers.CharField(max_length=30)
+    extOrderId = serializers.CharField(max_length=30, required=False)
     customerIp = serializers.CharField(max_length=20)
     merchantPosId = serializers.CharField(max_length=6)
     description = serializers.CharField(max_length=200)

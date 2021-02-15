@@ -260,6 +260,7 @@ class UserOrderPaymentView(APIView):
         }
         payu_order = {
             "customerIp": "127.0.0.1",
+            "notifyUrl": "https://floppshopbackend.herokuapp.com/shop/notify/",
             "merchantPosId": settings.MERCHANT_POS_ID,
             "description": "Floppshop order",
             "currencyCode": "PLN",
