@@ -10,9 +10,10 @@ const AdminNotifications = () => {
     const [maxPage, setMaxPage] = useState(1);
     const history = useHistory();
     const {reloadUserData} = useContext(UserContext);
+    const token = localStorage.getItem("floppauth");
 
     const getNotifications = () => {
-        apiInstance.get(`shop/admin/notifications/?limit=10&offset=${(page-1)*10}`, {withCredentials: true})
+        apiInstance.get(`shop/admin/notifications/?limit=10&offset=${(page-1)*10}`, {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             setNotifications(response.data.results);
             setMaxPage(Math.floor((response.data.count-1) / 10) + 1);

@@ -12,9 +12,10 @@ const AdminEditImages = () => {
     const imagesInput = useRef();
     const [responseOk, setResponseOk] = useState(false);
     const [errors, setErrors] = useState({});
+    const token = localStorage.getItem("floppauth");
 
     const getImages = id => {
-        apiInstance.get(`shop/admin/items/${id}/`, {withCredentials: true})
+        apiInstance.get(`shop/admin/items/${id}/`, {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             setImages(response.data.images);
         })
@@ -42,7 +43,7 @@ const AdminEditImages = () => {
             const formData = new FormData();
             [...images].forEach(image => formData.append("images", image));
             apiInstance.patch(`shop/admin/items/${id}/`, formData,
-            {withCredentials: true, headers: {"content-type": "multipart/form-data"}})
+            {withCredentials: true, headers: {"content-type": "multipart/form-data", "Authorization": `Bearer ${token}`}})
             .then(response => {
                 setResponseOk(true);
                 setErrors({});
@@ -66,7 +67,7 @@ const AdminEditImages = () => {
     };
 
     const setAsMain = imageId => {
-        apiInstance.put(`shop/admin/items/images/${imageId}/`, {}, {withCredentials: true})
+        apiInstance.put(`shop/admin/items/images/${imageId}/`, {}, {withCredentials: true, headers: {'Authorization': `Bearer ${token}`}})
         .then(response => {
             getImages(id);
         })
@@ -84,7 +85,7 @@ const AdminEditImages = () => {
     };
 
     const deleteImage = imageId => {
-        apiInstance.delete(`shop/admin/items/images/${imageId}/`, {withCredentials: true})
+        apiInstance.delete(`shop/admin/items/images/${imageId}/`, {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             getImages(id);
             setResponseOk(false);

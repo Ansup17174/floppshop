@@ -21,6 +21,7 @@ const Login = () => {
         await apiInstance.post(url, {email: formState.email, password: formState.password}, {withCredentials: true})
         .then(response => {
             setErrors({});
+            localStorage.setItem("floppauth", response.data.access_token);
             reloadUserData();
             history.push("/");
         })

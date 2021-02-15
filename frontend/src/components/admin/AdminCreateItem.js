@@ -19,27 +19,21 @@ const AdminCreateItem = () => {
     const [errors, setErrors] = useState({});
     const [responseOk, setResponseOk] = useState(false);
     const history = useHistory();
-    const {reloadUserData} = useContext(UserContext);
+    const {userData, reloadUserData} = useContext(UserContext);
 
     useEffect(() => {
-        apiInstance.get("auth/user/", {withCredentials: true})
-        .then(response => {
-            if (!response.data.is_staff) {
-                reloadUserData();
-                history.push("not-found");
-            }
-        })
-        .catch(error => {
-            if (error.response.status === 401) {
-                reloadUserData();
-                history.push("/login");
-            }
-        });
+        if (!userData.is_staff) {
+            history.push("/not-found");
+        } else if (!userData.pk) {
+            reloadUserData();
+            history.push("/login");
+        }
     }, []);
 
     const handleSubmit = e => {
         e.preventDefault();
-        apiInstance.post("shop/admin/items/", item, {withCredentials: true})
+        const token = localStorage.getItem("floppauth");
+        apiInstance.post("shop/admin/items/", item, {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             const { id } = response.data;
             setErrors({});

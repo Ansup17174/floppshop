@@ -18,9 +18,10 @@ const AdminCreateShipping = () => {
     const history = useHistory();
     const {reloadUserData} = useContext(UserContext);
     const { id } = useParams();
+    const token = localStorage.getItem("floppauth");
 
     useEffect(() => {
-        apiInstance.get(`shop/admin/shipping-method/${id}/`, {withCredentials: true})
+        apiInstance.get(`shop/admin/shipping-method/${id}/`, {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             setShipping(response.data);
         })
@@ -39,7 +40,7 @@ const AdminCreateShipping = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        apiInstance.put(`shop/admin/shipping-method/${id}/`, shipping, {withCredentials: true})
+        apiInstance.put(`shop/admin/shipping-method/${id}/`, shipping, {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             setErrors({});
             setResponseOk(true);

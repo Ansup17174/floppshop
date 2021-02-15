@@ -34,14 +34,20 @@ const App = () => {
   const [userData, setUserData] = useState({});
 
   const reloadUserData = async () => {
-    await apiInstance.get('auth/user/', {withCredentials: true})
+    const token = localStorage.getItem("floppauth");
+    if (token === null) {
+      setUserData({});
+    } else {
+      await apiInstance.get('auth/user/', {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
     .then(response => {
       setUserData(response.data);
     })
     .catch(error => {
       setUserData({});
+      localStorage.removeItem("floppauth");
     });
-  }; 
+    }
+  };
 
   useEffect(() => {
     reloadUserData();

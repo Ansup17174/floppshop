@@ -11,9 +11,10 @@ const UserProfile = () => {
     const [dateInputType, setDateInputType] = useState("text");
     const {userData, reloadUserData} = useContext(UserContext);
     const history = useHistory();
+    const token = localStorage.getItem("floppauth");
 
     useEffect(() => {
-        apiInstance.get("auth/user/", {withCredentials: true})
+        apiInstance.get("auth/user/", {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             setFormData(response.data);
         })
@@ -25,9 +26,8 @@ const UserProfile = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        reloadUserData();
         const url = "auth/user/";
-        apiInstance.put(url, formData, {withCredentials: true})
+        apiInstance.put(url, formData, {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             setResponseOk(true);
             setErrors({});

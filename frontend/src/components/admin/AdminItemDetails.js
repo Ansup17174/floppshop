@@ -20,10 +20,11 @@ const AdminItemDetails = () => {
     const [error, setError] = useState({});
     const { id } = useParams();
     const history = useHistory();
+    const token = localStorage.getItem("floppauth");
 
     useEffect(() => {
         const url = `shop/admin/items/${id}/`;
-        apiInstance.get(url, {withCredentials: true})
+        apiInstance.get(url, {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             setItem(response.data);
             if (response.data.images.length > 0) {
@@ -60,13 +61,14 @@ const AdminItemDetails = () => {
         e.preventDefault();
         reloadUserData();
         const url = `shop/items/${id}/`;
-        apiInstance.post(url, {}, {withCredentials: true, params: {quantity}})
+        apiInstance.post(url, {}, {withCredentials: true, params: {quantity}, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             setResponse(response.data);
             setError({});
         })
         .catch(error => {
             if (error.response.status === 401) {
+                reloadUserData();
                 history.push("/login");
             }
             setResponse({});

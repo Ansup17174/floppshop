@@ -23,9 +23,10 @@ const ActiveOrder = () => {
     const [error, setError] = useState({});
     const history = useHistory();
     const {reloadUserData} = useContext(UserContext);
+    const token = localStorage.getItem("floppauth");
 
     useEffect(() => {
-        apiInstance.get("shop/order/", {withCredentials: true})
+        apiInstance.get("shop/order/", {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             setOrder(response.data);
         })
@@ -40,7 +41,7 @@ const ActiveOrder = () => {
 
     const changeQuantity = (id, quantity) => {
         const url = `shop/items/${id}/`;
-        apiInstance.post(url, {}, {withCredentials: true, params: {quantity}})
+        apiInstance.post(url, {}, {withCredentials: true, params: {quantity}, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             if (response.status === 204) {
                 setOrder({});

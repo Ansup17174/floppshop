@@ -13,6 +13,7 @@ const History = () => {
     const [page, setPage] = useState(1);
     const [maxPage, setMaxPage] = useState(1);
     const history = useHistory();
+    const token = localStorage.getItem("floppauth");
 
     const changePage = number => {
         if (number > 0 && number <= maxPage) {
@@ -23,7 +24,7 @@ const History = () => {
     };
 
     const getOrderHistory = () => {
-        apiInstance.get(`shop/order/?history&limit=10&offset=${(page-1)*10}`, {withCredentials: true})
+        apiInstance.get(`shop/order/?history&limit=10&offset=${(page-1)*10}`, {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             if (response.data.results) {
                 setOrders(response.data.results);

@@ -123,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'https://floppshop.herokuapp.com',
+    'http://floppshop.herokuapp.com',
     "http://localhost:3000",
     "http://127.0.0.1:3000"
 ]
@@ -137,7 +137,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+        'dj_rest_auth.jwt_auth.JWTAuthentication'
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated'
@@ -173,12 +173,9 @@ REST_AUTH_SERIALIZERS = {
 
 
 REST_USE_JWT = True
-JWT_AUTH_COOKIE = 'floppauth'
 SESSION_COOKIE_DOMAIN = 'herokuapp.com'
 OLD_PASSWORD_FIELD_ENABLED = True
-JWT_AUTH_SAMESITE = 'None'
 LOGOUT_ON_PASSWORD_CHANGE = False
-JWT_AUTH_SECURE = True
 
 
 # rest_framework_simplejwt

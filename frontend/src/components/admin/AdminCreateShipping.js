@@ -1,5 +1,5 @@
 import ShippingMethodForm from './ShippingMethodForm';
-import {useState, useContext} from 'react';
+import {useState, useContext, useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 import UserContext from '../../context/UserContext';
 import apiInstance from '../../utils/api';
@@ -15,11 +15,21 @@ const AdminCreateShipping = () => {
     const [responseOk, setResponseOk] = useState(false);
     const [errors, setErrors] = useState({});
     const history = useHistory();
-    const {reloadUserData} = useContext(UserContext);
+    const {userData, reloadUserData} = useContext(UserContext);
+
+    useEffect(() => {
+        if (!userData.is_staff) {
+            history.push("/not-found");
+        } else if (!userData.pk) {
+            reloadUserData();
+            history.push("/login");
+        }
+    }, []);
 
     const handleSubmit = e => {
         e.preventDefault();
-        apiInstance.post("shop/admin/shipping-method/", shipping, {withCredentials: true})
+        const token = localStorage.getItem("floppauth");
+        apiInstance.post("shop/admin/shipping-method/", shipping, {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             setErrors({});
             setResponseOk(true);

@@ -32,8 +32,9 @@ const Checkout = () => {
     const [errors, setErrors] = useState({});
     const [select, setSelect] = useState();
     const [readOnly, setReadOnly] = useState(false);
-    const {userData, reloadUserData} = useContext(UserContext);
+    const {reloadUserData} = useContext(UserContext);
     const history = useHistory();
+    const token = localStorage.getItem("floppauth");
 
     const asyncInitEasyPack = () => {
         // eslint-disable-next-line no-undef
@@ -51,7 +52,7 @@ const Checkout = () => {
     };
 
     useEffect(() => {
-        apiInstance.get("shop/order/", {withCredentials: true})
+        apiInstance.get("shop/order/", {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             setOrder(response.data);
         })
@@ -95,9 +96,9 @@ const Checkout = () => {
     }, [select]);
 
     const submitOrder = () => {
-        apiInstance.post("shop/order/", {...formData, method: select}, {withCredentials: true})
+        apiInstance.post("shop/order/", {...formData, method: select}, {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
-            apiInstance.post(`shop/payment/${order.id}/`, {}, {withCredentials: true})
+            apiInstance.post(`shop/payment/${order.id}/`, {}, {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
             .then(response => {
                 console.log(response.data);
                 setPayUUri(response.data.redirectUri);

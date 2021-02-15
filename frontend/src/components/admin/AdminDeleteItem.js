@@ -11,7 +11,8 @@ const AdminDeleteItem = () => {
     const [responseOk, setResponseOk] = useState(false);
 
     useEffect(() => {
-        apiInstance.delete(`shop/admin/items/${id}/`, {withCredentials: true})
+        const token = localStorage.getItem("floppauth");
+        apiInstance.delete(`shop/admin/items/${id}/`, {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             setResponseOk(true);
         })

@@ -22,6 +22,7 @@ const AdminFilterForm = () => {
     const [filterToggled, setFilterToggled] = useState(false);
     const history = useHistory();
     const {reloadUserData} = useContext(UserContext);
+    const token = localStorage.getItem("floppauth");
 
     const changeText = e => {
         setSearch({...search, text: e.target.value});
@@ -51,7 +52,7 @@ const AdminFilterForm = () => {
             max_price: search.maxPrice,
             order_by: search.orderBy
         };
-        apiInstance.get(url, {withCredentials: true, params: params})
+        apiInstance.get(url, {withCredentials: true, params: params, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             setItems(response.data.results);
             setMaxPage(Math.floor((response.data.count - 1) / 10) + 1);
@@ -60,9 +61,13 @@ const AdminFilterForm = () => {
             if (error.response.status === 403) {
                 reloadUserData();
                 history.push("/not-found");
-            } 
-            console.log(error.response);
-            console.log(error.status);
+            } else if (error.response.data === 401) {
+                reloadUserData();
+                history.push("/login");
+            } else {
+                console.log(error.response);
+                console.log(error.status);
+            }
         });
     };
 

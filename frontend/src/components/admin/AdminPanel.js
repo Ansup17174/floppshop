@@ -7,9 +7,10 @@ import './admin.css';
 const AdminPanel = () => {
     const {reloadUserData} = useContext(UserContext);
     const history = useHistory();
+    const token = localStorage.getItem("floppauth");
 
     useEffect(() => {
-        apiInstance.get("auth/user/", {withCredentials: true})
+        apiInstance.get("auth/user/", {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             if (!response.data.is_staff) {
                 reloadUserData();

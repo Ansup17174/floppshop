@@ -9,9 +9,10 @@ const AdminShippingList = () => {
     const [shippings, setShippings] = useState([]);
     const {reloadUserData} = useContext(UserContext);
     const history = useHistory();
+    const token = localStorage.getItem("floppauth");
 
     useEffect(() => {
-        apiInstance.get("shop/admin/shipping-method", {withCredentials: true})
+        apiInstance.get("shop/admin/shipping-method", {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             setShippings(response.data);
         })

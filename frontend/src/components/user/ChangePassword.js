@@ -13,6 +13,7 @@ const ChangePassword = () => {
 
     const {reloadUserData} = useContext(UserContext);
     const history = useHistory();
+    const token = localStorage.getItem("floppauth");
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -21,7 +22,7 @@ const ChangePassword = () => {
             new_password1: newPassword1,
             new_password2: newPassword2
         };
-        apiInstance.post("auth/password/change/", requestData, {withCredentials: true})
+        apiInstance.post("auth/password/change/", requestData, {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             setResponseOk(true);
             setErrors({});

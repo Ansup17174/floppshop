@@ -21,9 +21,10 @@ const AdminEditItem = () => {
     const [responseOk, setResponseOk] = useState(false);
     const {reloadUserData} = useContext(UserContext);
     const history = useHistory();
+    const token = localStorage.getItem("floppauth");
 
     useEffect(() => {
-        apiInstance.get(`shop/admin/items/${id}/`, {withCredentials: true})
+        apiInstance.get(`shop/admin/items/${id}/`, {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             setItem(response.data);
         })
@@ -42,8 +43,7 @@ const AdminEditItem = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        console.log();
-        apiInstance.put(`shop/admin/items/${id}/`, item, {withCredentials: true})
+        apiInstance.put(`shop/admin/items/${id}/`, item, {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
         .then(response => {
             setResponseOk(true);
             setErrors({});
