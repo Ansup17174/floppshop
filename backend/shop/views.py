@@ -306,13 +306,9 @@ class PayUNotifyView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        print(request.data)
         notification_serializer = PayUNotificationSerializer(data=request.data)
-        print("before valid")
         notification_serializer.is_valid(raise_exception=True)
-        print("post valid")
         PayUNotification.objects.create(content=json.dumps(request.data))
-        print("post_save")
         if notification_serializer.validated_data['order']['status'] == "COMPLETED":
             order = get_object_or_404(
                 Order,
