@@ -316,7 +316,7 @@ class PayUNotifyView(APIView):
         if notification_serializer.validated_data['order']['status'] == "COMPLETED":
             order = get_object_or_404(
                 Order,
-                pk=int(notification_serializer.validated_data['order']['extOrderId']),
+                pk=notification_serializer.validated_data['order']['extOrderId'],
                 is_paid=False,
                 is_finished=True
             )
