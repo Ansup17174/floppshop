@@ -55,18 +55,12 @@ const AdminNotifications = () => {
             </div>
             {notifications.map((notification, index) => <div className="gray-container" key={index}>
                 <div className="data-container">
-                    <div className="data-row"><span>PayU Order ID:</span><span>{notification.order.orderId}</span></div>
-                    <div className="data-row"><span>Local Order ID:</span><span>{notification.order.extOrderId}</span></div>
+                    <div className="data-row"><span>Order ID:</span><span>{notification.order.OrderId}</span></div>
                     <div className="data-row"><span>Date created:</span><span>{notification.order.orderCreateDate}</span></div>
                     <div className="data-row"><span>Description:</span><span>{notification.order.description}</span></div>
                     <div className="data-row"><span>Currency code:</span><span>{notification.order.currencyCode}</span></div>
                     <div className="data-row"><span>Total amount:</span><span>{notification.order.totalAmount}</span></div>
-                    <div className="data-row"><span>Customer e-mail:</span><span>{notification.order.buyer.email}</span></div>
-                    <div className="data-row"><span>Phone:</span><span>{notification.order.buyer.phone}</span></div>
-                    <div className="data-row"><span>First name:</span><span>{notification.order.buyer.firstName}</span></div>
-                    <div className="data-row"><span>Last name:</span><span>{notification.order.buyer.lastName}</span></div>
                     <div className="data-row"><span>Status :</span><span>{notification.order.status}</span></div>
-                    <div className="data-row"><span>Local receipt date:</span><span>{notification.localReceiptDateTime}</span></div>
                     <div className="data-row"><span>Payment ID:</span><span>{notification.properties.value}</span></div>
                 </div>
             </div>)}
