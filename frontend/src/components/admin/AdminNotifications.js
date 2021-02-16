@@ -51,7 +51,7 @@ const AdminNotifications = () => {
                     {page !== maxPage && <span className="blue-button" onClick={() => changePage(page+1)}>&gt;</span>}
                 </div>
                 </>}
-                {notifications.map((notification, index) => <div className="gray-container" key={index}>{notification.content}</div>)}
+                {notifications.map((notification, index) => <div className="gray-container" key={index}>{notification}</div>)}
                 {!notifications.length > 0 && <h1>No notifications</h1>}
             </div>
         </div>
