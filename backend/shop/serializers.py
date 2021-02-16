@@ -128,6 +128,7 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         exclude = ('user',)
+        read_only_fields = ('payment_url',)
 
 
 class PayUBuyerSerializer(serializers.Serializer):

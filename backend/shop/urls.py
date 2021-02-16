@@ -23,7 +23,7 @@ urlpatterns = [
     path("admin/", include(admin_category_router.urls)),
     path("admin/notifications/", AdminNotificationView.as_view(), name="admin_notification_view"),
     path("methods/", ShippingMethodView.as_view(), name="shipping_method_view"),
-    path("payment/<int:order_pk>/", UserOrderPaymentView.as_view(), name="payment_view"),
+    path("payment/<str:order_pk>/", UserOrderPaymentView.as_view(), name="payment_view"),
     path("admin/items/images/<uuid:image_pk>/", AdminItemImageView.as_view(), name="delete_image_view"),
     path("items/<uuid:item_pk>/", UserItemDetailView.as_view(), name="item_details_view"),
     path("items/", UserItemView.as_view(), name="item_view"),

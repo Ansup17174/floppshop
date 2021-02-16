@@ -150,6 +150,7 @@ const Checkout = () => {
                         {!payUUri && <div className="checkout-button" onClick={submitOrder}>Submit order</div>}
                         {payUUri && <a href={payUUri} target="_blank" rel="noreferrer"><div className="order-details blue-button">Redirect to payment</div></a>}
                         {errors.detail && <div className="form-error">Choose shipping method</div>}
+                        {errors.detail && <div className="form-error">{errors.detail}</div>}
                     </div>
                 </div>
             </div>

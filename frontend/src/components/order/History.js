@@ -45,6 +45,24 @@ const History = () => {
         getOrderHistory();
     }, [page]);
 
+    const payment = async id => {
+        await apiInstance.post(
+            `shop/payment/${id}`,
+            {},
+            {withCredentials: true, headers: {"Authorization": `Bearer ${token}`}})
+        .then(response => {
+            getOrderHistory();
+        })
+        .catch(error => {
+            if (error.response.status === 401) {
+                reloadUserData();
+                history.push("/login");
+            } else {
+                console.log(error.response.data);
+            }
+        })
+    };
+
     return (
         <div className="wide">
             {!selectedOrder.id && <div className="gray-container">
@@ -58,7 +76,7 @@ const History = () => {
                 {orders && orders.length === 0 && <h1>No orders</h1>}
             </div>}
             {orders && orders.length > 0 && !selectedOrder.id && orders.map((order, index) => <OrderFinished order={order} key={index} selectOrder={setSelectedOrder}/>)}
-            {selectedOrder.id && <HistoryDetails order={selectedOrder} selectOrder={setSelectedOrder}/>}
+            {selectedOrder.id && <HistoryDetails order={selectedOrder} selectOrder={setSelectedOrder} payment={payment}/>}
         </div>
     );
 };

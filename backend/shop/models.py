@@ -6,6 +6,8 @@ from django.dispatch import receiver
 from users.models import ShippingAddress
 from decimal import Decimal
 import uuid
+import string
+from random import choice
 
 
 class ShippingMethod(models.Model):
@@ -17,8 +19,15 @@ class ShippingMethod(models.Model):
     def __str__(self):
         return self.name
 
+def generate_order_pk():
+    signs = string.ascii_letters + string.digits
+    pk = ""
+    for i in range(20):
+        pk += choice(signs)
+    return pk
 
 class Order(models.Model):
+    id = models.CharField(max_length=20, primary_key=True, editable=False, default=generate_order_pk)
     user = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, related_name="orders")
     total_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)], default=Decimal("0.00"))
     is_finished = models.BooleanField(default=False)
@@ -27,6 +36,7 @@ class Order(models.Model):
     date_finished = models.DateTimeField(null=True, blank=True)
     date_paid = models.DateTimeField(null=True, blank=True)
     quantity = models.PositiveIntegerField(default=0)
+    payment_url = models.CharField(max_length=700, null=True, blank=True)
     address = models.OneToOneField(
         ShippingAddress,
         on_delete=models.DO_NOTHING,

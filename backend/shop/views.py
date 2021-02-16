@@ -260,7 +260,8 @@ class UserOrderPaymentView(APIView):
         }
         payu_order = {
             "customerIp": "127.0.0.1",
-            "notifyUrl": "https://floppshopbackend.herokuapp.com/shop/notify/",
+            "notifyUrl": "http://floppshopbackend.herokuapp.com/shop/notify/",
+            "extOrderId": order.pk,
             "merchantPosId": settings.MERCHANT_POS_ID,
             "description": "Floppshop order",
             "currencyCode": "PLN",
@@ -294,7 +295,10 @@ class UserOrderPaymentView(APIView):
         )
         if payu_response.status_code != 302:
             raise PayUException()
-        response = {"redirectUri": payu_response.json()["redirectUri"]}
+        payment_url = payu_response.json()['redirectUri']
+        order.payment_url = payment_url
+        order.save()
+        response = {"redirectUri": payment_url}
         return Response(response, status=200)
 
 

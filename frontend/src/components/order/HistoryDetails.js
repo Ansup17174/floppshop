@@ -1,5 +1,5 @@
 
-const HistoryDetails = ({order, selectOrder}) => {
+const HistoryDetails = ({order, selectOrder, payment}) => {
 
     return (
         <div className="wide">
@@ -15,6 +15,8 @@ const HistoryDetails = ({order, selectOrder}) => {
                     <div className="data-row"><span>Shipping method: </span><span>{order.method.name}</span></div>
                     <div className="data-row"><span>Shipping price: </span><span>{order.method.price}</span></div>
                     <div className="data-row"><span>Status: </span><span>{order.is_paid ? "Paid" : "Unpaid"}</span></div>
+                    {!order.payment_url && !order.is_paid && order.is_finished && <div className="data-row"><span>Payment: </span><div className="checkout-button" onClick={() => payment(order.id)}>Start payment</div></div>}
+                    {order.payment_url && !order.is_paid && <div className="data-row"><span>Payment: </span><a href={order.payment_url} target="_blank" rel="noreferrer"><div className="blue-button">Redirect to PayU</div></a></div>}
                     {order.is_paid && <div className="data-row"><span>Date paid: </span><span>{order.date_paid}</span></div>}
                 </div>
             </div>
