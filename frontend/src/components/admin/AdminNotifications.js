@@ -55,7 +55,7 @@ const AdminNotifications = () => {
             </div>
             {notifications.map((notification, index) => <div className="gray-container" key={index}>
                 <div className="data-container">
-                    <div className="data-row"><span>Order ID:</span><span>{notification.order.OrderId}</span></div>
+                    <div className="data-row"><span>Order ID:</span><span>{notification.order.orderId}</span></div>
                     <div className="data-row"><span>Date created:</span><span>{notification.order.orderCreateDate}</span></div>
                     <div className="data-row"><span>Description:</span><span>{notification.order.description}</span></div>
                     <div className="data-row"><span>Currency code:</span><span>{notification.order.currencyCode}</span></div>
