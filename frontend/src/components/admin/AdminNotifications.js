@@ -61,7 +61,6 @@ const AdminNotifications = () => {
                     <div className="data-row"><span>Currency code:</span><span>{notification.order.currencyCode}</span></div>
                     <div className="data-row"><span>Total amount:</span><span>{notification.order.totalAmount}</span></div>
                     <div className="data-row"><span>Status :</span><span>{notification.order.status}</span></div>
-                    <div className="data-row"><span>Payment ID:</span><span>{notification.order.properties[0].value}</span></div>
                 </div>
             </div>)}
         </div>
