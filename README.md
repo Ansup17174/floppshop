@@ -12,4 +12,13 @@ User can:
 
 After submitting order user is redirected to PayU site to finish payment
 
+Technologies used:
+<ul>
+  <li>Python</li>
+  <li>Django</li>
+  <li>Django Rest Framework</li>
+  <li>JavaScript</li>
+  <li>React</li>
+</ul>
+
 Deployed version: http://floppshop.herokuapp.com
