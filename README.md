@@ -19,6 +19,8 @@ Technologies used:
   <li>Django Rest Framework</li>
   <li>JavaScript</li>
   <li>React</li>
+  <li>Docker</li>
+  <li>Git</li>
 </ul>
 
 Deployed version: http://floppshop.herokuapp.com
