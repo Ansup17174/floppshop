@@ -10,6 +10,6 @@ User can:
 <li>Submit order with shipping adress (possible to choose InPost shipping method)</li>
 </ul>
 
-After submitting order user is redirect to PayU site to finish payment
+After submitting order user is redirected to PayU site to finish payment
 
 Deployed version: http://floppshop.herokuapp.com
